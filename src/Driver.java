@@ -1,6 +1,5 @@
 import java.io.File;
 
-import com.sun.org.apache.bcel.internal.classfile.Field;
 
 import Algorithms.LevenshteinDistance;
 import Model.Article;
