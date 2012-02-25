@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import Utilities.Constants;
+
 public class ArticleManager {
 
 	public Article getArticleFromFile(File file) {
@@ -53,7 +55,19 @@ public class ArticleManager {
 	}
 
 	public ArrayList<String> getArrayListFromString(String string) {
-		return new ArrayList<String>(Arrays.asList(string.split(" ")));
+		ArrayList<String> array = new ArrayList<String>(Arrays.asList(string
+				.split(" ")));
+		
+		//Remove words less than length 3 if the flag is set.
+		if (Constants.removeShortWords) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i).length() < 3) {
+					array.remove(i);
+					i--;
+				}
+			}
+		}
+		return array;
 	}
 
 	public HashMap<String, Integer> getHashMapFromArrayList(

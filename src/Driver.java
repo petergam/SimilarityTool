@@ -5,6 +5,7 @@ import com.sun.org.apache.bcel.internal.classfile.Field;
 import Algorithms.LevenshteinDistance;
 import Model.Article;
 import Model.ArticleManager;
+import Utilities.Constants;
 
 
 public class Driver {
@@ -16,12 +17,14 @@ public class Driver {
 
 		ArticleManager articleManager = new ArticleManager();
 		
+		Constants.removeShortWords = false;
 		
-		File file1 = new File("Texts/test.txt");
+		File file1 = new File("Texts/TW2.txt");
 		Article article1 = articleManager.getArticleFromFile(file1);
 		
-		File file2 = new File("Texts/test2.txt");
+		File file2 = new File("Texts/TW1.txt");
 		Article article2 = articleManager.getArticleFromFile(file2);
+		
 		
 		long time1 = System.currentTimeMillis();
 		
@@ -33,8 +36,8 @@ public class Driver {
 		
 		System.out.println("Article 1 length: " + article1.getWordsArrayList().size());
 		System.out.println("Article 2 length: " + article2.getWordsArrayList().size());
-		System.out.println("Levenstein distance " + compareValue);
-		System.out.println("Runtime: " + computeTime);
+		System.out.println("Levenstein distance: " + compareValue);
+		System.out.println("Runtime: " + computeTime + " ms");
 	}
 
 }
