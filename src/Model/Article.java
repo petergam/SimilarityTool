@@ -9,12 +9,23 @@ public class Article {
 	private HashMap<String, Integer> wordHashMap = new HashMap<String, Integer>();
 	private String text;
 
+	private Sentence[] sentences;
+	
+	
 	public Article() {
 
 	}
 
 	public ArrayList<String> getWordsArrayList() {
 		return wordsArrayList;
+	}
+
+	public Sentence[] getSentences() {
+		return sentences;
+	}
+
+	public void setSentences(Sentence[] sentences) {
+		this.sentences = sentences;
 	}
 
 	public void setWordsArrayList(ArrayList<String> wordsArrayList) {

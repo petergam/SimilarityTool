@@ -11,6 +11,9 @@ public class ArticleManager {
 	public Article getArticleFromFile(File file) {
 
 		try {
+			
+			Article article = POSTaggerManager.SharedInstance.tagFile(file);
+
 			// Load file into string
 			int len;
 			char[] chr = new char[4096];
@@ -29,8 +32,6 @@ public class ArticleManager {
 			// remove symbols
 			text = this.removeSymbolsFromString(text);
 
-			Article article = new Article();
-
 			ArrayList<String> wordsArray = this.getArrayListFromString(text);
 			HashMap<String, Integer> wordsHashMap = this
 					.getHashMapFromArrayList(wordsArray);
@@ -38,13 +39,15 @@ public class ArticleManager {
 			article.setWordsArrayList(wordsArray);
 			article.setWordHashMap(wordsHashMap);
 			article.setText(text);
-
+	
 			return article;
 
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
 
+		
+		
 		return null;
 	}
 
@@ -69,6 +72,14 @@ public class ArticleManager {
 		}
 
 		return hashMap;
+	}
+	
+	private HashMap<String, String> stopWords = new HashMap<String, String>();
+	
+	private boolean isStopWord(String word) {
+		
+		
+		return false;
 	}
 
 }
