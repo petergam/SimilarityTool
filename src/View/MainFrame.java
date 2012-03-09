@@ -16,13 +16,16 @@ import javax.swing.border.BevelBorder;
 
 public class MainFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3623611609911397035L;
 	// Create a file chooser
 	final JFileChooser fc = new JFileChooser();
 	final JFileChooser sfc = new JFileChooser();
 
 	MainFrame mf;
 
-	@SuppressWarnings("deprecation")
 	public MainFrame() {
 		mf = this;
 		setResizable(false);
@@ -31,8 +34,6 @@ public class MainFrame extends JFrame {
 		sfc.addChoosableFileFilter(new MyFilter());
 
 		setTitle("Textual Similarities");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"/Users/Johan/Desktop/Screen Shot 2012-02-07 at 19.09.56.png"));
 		getContentPane().setBackground(new Color(220, 220, 220));
 		getContentPane().setLayout(null);
 
@@ -65,7 +66,7 @@ public class MainFrame extends JFrame {
 		getContentPane().add(list);
 
 		final List list_1 = new List();
-		list_1.setMultipleSelections(false);
+		list_1.setMultipleMode(false);
 		list_1.setBounds(6, 58, 250, 25);
 		getContentPane().add(list_1);
 

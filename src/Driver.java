@@ -57,11 +57,11 @@ public class Driver {
 //		System.out.println("Levenstein distance " + compareValue);
 //		System.out.println("Runtime: " + computeTime);
 //		
-		
-		System.out.println("Article 1 length: " + article1.getWordsArrayList().size());
-		System.out.println("Article 2 length: " + article2.getWordsArrayList().size());
-		System.out.println("Levenstein distance " + compareValue);
-		System.out.println("Runtime: " + computeTime);
+//		
+//		System.out.println("Article 1 length: " + article1.getWordsArrayList().size());
+//		System.out.println("Article 2 length: " + article2.getWordsArrayList().size());
+//		System.out.println("Levenstein distance " + compareValue);
+//		System.out.println("Runtime: " + computeTime);
 		
 		
 		WordNetManager wnManager = WordNetManager.SharedInstance;
