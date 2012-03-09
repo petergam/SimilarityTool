@@ -1,8 +1,8 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.List;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,18 +11,20 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
+import javax.swing.JTextPane;
+
+import Utilities.Log;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class MainFrame extends JFrame {
 
 	// Create a file chooser
 	final JFileChooser fc = new JFileChooser();
 	final JFileChooser sfc = new JFileChooser();
-
+	public static JTextPane panel;
 	MainFrame mf;
 
-	@SuppressWarnings("deprecation")
 	public MainFrame() {
 		mf = this;
 		setResizable(false);
@@ -31,17 +33,8 @@ public class MainFrame extends JFrame {
 		sfc.addChoosableFileFilter(new MyFilter());
 
 		setTitle("Textual Similarities");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"/Users/Johan/Desktop/Screen Shot 2012-02-07 at 19.09.56.png"));
 		getContentPane().setBackground(new Color(220, 220, 220));
 		getContentPane().setLayout(null);
-
-		JPanel panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
-				null));
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(6, 430, 888, 142);
-		getContentPane().add(panel);
 
 		JLabel lblTextOne = new JLabel("Text one");
 		lblTextOne.setBounds(6, 6, 61, 16);
@@ -65,7 +58,7 @@ public class MainFrame extends JFrame {
 		getContentPane().add(list);
 
 		final List list_1 = new List();
-		list_1.setMultipleSelections(false);
+		list_1.setMultipleMode(false);
 		list_1.setBounds(6, 58, 250, 25);
 		getContentPane().add(list_1);
 
@@ -78,6 +71,32 @@ public class MainFrame extends JFrame {
 		});
 		btnClear.setBounds(180, 121, 76, 29);
 		getContentPane().add(btnClear);
+		
+		JLabel lblLog = new JLabel("Log");
+		lblLog.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		lblLog.setBounds(6, 391, 61, 27);
+		getContentPane().add(lblLog);
+		
+	
+		
+		panel = new JTextPane();
+		panel.setEditable(false);
+		panel.setBounds(6, 418, 888, 154);
+		
+		JScrollPane scrollPane = new JScrollPane(panel);
+		scrollPane.setBounds(6, 418, 888, 154);
+		getContentPane().add(scrollPane);
+		
+		JButton btnClearLog = new JButton("Clear log");
+		btnClearLog.setBounds(778, 392, 122, 29);
+		getContentPane().add(btnClearLog);
+		btnClearLog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Log.clear();
+			}
+		});
+		
+//		scrollPane.add(panel);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -93,8 +112,10 @@ public class MainFrame extends JFrame {
 					list_1.removeAll();
 
 					list_1.add(sfc.getSelectedFile().getName());
-			
+					
 					list_1.repaint();
+					Log.nLog("Loading file:");
+					Log.nLog(sfc.getSelectedFile().getName());
 
 				}
 			}
@@ -109,8 +130,16 @@ public class MainFrame extends JFrame {
 
 					File[] files = fc.getSelectedFiles();
 
+					if (files.length == 1) {
+						Log.nLog("Loading file to compare with:");
+					}
+					else if (files.length> 1) {
+						Log.nLog("Loading files to compare with:");
+					}
+					
 					for (int i = 0; i < files.length; i++) {
 						list.add(files[i].getName());
+						Log.nLog(files[i].getName());
 					}
 					list.repaint();
 
