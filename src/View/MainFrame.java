@@ -11,18 +11,13 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import Utilities.Log;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 
 public class MainFrame extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3623611609911397035L;
 	// Create a file chooser
 	final JFileChooser fc = new JFileChooser();
 	final JFileChooser sfc = new JFileChooser();

@@ -2,8 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
 	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/stanford-postagger.jar"/>
-	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+=======
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
+>>>>>>> ed33b8595110a50afb3ca81276bc6d47637d20f0
+	<classpathentry kind="output" path="bin"/>
 </classpath>
