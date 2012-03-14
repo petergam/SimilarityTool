@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import Model.Article;
 import Model.ArticleManager;
@@ -55,9 +57,17 @@ public class Driver {
 		
 		MainFrame mainFrame = new MainFrame();
 		log = new Log(mainFrame.panel);
-
 		
 		File file1 = new File("Texts/TW2.txt");
+		try {
+			Scanner scan = new Scanner(file1);
+			System.out.println("LOL " + scan.next());
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		Article article1 = articleManager.getArticleFromFile(file1);
 		
 		Log.nLog("Sentence count: "+article1.getSentences().length);
