@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+<<<<<<< HEAD
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/stanford-postagger.jar"/>
+=======
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
+>>>>>>> ed33b8595110a50afb3ca81276bc6d47637d20f0
+	<classpathentry kind="output" path="bin"/>
+</classpath>

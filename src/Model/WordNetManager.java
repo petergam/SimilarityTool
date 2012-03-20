@@ -14,6 +14,7 @@ import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.morph.SimpleStemmer;
+import edu.mit.jwi.morph.WordnetStemmer;
 
 
 public enum WordNetManager {
@@ -58,7 +59,7 @@ public enum WordNetManager {
     }
     
     public String[] getStemmedWords(String word, POS pos) {
-		SimpleStemmer stemmer = new SimpleStemmer();
+		WordnetStemmer stemmer = new WordnetStemmer(dict);
 		List<String> stem = stemmer.findStems(word, pos);
     	
 		 String[] words = new String[stem.size()];
