@@ -7,14 +7,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import Utilities.Constants;
+import Utilities.UtilMethods;
 
 public class ArticleManager {
 
 	public Article getArticleFromFile(File file) {
-
+		return this.getArticleFromFile(file, true, false);
+	}
+	
+	public Article getArticleFromFile(File file, boolean posTag, boolean removeStopWords) {
 		try {
-			
-			Article article = POSTaggerManager.SharedInstance.tagFile(file);
+			Article article = null;
+			if (posTag) {
+				article = POSTaggerManager.SharedInstance.tagFile(file);
+			}else {
+				article = new Article();
+			}
 
 			// Load file into string
 			int len;
@@ -33,7 +41,11 @@ public class ArticleManager {
 
 			// remove symbols
 			text = this.removeSymbolsFromString(text);
-
+			if (removeStopWords) {
+				text = UtilMethods.removeStopWords(text);
+			}
+			
+			
 			ArrayList<String> wordsArray = this.getArrayListFromString(text);
 			HashMap<String, Integer> wordsHashMap = this
 					.getHashMapFromArrayList(wordsArray);
@@ -88,12 +100,4 @@ public class ArticleManager {
 		return hashMap;
 	}
 	
-	private HashMap<String, String> stopWords = new HashMap<String, String>();
-	
-	private boolean isStopWord(String word) {
-		
-		
-		return false;
-	}
-
 }
