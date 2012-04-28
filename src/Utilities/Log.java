@@ -4,28 +4,40 @@ import javax.swing.JTextPane;
 
 public class Log {
 
-	public static JTextPane log;
+	private static JTextPane log = null;
 	
-	public Log(JTextPane log){
-		Log.log = log;
+	public static void setupLogger(JTextPane logPane) {
+		log = logPane;
 	}
 	
-	
-	
 	public static void nLog(String s){
-		log.setText(log.getText() + s + "\n");
+		if(log!=null) {
+			log.setText(log.getText() + s + "\n");
+		} else {
+			System.out.println(s);
+		}
 	}
 	
 	public static void log(String s){
-		log.setText(log.getText() + "" + s);
+		if(log!=null) {
+			log.setText(log.getText() + "" + s);
+		} else {
+			System.out.print(s);
+		}
 	}
 	
 	public static  String getText(){
-		return log.getText();
+		if(log != null) {
+			return log.getText();
+		} else {
+			return "";
+		}
 	}
 	
 	public static void clear(){
-		log.setText("");
+		if(log!=null) {
+			log.setText("");
+		}
 	}
 	
 }
