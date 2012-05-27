@@ -84,9 +84,7 @@ public class MainFrame extends JFrame {
 				
 				if(self.delegate != null) {
 					ComputeSetup setup = new ComputeSetup();
-					
-					filterButtonGroup.getSelection().g;
-					
+									
 					int algorithmIndex = 0;
 					setup.setAlgorithmIndex(AlgorithmIndex.getAlgorithmIndexFromInt(algorithmIndex));
 					

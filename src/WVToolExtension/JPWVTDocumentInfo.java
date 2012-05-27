@@ -6,6 +6,7 @@ import java.util.HashMap;
 import edu.udo.cs.wvtool.main.WVTDocumentInfo;
 
 public class JPWVTDocumentInfo extends WVTDocumentInfo {
+	
 	// ArrayList with all words in document
 	private ArrayList<String> wordsArrayList = new ArrayList<String>();
 	// Hashmap with all words. Key is the word, value is number of times the word ocures in document

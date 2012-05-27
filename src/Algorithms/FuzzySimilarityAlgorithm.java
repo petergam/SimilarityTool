@@ -58,7 +58,10 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 			}
 			
 			sim = 1/max * sum;
-			Log.nLog("The similarity between the two documents according to Fuzzy similarity: " + sim);
+			
+			String simString = "" + sim;
+			simString = simString.substring(0, 4);
+			Log.nLog("Fuzzi sim ["+ mainDocument.getSourceName() +" & " + currentDocument.sourceName + "]: " + simString);
 
 
 			resultArray[documentIndex] = sim;

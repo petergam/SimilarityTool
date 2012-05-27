@@ -3,10 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
-	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/stanford-postagger.jar"/>
-	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/wvtool.jar"/>
-	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/jwnl.jar"/>
-	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/jwnl.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/wvtool.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
