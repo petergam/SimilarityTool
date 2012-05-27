@@ -1,5 +1,6 @@
 package Algorithms;
 
+import Utilities.Log;
 import Utilities.UtilMethods;
 import WVToolExtension.JPWVTDocumentInfo;
 
@@ -29,12 +30,14 @@ public class LevenshteinDistanceAlgorithm extends Algorithm {
 					distance[i][j] = UtilMethods.minimum(
 							distance[i - 1][j] + 1,   //deletion
 							distance[i][j - 1] + 1,   //insertion
-							distance[i - 1][j - 1] + ((mainDocument.getWordsArrayList().get(i - 1).equals(currentDocument.getWordsArrayList().get(j - 1))) ? 0 : 1)); //substitution
+							distance[i - 1][j - 1] + ((mainDocument.getWordsArrayList().get(i - 1).getValue().equals(currentDocument.getWordsArrayList().get(j - 1).getValue())) ? 0 : 1)); //substitution
 		
 			resultArray[documentIndex] = distance[mainDocumentSize][currentDocumentSize];
 		
+			Log.nLog("LevenshteinDistance is: " + distance[mainDocumentSize][currentDocumentSize]);
+
 		}
-		
+				
 		if (normalizeResult) {
 			return normalizeResult(resultArray);
 		} else {

@@ -6,7 +6,9 @@ import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JTextPane;
 
 import Model.ComputeSetup;
 import Model.ComputeSetup.AlgorithmIndex;
+import Model.ComputeSetup.IncludeType;
 import Model.ComputeSetup.StemmerType;
 import Model.ComputeSetup.WordFilterType;
 import Utilities.Log;
@@ -37,6 +40,7 @@ import java.awt.Dimension;
 import javax.swing.JList;
 import javax.swing.JToggleButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JProgressBar;
 
 public class MainFrame extends JFrame {
 
@@ -55,7 +59,8 @@ public class MainFrame extends JFrame {
 	private JFileChooser sfc = new JFileChooser();
 	
 	private JTextPane panel;
-
+	private JProgressBar progressBar;
+	
 	private MainFrameDelegate delegate = null;
 	
 	MainFrame mf;
@@ -84,18 +89,51 @@ public class MainFrame extends JFrame {
 				
 				if(self.delegate != null) {
 					ComputeSetup setup = new ComputeSetup();
-					
-					filterButtonGroup.getSelection().g;
-					
+										
 					int algorithmIndex = 0;
+				     for (Enumeration<AbstractButton> e = algorithmButtonGroup.getElements() ; e.hasMoreElements() ;) {
+				    	 if(e.nextElement().isSelected()) {
+				    		 break;
+				    	 } else {
+				    		 algorithmIndex++;
+				    	 }
+				     }										 
+				     
 					setup.setAlgorithmIndex(AlgorithmIndex.getAlgorithmIndexFromInt(algorithmIndex));
 					
 					int filterIndex = 0;
+				     for (Enumeration<AbstractButton> e = filterButtonGroup.getElements() ; e.hasMoreElements() ;) {
+				    	 if(e.nextElement().isSelected()) {
+				    		 break;
+				    	 } else {
+				    		 filterIndex++;
+				    	 }
+				     }	
+					
 					setup.setFilterType(WordFilterType.getWordFilterTypeFromInt(filterIndex));
 					
 					int stemmerIndex = 0;
+				     for (Enumeration<AbstractButton> e = stemmerButtonGroup.getElements() ; e.hasMoreElements() ;) {
+				    	 if(e.nextElement().isSelected()) {
+				    		 break;
+				    	 } else {
+				    		 stemmerIndex++;
+				    	 }
+				     }	
+					
 					setup.setStemmerType(StemmerType.getStemmerTypeFromInt(stemmerIndex));
 
+					int includeIndex = 0;
+				     for (Enumeration<AbstractButton> e = includeButtonGroup.getElements() ; e.hasMoreElements() ;) {
+				    	 if(e.nextElement().isSelected()) {
+				    		 break;
+				    	 } else {
+				    		 includeIndex++;
+				    	 }
+				     }	
+					
+				     setup.setIncludeType(IncludeType.getIncludeTypeFromInt(includeIndex));
+				     
 					File[] files = fc.getSelectedFiles();
 					String[] documentsPaths = new String[files.length];
 					for (int i = 0; i < documentsPaths.length; i++) {
@@ -113,7 +151,7 @@ public class MainFrame extends JFrame {
 				}				
 			}
 		});
-		btnCompute.setBounds(474, 481, 117, 29);
+		btnCompute.setBounds(502, 478, 89, 29);
 		getContentPane().add(btnCompute);
 		
 		Box verticalBox = Box.createVerticalBox();
@@ -212,7 +250,7 @@ public class MainFrame extends JFrame {
 																		
 																		Box verticalBox_5 = Box.createVerticalBox();
 																		verticalBox_5.setBorder(new TitledBorder(null, "Log", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-																		verticalBox_5.setBounds(6, 341, 394, 169);
+																		verticalBox_5.setBounds(6, 341, 394, 209);
 																		getContentPane().add(verticalBox_5);
 																		
 																		Box horizontalBox_1 = Box.createHorizontalBox();
@@ -238,7 +276,7 @@ public class MainFrame extends JFrame {
 																		
 																		Box verticalBox_6 = Box.createVerticalBox();
 																		verticalBox_6.setBorder(new TitledBorder(null, "Algorithm", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-																		verticalBox_6.setBounds(412, 378, 179, 76);
+																		verticalBox_6.setBounds(412, 378, 179, 97);
 																		getContentPane().add(verticalBox_6);
 																		
 																		JRadioButton rdbtnFuzzy = new JRadioButton("Fuzzy Similarity");
@@ -249,6 +287,25 @@ public class MainFrame extends JFrame {
 																		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("Levenshtein Distance");
 																		algorithmButtonGroup.add(rdbtnNewRadioButton_4);
 																		verticalBox_6.add(rdbtnNewRadioButton_4);
+																		
+																		JRadioButton rdbtnI = new JRadioButton("TF*IDF");
+																		algorithmButtonGroup.add(rdbtnI);
+																		verticalBox_6.add(rdbtnI);
+																		
+																		progressBar = new JProgressBar();
+																		progressBar.setMaximum(100);
+																		progressBar.setMinimum(0);
+																		progressBar.setBounds(412, 519, 179, 20);
+																		getContentPane().add(progressBar);
+																		
+																		JButton btnNewButton_1 = new JButton("Stop");
+																		btnNewButton_1.setEnabled(false);
+																		btnNewButton_1.addActionListener(new ActionListener() {
+																			public void actionPerformed(ActionEvent arg0) {
+																			}
+																		});
+																		btnNewButton_1.setBounds(412, 478, 89, 29);
+																		getContentPane().add(btnNewButton_1);
 																		btnClear.addActionListener(new ActionListener() {
 																			public void actionPerformed(ActionEvent arg0) {
 																				list.removeAll();
@@ -300,7 +357,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.setLocation(200, 100);
-		this.setSize(600, 560);
+		this.setSize(600, 600);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -329,5 +386,9 @@ public class MainFrame extends JFrame {
 	}
 	public JTextPane getTextPane() {
 		return textPane;
+	}
+	
+	public void setProgress(int progress) {
+		progressBar.setValue(progress);
 	}
 }

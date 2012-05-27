@@ -3,29 +3,31 @@ package Controller;
 import java.io.FileNotFoundException;
 
 import net.didion.jwnl.JWNLException;
-import Algorithms.Algorithm;
 import Model.ComputeSetup;
-import Model.ComputeSetup.AlgorithmIndex;
-import Model.ComputeSetup.StemmerType;
-import Model.ComputeSetup.WordFilterType;
 import Utilities.Log;
 import View.MainFrame;
 import View.MainFrame.MainFrameDelegate;
+import WVToolExtension.AbstractInclude;
+import WVToolExtension.JPLoadData;
+import WVToolExtension.JPProgress.JPProgressDelegate;
+import WVToolExtension.JPWVTConfiguration;
 import WVToolExtension.JPWVTDocumentInfo;
 import WVToolExtension.JPWVTool;
+import WVToolExtension.JPWordLoaderCustom;
 import edu.udo.cs.wvtool.config.WVTConfiguration;
 import edu.udo.cs.wvtool.config.WVTConfigurationFact;
 import edu.udo.cs.wvtool.generic.stemmer.AbstractStemmer;
 import edu.udo.cs.wvtool.generic.wordfilter.AbstractStopWordFilter;
 import edu.udo.cs.wvtool.main.WVTFileInputList;
 
-public class MainController implements MainFrameDelegate {
+public class MainController implements MainFrameDelegate, JPProgressDelegate {
     private JPWVTool wvt;
+    private MainFrame mainFrame;
     
 	public MainController() throws FileNotFoundException, JWNLException {		
 		//startup GUI
 		MainFrameDelegate delegate = this;
-		MainFrame mainFrame = new MainFrame(delegate);
+		mainFrame = new MainFrame(delegate);
 		
 		//initialize GUI logger
 		Log.setupLogger(mainFrame.getPanel());
@@ -37,8 +39,10 @@ public class MainController implements MainFrameDelegate {
 
 	@Override
 	public void computeButtonPressed(ComputeSetup setup) {
-        WVTConfiguration config = new WVTConfiguration();
+        JPWVTConfiguration config = new JPWVTConfiguration();
          
+    	config.setConfigurationRule(JPWVTConfiguration.STEP_WORDLOADER, new WVTConfigurationFact(new JPWordLoaderCustom()));
+        
         //set filter
         AbstractStopWordFilter filter = setup.getFilter();
         config.setConfigurationRule(WVTConfiguration.STEP_WORDFILTER, new WVTConfigurationFact(filter));
@@ -46,6 +50,9 @@ public class MainController implements MainFrameDelegate {
         //set stemmer
         AbstractStemmer stemmer = setup.getStemmer();
         config.setConfigurationRule(WVTConfiguration.STEP_STEMMER, new WVTConfigurationFact(stemmer));
+
+        AbstractInclude include = setup.getInclude();
+        config.setConfigurationRule(JPWVTConfiguration.STEP_INCLUDE, new WVTConfigurationFact(include));
 
         //for now only English is supported
 		String language = "english";
@@ -63,10 +70,31 @@ public class MainController implements MainFrameDelegate {
 			documents[i] = currentDocument;
 		}
 		
-		wvt.loadFileInputList(list, config);
-        
-        
-        Algorithm algorithm = setup.getAlgorithm();
-        algorithm.compute(mainDocument, documents);
+		JPLoadData loadData = new JPLoadData(list, mainDocument, documents, setup.getAlgorithm());
+		wvt.loadFileInputList(loadData, config, this);
+	}
+
+	@Override
+	public void didUpdateProgress(JPProgressType progressType, float percentDone) {		
+		switch (progressType) {
+		case JPProgressTypeWillLoadDocument:
+//			Log.nLog("Starting to load document");
+			break;
+		case JPProgressTypeDidLoadDocument:
+			Log.nLog("Did finish loading document");
+			break;
+		case JPProgressTypeWillStartAlgorithm:
+			Log.nLog("Starting algorithm");
+			break;
+		case JPProgressTypeDidFinishAlgorithm:
+//			Log.nLog("Did finish algorithm");
+			
+			break;
+		default:
+			break;
+		}
+		
+		int percentInt = (int)percentDone;
+		mainFrame.setProgress(percentInt);		
 	}
 }

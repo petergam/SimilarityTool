@@ -1,5 +1,10 @@
 package Model;
 
+import WVToolExtension.AbstractInclude;
+import WVToolExtension.IncludeDummy;
+import WVToolExtension.IncludeHypernyms;
+import WVToolExtension.IncludeSynonyms;
+import WVToolExtension.JPInclude;
 import Algorithms.Algorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
 import Algorithms.LevenshteinDistanceAlgorithm;
@@ -24,7 +29,7 @@ public class ComputeSetup {
 			case 0:
 				return AlgorithmIndexFuzzySimilarity;
 			case 1:
-				return AlgorithmIndexFuzzySimilarity;
+				return AlgorithmIndexLevenshteinDistance;
 			default:
 				throw new RuntimeException("Unknown algorithm index: " + index);
 			}
@@ -48,7 +53,7 @@ public class ComputeSetup {
 			case 5:
 				return StemmerTypeSynonym;
 			default:
-				throw new RuntimeException("Unknown stenner type: " + index);
+				throw new RuntimeException("Unknown stemmer type: " + index);
 			}
 		}
 	}
@@ -67,15 +72,39 @@ public class ComputeSetup {
 			}
 		}
 	}
+	
+	public enum IncludeType {
+		IncludeTypeDummy, IncludeTypeHypernyms, IncludeTypeSynonyms;
+
+		public static IncludeType getIncludeTypeFromInt(int index) {
+			switch (index) {
+			case 0:
+				return IncludeTypeDummy;
+			case 1:
+				return IncludeTypeHypernyms;
+			case 2:
+				return IncludeTypeSynonyms;
+			default:
+				throw new RuntimeException("Unknown include type: " + index);
+			}
+		}
+	}
+
 
 	private AlgorithmIndex algorithmIndex;
 	private StemmerType stemmerType;
 	private WordFilterType filterType;
-	private boolean includeSynonyms;
-	private boolean includeHypernyms;
+	private IncludeType includeType;
 	private String mainDocumentPath;
 	private String[] documentPaths;
 
+	public IncludeType getIncludeType() {
+		return includeType;
+	}
+	public void setIncludeType(IncludeType includeType) {
+		this.includeType = includeType;
+	}
+	
 	public WordFilterType getFilterType() {
 		return filterType;
 	}
@@ -93,18 +122,6 @@ public class ComputeSetup {
 	}
 	public void setStemmerType(StemmerType stemmerType) {
 		this.stemmerType = stemmerType;
-	}
-	public boolean isIncludeSynonyms() {
-		return includeSynonyms;
-	}
-	public void setIncludeSynonyms(boolean includeSynonyms) {
-		this.includeSynonyms = includeSynonyms;
-	}
-	public boolean isIncludeHypernyms() {
-		return includeHypernyms;
-	}
-	public void setIncludeHypernyms(boolean includeHypernyms) {
-		this.includeHypernyms = includeHypernyms;
 	}
 	public String getMainDocumentPath() {
 		return mainDocumentPath;
@@ -157,6 +174,19 @@ public class ComputeSetup {
 			return new WordNetSynonymStemmer();
 		default:
             throw new RuntimeException("Unknown stemmer type: " + stemmerType);
+		}
+	}
+	
+	public AbstractInclude getInclude() {
+		switch (includeType) {
+		case IncludeTypeDummy:
+			return new IncludeDummy();
+		case IncludeTypeHypernyms:
+			return new IncludeHypernyms();
+		case IncludeTypeSynonyms:
+			return new IncludeSynonyms();
+		default:
+            throw new RuntimeException("Unknown include: " + includeType);
 		}
 	}
 

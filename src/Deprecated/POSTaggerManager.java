@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public enum POSTaggerManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+		
+
+		
     }
     
 //    public Article tagFile(File file) {

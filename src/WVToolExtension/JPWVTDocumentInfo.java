@@ -7,7 +7,7 @@ import edu.udo.cs.wvtool.main.WVTDocumentInfo;
 
 public class JPWVTDocumentInfo extends WVTDocumentInfo {
 	// ArrayList with all words in document
-	private ArrayList<String> wordsArrayList = new ArrayList<String>();
+	private ArrayList<JPWord> wordsArrayList = new ArrayList<JPWord>();
 	// Hashmap with all words. Key is the word, value is number of times the word ocures in document
 	private HashMap<String, Integer> wordHashMap = new HashMap<String, Integer>();
 	// number of words in document
@@ -22,12 +22,12 @@ public class JPWVTDocumentInfo extends WVTDocumentInfo {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
 	
-	public ArrayList<String> getWordsArrayList() {
+	public ArrayList<JPWord> getWordsArrayList() {
 		return wordsArrayList;
 	}
 
 
-	public void setWordsArrayList(ArrayList<String> wordsArrayList) {
+	public void setWordsArrayList(ArrayList<JPWord> wordsArrayList) {
 		this.wordsArrayList = wordsArrayList;
 	}
 
@@ -51,7 +51,34 @@ public class JPWVTDocumentInfo extends WVTDocumentInfo {
 		this.numberOfWords = numberOfWords;
 	}
 
-
+	public int getWordCount() {
+		int size = 0;
+		
+		for (JPWord word : wordsArrayList) {
+			size += word.getSynsetSize();
+		}
+		
+		return size;
+	}
+	
+	public ArrayList<JPWord> getAllWords() {
+		ArrayList<JPWord> words = new ArrayList<JPWord>(wordsArrayList);
+		
+		for (JPWord word : wordsArrayList) {
+			ArrayList<JPWord> synonyms = word.getAllSynonyms();
+			if (synonyms!=null) {
+				words.addAll(synonyms);
+			}
+			
+			ArrayList<JPWord> hypernyms = word.getAllHypernyms();
+			if (hypernyms!=null) {
+				words.addAll(hypernyms);
+			}
+			
+		}
+		
+		return words;
+	}
 
 
 }
