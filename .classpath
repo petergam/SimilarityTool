@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/jwnl.jar"/>
 	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/stanford-postagger.jar"/>
 	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/wvtool.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Downloads/commons-lang3-3.1/commons-lang3-3.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

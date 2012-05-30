@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import WVToolExtension.JPWord;
+
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -40,7 +42,7 @@ public enum WordNetManager {
 		}
     }
     
-    public IWord[] getWordsFromString(String wordString, POS pos) {
+    public synchronized IWord[] getWordsFromString(String wordString, POS pos) {
     	IIndexWord idxWord = dict.getIndexWord(wordString, pos);
     	
     	List<IWordID> wordIDs = idxWord.getWordIDs();
@@ -56,7 +58,7 @@ public enum WordNetManager {
     	return words;
     }
     
-    public String[] getStemmedWords(String word, POS pos) {
+    public synchronized String[] getStemmedWords(String word, POS pos) {
 		WordnetStemmer stemmer = new WordnetStemmer(dict);
 		List<String> stem = stemmer.findStems(word, pos);
     	
@@ -66,7 +68,7 @@ public enum WordNetManager {
 		return words;		
     }
     
-	public IWord[] getSynonyms(IWord word){
+	public synchronized IWord[] getSynonyms(IWord word){
 		ISynset synset = word.getSynset();
 		
 		List<IWord> wordsList = synset.getWords();	
@@ -76,24 +78,30 @@ public enum WordNetManager {
 		return words;
 	}
 	
-	public String getSynonyms(String wordString, POS pos) {		
-		StringBuffer synonyms = new StringBuffer();
+	public synchronized JPWord[] getSynonyms(JPWord word, POS pos) {				
+		JPWord[] synonyms = new JPWord[0];
 		
-		IIndexWord idxWord = dict.getIndexWord(wordString, pos);
+		IIndexWord idxWord = dict.getIndexWord(word.getValue(), pos);
 		if(idxWord!=null) {
 			for (IWordID wordID : idxWord.getWordIDs()) {
-				IWord word = dict.getWord(wordID);
-				ISynset synset = word.getSynset();
+				IWord iword = dict.getWord(wordID);
+				ISynset synset = iword.getSynset();
 
+				synonyms = new JPWord[synset.getWords().size()];
+				
+				int index = 0;
 				for(IWord w : synset.getWords()) {
-					synonyms.append(w.getLemma());
-					synonyms.append(" ");
+					JPWord newWord = new JPWord();
+					newWord.setValue(w.getLemma());
+					
+					synonyms[index] = newWord;
+					index++;
 				}
 			}
 			
 		}
 
-		return synonyms.toString();
+		return synonyms;
 	}
     
     

@@ -1,7 +1,12 @@
 package Algorithms;
 
+import java.util.ArrayList;
+
+import javax.swing.SwingUtilities;
+
 import Utilities.Log;
 import WVToolExtension.JPWVTDocumentInfo;
+import WVToolExtension.JPWord;
 
 public class FuzzySimilarityAlgorithm extends Algorithm {
 	
@@ -32,20 +37,26 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 		// one result for each document
 		double[] resultArray = new double[documents.length];
 		
+		ArrayList<JPWord> mainDocWords = mainDocument.getAllWords();
+		int mainDocumentWordCount = mainDocWords.size();
+		
 		for (int documentIndex = 0; documentIndex < resultArray.length; documentIndex++) {
 			JPWVTDocumentInfo currentDocument = documents[documentIndex];
 			
+			ArrayList<JPWord> currentDocWords = currentDocument.getAllWords();
+			int currentDocumentWordCount = currentDocWords.size();
+			
 			double sim = 0;
 			
-			double max = Math.max(mainDocument.getWordsArrayList().size(), currentDocument.getWordsArrayList().size());
+			double max = Math.max(mainDocumentWordCount, currentDocumentWordCount);
 			
 			double sum = 0;
 			
-			for (int i = 0; i < mainDocument.getWordsArrayList().size(); i++) {
-				String word1 = mainDocument.getWordsArrayList().get(i);
+			for (int i = 0; i < mainDocumentWordCount; i++) {
+				String word1 = mainDocWords.get(i).getValue();
 				double maxDegree = 0;
-				for (int j = 0; j < currentDocument.getWordsArrayList().size(); j++) {
-					String word2 = currentDocument.getWordsArrayList().get(j);
+				for (int j = 0; j < currentDocumentWordCount; j++) {
+					String word2 = currentDocWords.get(j).getValue();
 					double msF = membershipFunction(word1, word2);
 					if (msF > maxDegree) {
 						maxDegree = msF;
@@ -59,9 +70,13 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 			
 			sim = 1/max * sum;
 			
-			String simString = "" + sim;
-			simString = simString.substring(0, 4);
-			Log.nLog("Fuzzi sim ["+ mainDocument.getSourceName() +" & " + currentDocument.sourceName + "]: " + simString);
+			final double printSim = sim;
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					Log.nLog("Fuzzy similarity is: " + printSim);					
+				}
+			});
 
 
 			resultArray[documentIndex] = sim;

@@ -3,10 +3,30 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 <<<<<<< HEAD
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/jwnl.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Bachelor-project/Library/wvtool.jar"/>
+=======
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/gwt-user.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/gwt-dev.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/validation-api-1.0.0.GA.jar" sourcepath="/Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201203300216-rel-r37/gwt-2.4.0/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
 	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/stanford-postagger.jar"/>
-=======
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
->>>>>>> ed33b8595110a50afb3ca81276bc6d47637d20f0
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/wvtool.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/jwnl.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/commons-logging-1.1.1.jar"/>
+>>>>>>> 3f3ed37c77a2d8bb4ed34255834ca8b39a571f13
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
