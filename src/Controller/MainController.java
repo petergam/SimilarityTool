@@ -1,19 +1,23 @@
 package Controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+
+import javax.swing.SwingUtilities;
 
 import net.didion.jwnl.JWNLException;
 import Model.ComputeSetup;
 import Utilities.Log;
 import View.MainFrame;
 import View.MainFrame.MainFrameDelegate;
-import WVToolExtension.AbstractInclude;
-import WVToolExtension.JPLoadData;
-import WVToolExtension.JPProgress.JPProgressDelegate;
+import WVToolAdditions.AbstractInclude;
+import WVToolAdditions.ExtendedTokenizer;
+import WVToolAdditions.JPLoadData;
+import WVToolAdditions.JPWordLoaderCustom;
+import WVToolAdditions.JPProgress.JPProgressDelegate;
 import WVToolExtension.JPWVTConfiguration;
 import WVToolExtension.JPWVTDocumentInfo;
 import WVToolExtension.JPWVTool;
-import WVToolExtension.JPWordLoaderCustom;
 import edu.udo.cs.wvtool.config.WVTConfiguration;
 import edu.udo.cs.wvtool.config.WVTConfigurationFact;
 import edu.udo.cs.wvtool.generic.stemmer.AbstractStemmer;
@@ -23,6 +27,7 @@ import edu.udo.cs.wvtool.main.WVTFileInputList;
 public class MainController implements MainFrameDelegate, JPProgressDelegate {
     private JPWVTool wvt;
     private MainFrame mainFrame;
+    private long startTime;
     
 	public MainController() throws FileNotFoundException, JWNLException {		
 		//startup GUI
@@ -39,6 +44,8 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
 
 	@Override
 	public void computeButtonPressed(ComputeSetup setup) {
+		startTime = System.currentTimeMillis();
+
         JPWVTConfiguration config = new JPWVTConfiguration();
          
     	config.setConfigurationRule(JPWVTConfiguration.STEP_WORDLOADER, new WVTConfigurationFact(new JPWordLoaderCustom()));
@@ -54,24 +61,46 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
         AbstractInclude include = setup.getInclude();
         config.setConfigurationRule(JPWVTConfiguration.STEP_INCLUDE, new WVTConfigurationFact(include));
 
+        ExtendedTokenizer tokenizer = new ExtendedTokenizer();
+        config.setConfigurationRule(WVTConfiguration.STEP_TOKENIZER, new WVTConfigurationFact(tokenizer));
+        
         //for now only English is supported
 		String language = "english";
-
-		String mainDocumentPath = setup.getMainDocumentPath();
-		String[] documentsPath = setup.getDocumentPaths();
-		WVTFileInputList list = new WVTFileInputList(1+documentsPath.length);
-		JPWVTDocumentInfo[] documents = new JPWVTDocumentInfo[documentsPath.length];
-		JPWVTDocumentInfo mainDocument = new JPWVTDocumentInfo(mainDocumentPath,"txt","", language, 0);
+		
+		File mainDocumentFile = setup.getMainDocumentFile();
+		File[] documentFiles = setup.getDocumentFiles();
+		
+		WVTFileInputList list = new WVTFileInputList(1+documentFiles.length);
+		final JPWVTDocumentInfo[] documents = new JPWVTDocumentInfo[documentFiles.length];
+		JPWVTDocumentInfo mainDocument = new JPWVTDocumentInfo(mainDocumentFile.getPath(),"txt","", language, 0);
+		mainDocument.setDocumentTitle(mainDocumentFile.getName());
 		list.addEntry(mainDocument);
 		
 		for (int i = 0; i < documents.length; i++) {
-			JPWVTDocumentInfo currentDocument = new JPWVTDocumentInfo(documentsPath[i],"txt","",language,0);
+			JPWVTDocumentInfo currentDocument = new JPWVTDocumentInfo(documentFiles[i].getPath(),"txt","",language,0);
+			currentDocument.setDocumentTitle(documentFiles[i].getName());
 			list.addEntry(currentDocument);
 			documents[i] = currentDocument;
 		}
 		
 		JPLoadData loadData = new JPLoadData(list, mainDocument, documents, setup.getAlgorithm());
-		wvt.loadFileInputList(loadData, config, this);
+		wvt.loadFileInputList(loadData, config, this, new Runnable() {
+			@Override
+			public void run() {
+				// find the best results
+//				double maxScore = 0.0;
+//				JPWVTDocumentInfo bestDocument = null;
+//				for (JPWVTDocumentInfo document : documents) {
+//					System.out.println("Here");
+//					if (document.getScore()>maxScore) {
+//						maxScore = document.getScore();
+//						bestDocument = document;
+//					}
+//				}
+//				
+//				Log.nLog("Article with best score is: " + bestDocument.getDocumentTitle() + " score: " + bestDocument.getScore());
+			}
+		});
 	}
 
 	@Override
@@ -81,10 +110,10 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
 //			Log.nLog("Starting to load document");
 			break;
 		case JPProgressTypeDidLoadDocument:
-			Log.nLog("Did finish loading document");
+//			Log.nLog("Did finish loading document");
 			break;
 		case JPProgressTypeWillStartAlgorithm:
-			Log.nLog("Starting algorithm");
+//			Log.nLog("Starting algorithm");
 			break;
 		case JPProgressTypeDidFinishAlgorithm:
 //			Log.nLog("Did finish algorithm");
@@ -94,7 +123,43 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
 			break;
 		}
 		
-		int percentInt = (int)percentDone;
-		mainFrame.setProgress(percentInt);		
+		final int percentInt = (int)percentDone;
+				
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				mainFrame.setProgress(percentInt);		
+			}
+		});
+	}
+
+	@Override
+	public void didStartProgress() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				mainFrame.enableStopButton();				
+			}
+		});
+	}
+
+	@Override
+	public void didStopProgress() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				mainFrame.disableStopButton();
+				mainFrame.setProgress(0);				
+			}
+		});
+		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("Running time: " + totalTime);
+	}
+
+	@Override
+	public void stopButtonPressed() {
+		wvt.stopLoad();		
 	}
 }

@@ -1,7 +1,7 @@
 package View;
 
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.Component;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,12 +9,21 @@ import java.io.File;
 import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import Model.ComputeSetup;
 import Model.ComputeSetup.AlgorithmIndex;
@@ -22,31 +31,13 @@ import Model.ComputeSetup.IncludeType;
 import Model.ComputeSetup.StemmerType;
 import Model.ComputeSetup.WordFilterType;
 import Utilities.Log;
-import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
-import javax.swing.Box;
-import javax.swing.JRadioButton;
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.UIManager;
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import javax.swing.JList;
-import javax.swing.JToggleButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JProgressBar;
 
 public class MainFrame extends JFrame {
 
 	
 	public interface MainFrameDelegate {
 		public void computeButtonPressed(ComputeSetup setup);
+		public void stopButtonPressed();
 	}
 	
 	
@@ -60,6 +51,7 @@ public class MainFrame extends JFrame {
 	
 	private JTextPane panel;
 	private JProgressBar progressBar;
+	private JButton stopButton;
 	
 	private MainFrameDelegate delegate = null;
 	
@@ -135,15 +127,11 @@ public class MainFrame extends JFrame {
 				     setup.setIncludeType(IncludeType.getIncludeTypeFromInt(includeIndex));
 				     
 					File[] files = fc.getSelectedFiles();
-					String[] documentsPaths = new String[files.length];
-					for (int i = 0; i < documentsPaths.length; i++) {
-						documentsPaths[i] = files[i].getPath();
-					}
-					setup.setDocumentPaths(documentsPaths);
+					setup.setDocumentFiles(files);
 					
-					
-					String mainDocumentPath = sfc.getSelectedFile().getPath();
-					setup.setMainDocumentPath(mainDocumentPath);
+
+					File mainDocumentFile = sfc.getSelectedFile();
+					setup.setMainDocumentFile(mainDocumentFile);
 					
 					self.delegate.computeButtonPressed(setup);
 				}else {
@@ -298,14 +286,16 @@ public class MainFrame extends JFrame {
 																		progressBar.setBounds(412, 519, 179, 20);
 																		getContentPane().add(progressBar);
 																		
-																		JButton btnNewButton_1 = new JButton("Stop");
-																		btnNewButton_1.setEnabled(false);
-																		btnNewButton_1.addActionListener(new ActionListener() {
+																		stopButton = new JButton("Stop");
+																		stopButton.setEnabled(false);
+																		stopButton.addActionListener(new ActionListener() {
 																			public void actionPerformed(ActionEvent arg0) {
+																				MainFrame self = MainFrame.this;
+																				self.delegate.stopButtonPressed();
 																			}
 																		});
-																		btnNewButton_1.setBounds(412, 478, 89, 29);
-																		getContentPane().add(btnNewButton_1);
+																		stopButton.setBounds(412, 478, 89, 29);
+																		getContentPane().add(stopButton);
 																		btnClear.addActionListener(new ActionListener() {
 																			public void actionPerformed(ActionEvent arg0) {
 																				list.removeAll();
@@ -390,5 +380,13 @@ public class MainFrame extends JFrame {
 	
 	public void setProgress(int progress) {
 		progressBar.setValue(progress);
+	}
+	
+	public void enableStopButton() {
+		stopButton.setEnabled(true);
+	}
+	
+	public void disableStopButton() {
+		stopButton.setEnabled(false);
 	}
 }

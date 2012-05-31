@@ -1,16 +1,23 @@
 package WVToolExtension;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import Algorithms.Algorithm;
-import WVToolExtension.JPProgress.JPProgressDelegate;
-
+import Algorithms.Algorithm.JPAlgorithmProgressDelegate;
+import Model.DocumentRunnable;
+import WVToolAdditions.ExtendedTokenizer;
+import WVToolAdditions.JPInclude;
+import WVToolAdditions.JPLoadData;
+import WVToolAdditions.JPProgress;
+import WVToolAdditions.JPWordLoader;
+import WVToolAdditions.JPProgress.JPProgressDelegate;
 import edu.udo.cs.wvtool.config.WVTConfiguration;
 import edu.udo.cs.wvtool.generic.charmapper.WVTCharConverter;
 import edu.udo.cs.wvtool.generic.inputfilter.WVTInputFilter;
@@ -21,108 +28,144 @@ import edu.udo.cs.wvtool.generic.wordfilter.WVTWordFilter;
 import edu.udo.cs.wvtool.main.WVTool;
 import edu.udo.cs.wvtool.util.WVToolException;
 
-public class JPWVTool extends WVTool{
+public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 
-	static final int MAX_THREADS = 1;
+	public static final int MAX_THREADS = 1;
+	JPProgress progress;
+	ExecutorService engine;
+	Thread loadAlgorithmThread;
 	
 	public JPWVTool(boolean arg0) {
 		super(arg0);
 	}
 	
-	public void loadFileInputList(final JPLoadData loadData, JPWVTConfiguration c, JPProgressDelegate callbackDelegate) {
-		final JPProgress progress = new JPProgress(loadData.getDocuments().length+1, callbackDelegate);
+	public void loadFileInputList(final JPLoadData loadData, final JPWVTConfiguration c, JPProgressDelegate callbackDelegate, final Runnable callbackRunnable) {		
+		progress = new JPProgress(loadData.getDocuments().length+1, callbackDelegate);
 		
-        Iterator<?> inList = loadData.getFileInputList().getEntries();
-        
-		final ExecutorService engine = Executors.newFixedThreadPool(MAX_THREADS);
-        
-        // Go through the list
-        while (inList.hasNext()) {
-
-            final JPWVTDocumentInfo document = (JPWVTDocumentInfo) inList.next();
-            final WVTConfiguration config = c; //.copy();
-            
-            engine.submit(new Runnable() {
-				@Override
-				public void run() {
-			        SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							progress.willLoadDocument();
-						}
-					});
-			        
-//					
-			        WVTDocumentLoader loader = null;
-			        WVTInputFilter infilter = null;
-			        WVTCharConverter charConverter = null;
-			        WVTTokenizer tokenizer = null;
-			        WVTWordFilter wordFilter = null;
-			        WVTStemmer stemmer = null;
-					JPInclude include = null;
-			        JPWordLoader wordLoader = null;
-					
-		            try {
-		                loader = (WVTDocumentLoader) config.getComponentForStep(WVTConfiguration.STEP_LOADER, document);
-		                infilter = (WVTInputFilter) config.getComponentForStep(WVTConfiguration.STEP_INPUT_FILTER, document);
-		                charConverter = (WVTCharConverter) config.getComponentForStep(WVTConfiguration.STEP_CHAR_MAPPER, document);
-		                tokenizer = (WVTTokenizer) config.getComponentForStep(WVTConfiguration.STEP_TOKENIZER, document);
-		                wordFilter = (WVTWordFilter) config.getComponentForStep(WVTConfiguration.STEP_WORDFILTER, document);
-		                stemmer = (WVTStemmer) config.getComponentForStep(WVTConfiguration.STEP_STEMMER, document);
-		            	include = (JPInclude) config.getComponentForStep(JPWVTConfiguration.STEP_INCLUDE, document);
-		                wordLoader = (JPWordLoader) config.getComponentForStep(JPWVTConfiguration.STEP_WORDLOADER, document);
-		            	                
-						include.include(wordLoader.load(stemmer.stem(wordFilter.filter(
-								tokenizer.tokenize(
-										charConverter.convertChars(
-												infilter.convertToPlainText(
-														loader.loadDocument(document), document), document),
-														document), document), document), document), document);
-
-						loader.close(document);
-						
-					} catch (WVToolException e) {
-
-					}
-		            
-			        SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							progress.didLoadDocument();
-						}
-					});
-				}
-			});
-		}
-        
-		engine.shutdown();
-
+        final Iterator<?> inList = loadData.getFileInputList().getEntries();
+		engine = Executors.newFixedThreadPool(MAX_THREADS);
 		
-		new Thread(new Runnable() {
+		progress.startProgress();
+		
+		
+        SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
 			@Override
-			public void run() {
-				try {
-					engine.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-			        SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							progress.willStartAlgorithm();
+			protected Integer doInBackground() throws Exception {
+	            final WVTConfiguration config = c; //.copy();
+
+				while (inList.hasNext()) {
+
+				DocumentRunnable runnable = new DocumentRunnable() {
+					public void run() {
+				        SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								progress.willLoadDocument();
+							}
+						});
+				        
+				        WVTDocumentLoader loader = null;
+				        WVTInputFilter infilter = null;
+				        WVTCharConverter charConverter = null;
+				        WVTTokenizer tokenizer = null;
+				        WVTWordFilter wordFilter = null;
+				        WVTStemmer stemmer = null;
+						JPInclude include = null;
+				        JPWordLoader wordLoader = null;
+						
+			            try {
+			                loader = (WVTDocumentLoader) config.getComponentForStep(WVTConfiguration.STEP_LOADER, document);
+			                infilter = (WVTInputFilter) config.getComponentForStep(WVTConfiguration.STEP_INPUT_FILTER, document);
+			                charConverter = (WVTCharConverter) config.getComponentForStep(WVTConfiguration.STEP_CHAR_MAPPER, document);
+			                tokenizer = (WVTTokenizer) config.getComponentForStep(WVTConfiguration.STEP_TOKENIZER, document);
+			                wordFilter = (WVTWordFilter) config.getComponentForStep(WVTConfiguration.STEP_WORDFILTER, document);
+			                stemmer = (WVTStemmer) config.getComponentForStep(WVTConfiguration.STEP_STEMMER, document);
+			            	include = (JPInclude) config.getComponentForStep(JPWVTConfiguration.STEP_INCLUDE, document);
+			                wordLoader = (JPWordLoader) config.getComponentForStep(JPWVTConfiguration.STEP_WORDLOADER, document);
+			                tokenizer = new ExtendedTokenizer();
+			                
+							wordLoader.load(include.include(stemmer.stem(wordFilter.filter(
+									tokenizer.tokenize(
+											charConverter.convertChars(
+													infilter.convertToPlainText(
+															loader.loadDocument(document), document), document),
+															document), document), document), document), document);
+
+							loader.close(document);
+							
+						} catch (WVToolException e) {
+
 						}
-					});
-			        
-					Algorithm algorithm = loadData.getAlgorithm();
-					algorithm.compute(loadData.getMainDocument(), loadData.getDocuments());
-			        
-			        SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							progress.didFinishAlgorithm();
-						}
-					});
-					} catch (InterruptedException e) {
-					  
-					}				
+			            
+				        SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								progress.didLoadDocument();
+							}
+						});
+					}
+				};
+					runnable.document = (JPWVTDocumentInfo) inList.next();
+					engine.submit(runnable);
+				}
+				
+				return null;
 			}
-		}).start();
+			
+			@Override
+	        protected void done() {
+				engine.shutdown();
+				
+				
+				loadAlgorithmThread = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							engine.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+					        SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									progress.willStartAlgorithm();
+								}
+							});
+							Algorithm algorithm = loadData.getAlgorithm();
+							algorithm.setAlgorithmProgressDelegate(JPWVTool.this);
+							algorithm.compute(loadData.getMainDocument(), loadData.getDocuments(), new Runnable() {
+								@Override
+								public void run() {
+							        SwingUtilities.invokeLater(new Runnable() {
+										@Override
+										public void run() {
+											progress.didFinishAlgorithm();
+											callbackRunnable.run();
+										}
+									});
+								}
+							});
+							
+
+							} catch (InterruptedException e) {
+							}				
+					}
+				});
+				loadAlgorithmThread.start();
+				
+	        }
+		};
+		
+		worker.execute();		
 	}	
+	
+	public void stopLoad() {
+		engine.shutdownNow();
+		if (loadAlgorithmThread!=null) {
+			loadAlgorithmThread.interrupt();
+		}
+	}
+
+	@Override
+	public void didUpdateProgress(float percent) {
+		int finalPercent = (int) (percent/4)*3;
+		progress.didUpdateProcess(finalPercent);
+	}
 }

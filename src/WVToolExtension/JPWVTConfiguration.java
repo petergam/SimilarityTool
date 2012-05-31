@@ -1,8 +1,9 @@
 package WVToolExtension;
 
+import WVToolAdditions.IncludeDummy;
+import WVToolAdditions.JPWordLoaderDummy;
 import edu.udo.cs.wvtool.config.WVTConfiguration;
 import edu.udo.cs.wvtool.config.WVTConfigurationFact;
-import edu.udo.cs.wvtool.config.WVTConfigurationRule;
 
 public class JPWVTConfiguration extends WVTConfiguration {
     public static final String STEP_INCLUDE = "include";

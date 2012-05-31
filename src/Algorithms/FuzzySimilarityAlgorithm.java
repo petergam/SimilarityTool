@@ -2,11 +2,9 @@ package Algorithms;
 
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
-
-import Utilities.Log;
+import Model.DocumentRunnable;
+import WVToolAdditions.JPWord;
 import WVToolExtension.JPWVTDocumentInfo;
-import WVToolExtension.JPWord;
 
 public class FuzzySimilarityAlgorithm extends Algorithm {
 	
@@ -31,65 +29,69 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public double[] compute(JPWVTDocumentInfo mainDocument,
-			JPWVTDocumentInfo[] documents, boolean normalizeResult) {
+	public void compute(final JPWVTDocumentInfo mainDocument,
+			final JPWVTDocumentInfo[] documents, boolean normalizeResult, final Runnable callbackDelegate) {
 
-		// one result for each document
-		double[] resultArray = new double[documents.length];
-		
-		ArrayList<JPWord> mainDocWords = mainDocument.getAllWords();
-		int mainDocumentWordCount = mainDocWords.size();
-		
-		for (int documentIndex = 0; documentIndex < resultArray.length; documentIndex++) {
-			JPWVTDocumentInfo currentDocument = documents[documentIndex];
-			
-			ArrayList<JPWord> currentDocWords = currentDocument.getAllWords();
-			int currentDocumentWordCount = currentDocWords.size();
-			
-			double sim = 0;
-			
-			double max = Math.max(mainDocumentWordCount, currentDocumentWordCount);
-			
-			double sum = 0;
-			
-			for (int i = 0; i < mainDocumentWordCount; i++) {
-				String word1 = mainDocWords.get(i).getValue();
-				double maxDegree = 0;
-				for (int j = 0; j < currentDocumentWordCount; j++) {
-					String word2 = currentDocWords.get(j).getValue();
-					double msF = membershipFunction(word1, word2);
-					if (msF > maxDegree) {
-						maxDegree = msF;
-						if (maxDegree == 1.0) {
-							break;
+		Runnable backgroundRunnable = new Runnable() {
+			@Override
+			public void run() {
+				final ArrayList<JPWord> mainDocWords = mainDocument.getAllWords();
+				final int mainDocumentWordCount = mainDocWords.size();
+				final float updatePercent = (float) (100.0/documents.length);
+				
+				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {
+					DocumentRunnable runnable = new DocumentRunnable() {
+						@Override
+						public void run() {
+							ArrayList<JPWord> currentDocWords = document.getAllWords();
+							int currentDocumentWordCount = currentDocWords.size();
+							
+							double sim = 0;
+							double max = Math.max(mainDocumentWordCount, currentDocumentWordCount);
+							double sum = 0;
+
+							for (int i = 0; i < mainDocumentWordCount; i++) {
+				                theadUpdate();
+								String word1 = mainDocWords.get(i).getValue();
+								double maxDegree = 0;
+								for (int j = 0; j < currentDocumentWordCount; j++) {
+					                theadUpdate();
+
+									String word2 = currentDocWords.get(j).getValue();
+									double msF = membershipFunction(word1, word2);
+									if (msF > maxDegree) {
+										maxDegree = msF;
+										if (maxDegree == 1.0) {
+											break;
+										}
+									}
+								}
+								sum += maxDegree;
+							}
+							
+							sim = 1/max * sum;
+							
+							document.setScore(sim);
+							
+							didProgress(updatePercent);		
 						}
-					}
-				}
-				sum += maxDegree;
+					};
+					
+					runnable.document = documents[documentIndex];
+					engine.submit(runnable);
+				}				
 			}
-			
-			sim = 1/max * sum;
-			
-			final double printSim = sim;
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					Log.nLog("Fuzzy similarity is: " + printSim);					
-				}
-			});
-
-
-			resultArray[documentIndex] = sim;
-			
-		}
+		};
 		
-		if (normalizeResult) {
-			return normalizeResult(resultArray);
-		}else {
-			return resultArray;
-		}
+		Runnable doneRunnable = new Runnable() {
+			@Override
+			public void run() {
+	    		callDelegate(callbackDelegate);				
+			}
+		};
 		
-		
+		run(backgroundRunnable, doneRunnable);
+			
 	}
 
 	@Override

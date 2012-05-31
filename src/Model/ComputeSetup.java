@@ -1,13 +1,14 @@
 package Model;
 
-import WVToolExtension.AbstractInclude;
-import WVToolExtension.IncludeDummy;
-import WVToolExtension.IncludeHypernyms;
-import WVToolExtension.IncludeSynonyms;
-import WVToolExtension.JPInclude;
+import java.io.File;
+
 import Algorithms.Algorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
 import Algorithms.LevenshteinDistanceAlgorithm;
+import WVToolAdditions.AbstractInclude;
+import WVToolAdditions.IncludeDummy;
+import WVToolAdditions.IncludeHypernyms;
+import WVToolAdditions.IncludeSynonyms;
 import edu.udo.cs.wvtool.generic.stemmer.AbstractStemmer;
 import edu.udo.cs.wvtool.generic.stemmer.DummyStemmer;
 import edu.udo.cs.wvtool.generic.stemmer.LovinsStemmerWrapper;
@@ -95,8 +96,8 @@ public class ComputeSetup {
 	private StemmerType stemmerType;
 	private WordFilterType filterType;
 	private IncludeType includeType;
-	private String mainDocumentPath;
-	private String[] documentPaths;
+	private File mainDocumentFile;
+	private File[] documentFiles;
 
 	public IncludeType getIncludeType() {
 		return includeType;
@@ -123,17 +124,17 @@ public class ComputeSetup {
 	public void setStemmerType(StemmerType stemmerType) {
 		this.stemmerType = stemmerType;
 	}
-	public String getMainDocumentPath() {
-		return mainDocumentPath;
+	public File getMainDocumentFile() {
+		return mainDocumentFile;
 	}
-	public void setMainDocumentPath(String mainDocumentPath) {
-		this.mainDocumentPath = mainDocumentPath;
+	public void setMainDocumentFile(File mainDocumentFile) {
+		this.mainDocumentFile = mainDocumentFile;
 	}
-	public String[] getDocumentPaths() {
-		return documentPaths;
+	public File[] getDocumentFiles() {
+		return documentFiles;
 	}
-	public void setDocumentPaths(String[] documentPaths) {
-		this.documentPaths = documentPaths;
+	public void setDocumentFiles(File[] documentFiles) {
+		this.documentFiles = documentFiles;
 	}
 	
 	public Algorithm getAlgorithm() {
