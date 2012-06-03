@@ -37,13 +37,15 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 			public void run() {
 				final ArrayList<JPWord> mainDocWords = mainDocument.getAllWords();
 				final int mainDocumentWordCount = mainDocWords.size();
-				final float updatePercent = (float) (100.0/documents.length);
 				
 				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {
 					DocumentRunnable runnable = new DocumentRunnable() {
 						@Override
 						public void run() {
+							progressDelegate.willStartAlgorithmForDocument(document);
+							
 							ArrayList<JPWord> currentDocWords = document.getAllWords();
+//							System.out.println(document.getSentenceArray().size());
 							int currentDocumentWordCount = currentDocWords.size();
 							
 							double sim = 0;
@@ -70,10 +72,9 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 							}
 							
 							sim = 1/max * sum;
-							
 							document.setScore(sim);
 							
-							didProgress(updatePercent);		
+							progressDelegate.didFinishAlgorithmForDocument(document);
 						}
 					};
 					

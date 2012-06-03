@@ -26,7 +26,6 @@ public class JPWVTConfiguration extends WVTConfiguration {
     	
     	object = getComponentForStep(STEP_INCLUDE, null);
     	System.out.println(object);
-    	System.out.println(object);
     	if (object!=null) { newConfig.setConfigurationRule(STEP_WORDLOADER,   new WVTConfigurationFact(object)); }
     	
     	object = getComponentForStep(STEP_INPUT_FILTER, null);

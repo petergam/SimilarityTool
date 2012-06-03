@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import WVToolAdditions.JPWord;
 import edu.mit.jwi.Dictionary;

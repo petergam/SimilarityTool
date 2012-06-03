@@ -3,7 +3,8 @@ package Model;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.apache.commons.io.IOUtils;
+import sun.misc.IOUtils;
+
 
 public enum SenseRelateManager {
     SharedInstance;
@@ -23,7 +24,7 @@ public enum SenseRelateManager {
 			Process proc = pb.start();
 
 			StringWriter writer = new StringWriter();
-			IOUtils.copy(proc.getInputStream(), writer);
+//			IOUtils.copy(proc.getInputStream(), writer);
 			String jsonResponse = writer.toString();
 			System.out.println(jsonResponse);				
 		} catch (IOException e) {

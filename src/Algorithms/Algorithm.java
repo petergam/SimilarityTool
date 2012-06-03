@@ -1,6 +1,5 @@
 package Algorithms;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -8,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import Model.DocumentRunnable;
-import WVToolAdditions.JPWord;
+import WVToolAdditions.JPProgress;
 import WVToolExtension.JPWVTDocumentInfo;
 import WVToolExtension.JPWVTool;
 
@@ -19,7 +17,7 @@ public abstract class Algorithm {
 		public void didUpdateProgress(float progress);
 	}
 	
-	protected JPAlgorithmProgressDelegate progressDelegate;
+	protected JPProgress progressDelegate;
 	protected float percent = 0.0f;
 	protected ExecutorService engine = Executors.newFixedThreadPool(JPWVTool.MAX_THREADS);
 	
@@ -29,14 +27,14 @@ public abstract class Algorithm {
 	}
 	public abstract double[] normalizeResult(double[] resultArray);
 	
-	public void setAlgorithmProgressDelegate(JPAlgorithmProgressDelegate progressDelegate) {
+	public void setAlgorithmProgressDelegate(JPProgress progressDelegate) {
 		this.progressDelegate = progressDelegate;
 	}
 	
-	protected void didProgress(float updatePercent) {
-		percent +=updatePercent;
-		progressDelegate.didUpdateProgress(percent);		
-	}
+//	protected void didProgress(float updatePercent) {
+//		percent +=updatePercent;
+//		progressDelegate.didUpdateProgress(percent);		
+//	}
 	
 	protected void theadUpdate() {
         if(Thread.interrupted()){

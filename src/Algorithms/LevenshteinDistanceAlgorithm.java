@@ -20,6 +20,7 @@ public class LevenshteinDistanceAlgorithm extends Algorithm {
 		Runnable backgroundRunnable = new Runnable() {
 			@Override
 			public void run() {
+				
 				final ArrayList<JPWord> allWords = mainDocument.getAllWords();
 				final int mainDocumentSize = allWords.size();
 				final float updatePercent = (float) (100.0/documents.length);
@@ -28,6 +29,9 @@ public class LevenshteinDistanceAlgorithm extends Algorithm {
 					DocumentRunnable runnable = new DocumentRunnable() {
 						@Override
 						public void run() {
+							progressDelegate.willStartAlgorithmForDocument(document);
+
+							
 							ArrayList<JPWord> currentDocAllWords = document.getAllWords();
 
 							int currentDocumentSize = currentDocAllWords.size();
@@ -59,7 +63,7 @@ public class LevenshteinDistanceAlgorithm extends Algorithm {
 						
 							document.setScore(distance[mainDocumentSize][currentDocumentSize]);
 							
-							didProgress(updatePercent);							
+							progressDelegate.didFinishAlgorithmForDocument(document);
 						}
 					};
 					

@@ -1,7 +1,6 @@
 package WVToolExtension;
 
 import java.util.Iterator;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +15,8 @@ import WVToolAdditions.ExtendedTokenizer;
 import WVToolAdditions.JPInclude;
 import WVToolAdditions.JPLoadData;
 import WVToolAdditions.JPProgress;
-import WVToolAdditions.JPWordLoader;
 import WVToolAdditions.JPProgress.JPProgressDelegate;
+import WVToolAdditions.JPWordLoader;
 import edu.udo.cs.wvtool.config.WVTConfiguration;
 import edu.udo.cs.wvtool.generic.charmapper.WVTCharConverter;
 import edu.udo.cs.wvtool.generic.inputfilter.WVTInputFilter;
@@ -30,7 +29,7 @@ import edu.udo.cs.wvtool.util.WVToolException;
 
 public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 
-	public static final int MAX_THREADS = 1;
+	public static final int MAX_THREADS = 10;
 	JPProgress progress;
 	ExecutorService engine;
 	Thread loadAlgorithmThread;
@@ -43,7 +42,7 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 		progress = new JPProgress(loadData.getDocuments().length+1, callbackDelegate);
 		
         final Iterator<?> inList = loadData.getFileInputList().getEntries();
-		engine = Executors.newFixedThreadPool(MAX_THREADS);
+		engine = Executors.newFixedThreadPool(1);
 		
 		progress.startProgress();
 		
@@ -55,12 +54,22 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 
 				while (inList.hasNext()) {
 
+					final JPWVTDocumentInfo d = (JPWVTDocumentInfo) inList.next();
+					
+			        SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							progress.willLoadDocument(d);
+						}
+					});
+			        
+					
 				DocumentRunnable runnable = new DocumentRunnable() {
 					public void run() {
 				        SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
-								progress.willLoadDocument();
+								progress.didStartLoadingDocument(document);
 							}
 						});
 				        
@@ -77,14 +86,14 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 			                loader = (WVTDocumentLoader) config.getComponentForStep(WVTConfiguration.STEP_LOADER, document);
 			                infilter = (WVTInputFilter) config.getComponentForStep(WVTConfiguration.STEP_INPUT_FILTER, document);
 			                charConverter = (WVTCharConverter) config.getComponentForStep(WVTConfiguration.STEP_CHAR_MAPPER, document);
-			                tokenizer = (WVTTokenizer) config.getComponentForStep(WVTConfiguration.STEP_TOKENIZER, document);
+//			                tokenizer = (WVTTokenizer) config.getComponentForStep(WVTConfiguration.STEP_TOKENIZER, document);
 			                wordFilter = (WVTWordFilter) config.getComponentForStep(WVTConfiguration.STEP_WORDFILTER, document);
 			                stemmer = (WVTStemmer) config.getComponentForStep(WVTConfiguration.STEP_STEMMER, document);
 			            	include = (JPInclude) config.getComponentForStep(JPWVTConfiguration.STEP_INCLUDE, document);
 			                wordLoader = (JPWordLoader) config.getComponentForStep(JPWVTConfiguration.STEP_WORDLOADER, document);
 			                tokenizer = new ExtendedTokenizer();
 			                
-							wordLoader.load(include.include(stemmer.stem(wordFilter.filter(
+							include.include(wordLoader.load(stemmer.stem(wordFilter.filter(
 									tokenizer.tokenize(
 											charConverter.convertChars(
 													infilter.convertToPlainText(
@@ -93,19 +102,29 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 
 							loader.close(document);
 							
+					        SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									progress.didLoadDocument(document);
+								}
+					        });
+							
 						} catch (WVToolException e) {
 
-						}
-			            
-				        SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								progress.didLoadDocument();
-							}
-						});
+
+					}
+		            
+
+//			            
+//				        SwingUtilities.invokeLater(new Runnable() {
+//							@Override
+//							public void run() {
+//								progress.didLoadDocument();
+//							}
+//						});
 					}
 				};
-					runnable.document = (JPWVTDocumentInfo) inList.next();
+					runnable.document = d;
 					engine.submit(runnable);
 				}
 				
@@ -114,13 +133,11 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 			
 			@Override
 	        protected void done() {
-				engine.shutdown();
-				
-				
 				loadAlgorithmThread = new Thread(new Runnable() {
 					@Override
 					public void run() {
 						try {
+							engine.shutdown();
 							engine.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 					        SwingUtilities.invokeLater(new Runnable() {
 								@Override
@@ -128,8 +145,9 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 									progress.willStartAlgorithm();
 								}
 							});
+					        
 							Algorithm algorithm = loadData.getAlgorithm();
-							algorithm.setAlgorithmProgressDelegate(JPWVTool.this);
+							algorithm.setAlgorithmProgressDelegate(progress);
 							algorithm.compute(loadData.getMainDocument(), loadData.getDocuments(), new Runnable() {
 								@Override
 								public void run() {
@@ -165,7 +183,7 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 
 	@Override
 	public void didUpdateProgress(float percent) {
-		int finalPercent = (int) (percent/4)*3;
-		progress.didUpdateProcess(finalPercent);
+//		int finalPercent = (int) (percent/4)*3;
+//		progress.didUpdateProcess(finalPercent);
 	}
 }

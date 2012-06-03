@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import WVToolAdditions.JPSentence;
 import WVToolAdditions.JPWord;
-
 import edu.udo.cs.wvtool.main.WVTDocumentInfo;
 
 public class JPWVTDocumentInfo extends WVTDocumentInfo {
@@ -22,7 +21,18 @@ public class JPWVTDocumentInfo extends WVTDocumentInfo {
 	private int numberOfWords = 0;
 	
 	private double score = 0.0;
+	
+	public enum JPDocumentProgressType {
+		JPDocumentProgressTypeNotLoaded,
+		JPDocumentProgressTypeWaiting,
+		JPDocumentProgressTypeLoading,
+		JPDocumentProgressTypeLoaded,
+		JPDocumentProgressTypeComputing,
+		JPDocumentProgressTypeComputed
+	}
+	private JPDocumentProgressType progressType = JPDocumentProgressType.JPDocumentProgressTypeNotLoaded;;
 
+	
 	public JPWVTDocumentInfo(String arg0, String arg1, String arg2, String arg3) {
 		super(arg0, arg1, arg2, arg3);
 	}
@@ -114,5 +124,13 @@ public class JPWVTDocumentInfo extends WVTDocumentInfo {
 
 	public void setSentenceArray(ArrayList<JPSentence> sentenceArray) {
 		this.sentenceArray = sentenceArray;
+	}
+
+	public synchronized JPDocumentProgressType getProgressType() {
+		return progressType;
+	}
+
+	public synchronized void setProgressType(JPDocumentProgressType progressType) {
+		this.progressType = progressType;
 	}
 }

@@ -40,46 +40,47 @@ public class ExtendedTokenizer implements WVTTokenizer, TokenEnumeration {
             input = source;
             readNextToken();
             
-            if(document.getSentenceArray().size()==0) {
-        		int wordIndex = 0;
-        		int sentenceIndex = 0;
-        		
-        		ArrayList<JPWord> words = new ArrayList<JPWord>();
-
-                while (hasMoreTokens()) {
-                	String value = nextToken();
-                	JPWord word = new JPWord();
-                	word.setValue(value);
-                	
-                	words.add(word);
-                	
-                	wordIndex++;
-                	
-                	if(document.getSentenceIndexArray().size()>sentenceIndex) {
-                    	if (wordIndex == document.getSentenceIndexArray().get(sentenceIndex).intValue()+1) {
-                    		JPSentence sentence = new JPSentence();
-                    		
-                    		JPWord[] wordsArray = new JPWord[words.size()];
-                    		words.toArray(wordsArray);
-                    		sentence.setWords(wordsArray);
-                    		
-                    		document.getSentenceArray().add(sentence);                    		
-                    		sentenceIndex++;
-                    		
-                    		words = new ArrayList<JPWord>();
-            			}
-                	}
-                	
-                	if(document.getWordHashMap().containsKey(word)) {
-                		Integer count = document.getWordHashMap().get(word);
-                		document.getWordHashMap().put(value, count+1);
-                	}else {
-                		document.getWordHashMap().put(value, 1);
-                	}
-                	
-                	document.setNumberOfWords(document.getNumberOfWords()+1);
-                }                
-            }
+//            if(document.getSentenceArray().size()==0) {
+//        		int wordIndex = 0;
+//        		int sentenceIndex = 0;
+//        		
+//        		ArrayList<JPWord> words = new ArrayList<JPWord>();
+//
+//                while (hasMoreTokens()) {
+//                	String value = nextToken();
+//                	JPWord word = new JPWord();
+//                	word.setValue(value);
+//                	
+//                	words.add(word);
+//                	
+//                	if(document.getSentenceIndexArray().size()>sentenceIndex) {
+//
+//                    	if (wordIndex == document.getSentenceIndexArray().get(sentenceIndex).intValue()+1) {
+//                    		JPSentence sentence = new JPSentence();
+//                    		
+//                    		JPWord[] wordsArray = new JPWord[words.size()];
+//                    		words.toArray(wordsArray);
+//                    		sentence.setWords(wordsArray);
+//                    		
+//                    		document.getSentenceArray().add(sentence);                    		
+//                    		sentenceIndex++;
+//                    		
+//                    		words = new ArrayList<JPWord>();
+//            			}
+//                	}
+//                	
+//                	if(document.getWordHashMap().containsKey(word)) {
+//                		Integer count = document.getWordHashMap().get(word);
+//                		document.getWordHashMap().put(value, count+1);
+//                	}else {
+//                		document.getWordHashMap().put(value, 1);
+//                	}
+//                	
+//                	document.setNumberOfWords(document.getNumberOfWords()+1);
+//                	wordIndex++;
+//
+//                }                
+//            }
                         
             return this;
 

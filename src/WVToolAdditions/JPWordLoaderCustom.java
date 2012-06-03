@@ -12,61 +12,47 @@ public class JPWordLoaderCustom implements JPWordLoader {
 	public TokenEnumeration load(TokenEnumeration tokens, JPWVTDocumentInfo d)
 			throws WVToolException {
 
-//		
-//		int wordIndex = 0;
-//		int sentenceIndex = 0;
-//		
-//		ArrayList<JPWord> words = new ArrayList<JPWord>();
-//		
-//        while (tokens.hasMoreTokens()) {
-//        	String value = tokens.nextToken();
-////        	System.out.println(value);
-//        	JPWord word = new JPWord();
-//        	word.setValue(value);
-//        	
-//        	words.add(word);
-//        	
-//        	wordIndex++;
-//        	
-//        	
-//        	if(d.getSentenceIndexArray().size()>sentenceIndex) {
-////            	System.out.println("Wordindex: "+wordIndex + " punktumIndex: " + d.getSentenceIndexArray().get(sentenceIndex).intValue());
-//            	if (wordIndex == d.getSentenceIndexArray().get(sentenceIndex).intValue()) {
-////            		System.out.println("Creating sentence");
-//            		JPSentence sentence = new JPSentence();
-//            		
-//            		JPWord[] wordsArray = new JPWord[words.size()];
-//            		words.toArray(wordsArray);
-//            		sentence.setWords(wordsArray);
-//            		
-//            		d.getSentenceArray().add(sentence);
-//            		
-//            		sentenceIndex++;
-//            		
-//            		words = new ArrayList<JPWord>();
-//    			}
-//        	}
-//
-//        	
-////        	d.getWordsArrayList().add(word);
-//        	
-//        	if(d.getWordHashMap().containsKey(word)) {
-//        		Integer count = d.getWordHashMap().get(word);
-//        		d.getWordHashMap().put(value, count+1);
-//        	}else {
-//        		d.getWordHashMap().put(value, 1);
-//        	}
-//        	
-//        	d.setNumberOfWords(d.getNumberOfWords()+1);
-//        }
-//        
-//        
-//        for (JPSentence sentence : d.getSentenceArray()) {
-//        	System.out.println("new sentence");
-//        	for (JPWord word : sentence.getWords()) {
-//        		System.out.println(word.getValue());
-//        	}
-//        }
+        if(d.getSentenceArray().size()==0) {
+    		int wordIndex = 0;
+    		int sentenceIndex = 0;
+    		
+    		ArrayList<JPWord> words = new ArrayList<JPWord>();
+
+            while (tokens.hasMoreTokens()) {
+            	String value = tokens.nextToken();
+            	JPWord word = new JPWord();
+            	word.setValue(value);
+            	
+            	words.add(word);
+            	
+            	if(d.getSentenceIndexArray().size()>sentenceIndex) {
+
+                	if (wordIndex == d.getSentenceIndexArray().get(sentenceIndex).intValue()+1) {
+                		JPSentence sentence = new JPSentence();
+                		
+                		JPWord[] wordsArray = new JPWord[words.size()];
+                		words.toArray(wordsArray);
+                		sentence.setWords(wordsArray);
+                		
+                		d.getSentenceArray().add(sentence);                    		
+                		sentenceIndex++;
+                		
+                		words = new ArrayList<JPWord>();
+        			}
+            	}
+            	
+            	if(d.getWordHashMap().containsKey(word)) {
+            		Integer count = d.getWordHashMap().get(word);
+            		d.getWordHashMap().put(value, count+1);
+            	}else {
+            		d.getWordHashMap().put(value, 1);
+            	}
+            	
+            	d.setNumberOfWords(d.getNumberOfWords()+1);
+            	wordIndex++;
+
+            }                
+        }
 
         
 		return tokens;

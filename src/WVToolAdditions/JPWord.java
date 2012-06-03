@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import edu.mit.jwi.item.POS;
 
+
 public class JPWord {
 	
 	public static final int SenseIndexUnkown = 0;

@@ -1,6 +1,8 @@
 package WVToolAdditions;
 
 import WVToolAdditions.JPProgress.JPProgressDelegate.JPProgressType;
+import WVToolExtension.JPWVTDocumentInfo;
+import WVToolExtension.JPWVTDocumentInfo.JPDocumentProgressType;
 
 public class JPProgress {
 	
@@ -9,18 +11,22 @@ public class JPProgress {
 		public enum JPProgressType {
 			JPProgressTypeWillLoadDocument,
 			JPProgressTypeDidLoadDocument,
+			JPProgressTypeDidStartLoadingDocument,
 			JPProgressTypeDidProgress,
 			JPProgressTypeWillStartAlgorithm,
 			JPProgressTypeDidFinishAlgorithm,
+			JPProgressTypeDidFinishAlgorithmForDocument,
+			JPProgressTypeWillStartAlgorithmForDocument,
 		}
 		
 		public void didStartProgress();
 		public void didStopProgress();
-		public void didUpdateProgress(JPProgressType progressType, float percentDone);
+		public void didUpdateProgress(JPProgressType progressType, float percentDone, JPWVTDocumentInfo document);
 	}
 	
 	private int numberOfDocuments;
 	private int numberOfLoadedDocuments;
+
 	private JPProgressDelegate callbackDelegate;
 	private float currentPercent;
 	
@@ -76,32 +82,47 @@ public class JPProgress {
 		callbackDelegate.didStartProgress();
 	}
 	
-	public synchronized void didLoadDocument() {
+	public synchronized void didLoadDocument(JPWVTDocumentInfo document) {
 		setNumberOfLoadedDocuments(getNumberOfLoadedDocuments()+1);
 		
 		float percent = (float) (20.0/numberOfDocuments);
 		setCurrentPercent(getCurrentPercent()+percent);
-		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidLoadDocument, currentPercent);
+		document.setProgressType(JPDocumentProgressType.JPDocumentProgressTypeLoaded);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidLoadDocument, currentPercent, document);
 	}
 	
-	public synchronized void willLoadDocument() {
+	public synchronized void didStartLoadingDocument(JPWVTDocumentInfo document) {
+		document.setProgressType(JPDocumentProgressType.JPDocumentProgressTypeLoading);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidStartLoadingDocument, currentPercent, document);
+	}
+	
+	public synchronized void willLoadDocument(JPWVTDocumentInfo document) {
+		document.setProgressType(JPDocumentProgressType.JPDocumentProgressTypeWaiting);
+
 		float percent = (float) (5.0/numberOfDocuments);
 		setCurrentPercent(getCurrentPercent()+percent);
-		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeWillLoadDocument, currentPercent);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeWillLoadDocument, currentPercent, document);
+	}
+	
+	public synchronized void willStartAlgorithmForDocument(JPWVTDocumentInfo document) {
+		document.setProgressType(JPDocumentProgressType.JPDocumentProgressTypeComputing);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeWillStartAlgorithmForDocument, currentPercent, document);
+	}
+	
+	public synchronized void didFinishAlgorithmForDocument(JPWVTDocumentInfo document) {
+//		System.out.println(document.getDocumentTitle() + " " + document.getScore());
+		document.setProgressType(JPDocumentProgressType.JPDocumentProgressTypeComputed);
+		float percent = (float) (75.0/numberOfDocuments);
+		setCurrentPercent(getCurrentPercent()+percent);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidFinishAlgorithmForDocument, currentPercent, document);
 	}
 	
 	public synchronized void willStartAlgorithm() {
-		setCurrentPercent(getCurrentPercent()+10);
-		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeWillStartAlgorithm, currentPercent);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeWillStartAlgorithm, currentPercent, null);
 	}
 	
 	public synchronized void didFinishAlgorithm() {
-		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidFinishAlgorithm, 100.0f);
+		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidFinishAlgorithm, 100, null);
 		callbackDelegate.didStopProgress();
-	}
-	
-	public synchronized void didUpdateProcess(int percent) {
-//		setCurrentPercent(getCurrentPercent()+percent);
-		callbackDelegate.didUpdateProgress(JPProgressType.JPProgressTypeDidProgress, 25+percent);
 	}
 }

@@ -13,8 +13,8 @@ import View.MainFrame.MainFrameDelegate;
 import WVToolAdditions.AbstractInclude;
 import WVToolAdditions.ExtendedTokenizer;
 import WVToolAdditions.JPLoadData;
-import WVToolAdditions.JPWordLoaderCustom;
 import WVToolAdditions.JPProgress.JPProgressDelegate;
+import WVToolAdditions.JPWordLoaderCustom;
 import WVToolExtension.JPWVTConfiguration;
 import WVToolExtension.JPWVTDocumentInfo;
 import WVToolExtension.JPWVTool;
@@ -56,6 +56,7 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
         
         //set stemmer
         AbstractStemmer stemmer = setup.getStemmer();
+        System.out.println(stemmer);
         config.setConfigurationRule(WVTConfiguration.STEP_STEMMER, new WVTConfigurationFact(stemmer));
 
         AbstractInclude include = setup.getInclude();
@@ -104,7 +105,7 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
 	}
 
 	@Override
-	public void didUpdateProgress(JPProgressType progressType, float percentDone) {		
+	public void didUpdateProgress(JPProgressType progressType, float percentDone, final JPWVTDocumentInfo document) {		
 		switch (progressType) {
 		case JPProgressTypeWillLoadDocument:
 //			Log.nLog("Starting to load document");
@@ -128,7 +129,8 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				mainFrame.setProgress(percentInt);		
+				mainFrame.setProgress(percentInt);
+				mainFrame.updateStatusForDocument(document);
 			}
 		});
 	}
@@ -158,8 +160,9 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
 		System.out.println("Running time: " + totalTime);
 	}
 
-	@Override
+//	@Override
 	public void stopButtonPressed() {
 		wvt.stopLoad();		
 	}
+
 }
