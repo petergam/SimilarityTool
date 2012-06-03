@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.swing.AbstractButton;
@@ -20,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -55,6 +57,7 @@ import WVToolExtension.JPWVTDocumentInfo;
 import WVToolExtension.JPWVTDocumentInfo.JPDocumentProgressType;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.ListSelectionModel;
 
 public class MainFrame extends JFrame {
 
@@ -75,7 +78,11 @@ public class MainFrame extends JFrame {
 	private JSlider hypernymsSlider;
 	private JSlider hyponymsSlider;
 	private JSlider synonymsSlider;
-
+	private JSlider hyperSliderValue;
+	private JSlider hypoSliderValue;
+	private JSlider synoSliderValue;
+	private JCheckBox chckbxNewCheckBox_1;
+	private JCheckBox chckbxNewCheckBox;
 	
 	private MainFrameDelegate delegate = null;
 
@@ -103,14 +110,89 @@ public class MainFrame extends JFrame {
 		getContentPane().setLayout(null);
 
 		JButton btnCompute = new JButton("Compute");
+<<<<<<< HEAD
 		btnCompute.setBounds(780, 568, 89, 29);
+=======
+		btnCompute.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MainFrame self = MainFrame.this;
+
+				if (self.delegate != null) {
+					ComputeSetup setup = new ComputeSetup();
+
+					int algorithmIndex = 0;
+					for (Enumeration<AbstractButton> e = algorithmButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							algorithmIndex++;
+						}
+					}
+
+					setup.setAlgorithmIndex(AlgorithmIndex
+							.getAlgorithmIndexFromInt(algorithmIndex));
+
+					int filterIndex = 0;
+					for (Enumeration<AbstractButton> e = filterButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							filterIndex++;
+						}
+					}
+
+					setup.setFilterType(WordFilterType
+							.getWordFilterTypeFromInt(filterIndex));
+
+					int stemmerIndex = 0;
+					for (Enumeration<AbstractButton> e = stemmerButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							stemmerIndex++;
+						}
+					}
+
+					setup.setStemmerType(StemmerType
+							.getStemmerTypeFromInt(stemmerIndex));
+
+					int includeIndex = 0;
+					for (Enumeration<AbstractButton> e = includeButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							includeIndex++;
+						}
+					}
+
+					setup.setIncludeType(IncludeType
+							.getIncludeTypeFromInt(includeIndex));
+
+					File[] files = fc.getSelectedFiles();
+					setup.setDocumentFiles(files);
+					
+					setup.setMainDocumentFile(sfc.getSelectedFile());
+					
+
+					self.delegate.computeButtonPressed(setup);
+				} else {
+					System.out.println("Delegate not set");
+				}
+			}
+		});
+		btnCompute.setBounds(825, 568, 89, 29);
+>>>>>>> cdf012ebaa36e13ffd8111ae83bf24ae2c02a5d1
 		getContentPane().add(btnCompute);
 
 		Box verticalBox = Box.createVerticalBox();
 		verticalBox.setBorder(new TitledBorder(null, "Stemming",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		verticalBox.setToolTipText("");
-		verticalBox.setBounds(606, 138, 263, 97);
+		verticalBox.setBounds(769, 6, 145, 120);
 		getContentPane().add(verticalBox);
 
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("None");
@@ -131,7 +213,7 @@ public class MainFrame extends JFrame {
 				EtchedBorder.LOWERED, null, null), "Filter",
 				TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
-		verticalBox_1.setBounds(606, 247, 263, 76);
+		verticalBox_1.setBounds(568, 416, 180, 76);
 		getContentPane().add(verticalBox_1);
 
 		JRadioButton rdbtnNone = new JRadioButton("None");
@@ -145,10 +227,27 @@ public class MainFrame extends JFrame {
 		verticalBox_1.add(rdbtnRemoveStopWords);
 
 		Box verticalBox_2 = Box.createVerticalBox();
-		verticalBox_2.setBorder(new TitledBorder(null, "Include",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_2.setBounds(606, 335, 263, 120);
+		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		verticalBox_2.setBounds(568, 138, 346, 266);
 		getContentPane().add(verticalBox_2);
+		
+		Box horizontalBox_7 = Box.createHorizontalBox();
+		verticalBox_2.add(horizontalBox_7);
+		
+		Component horizontalGlue_5 = Box.createHorizontalGlue();
+		horizontalBox_7.add(horizontalGlue_5);
+		
+		JLabel lblNewLabel = new JLabel("Layers");
+		horizontalBox_7.add(lblNewLabel);
+		
+		Component horizontalStrut_3 = Box.createHorizontalStrut(65);
+		horizontalBox_7.add(horizontalStrut_3);
+		
+		JLabel lblNewLabel_1 = new JLabel("Sim-value");
+		horizontalBox_7.add(lblNewLabel_1);
+		
+		Component horizontalStrut_4 = Box.createHorizontalStrut(30);
+		horizontalBox_7.add(horizontalStrut_4);
 
 		Box horizontalBox_2 = Box.createHorizontalBox();
 		horizontalBox_2.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -159,6 +258,8 @@ public class MainFrame extends JFrame {
 			public void stateChanged(ChangeEvent arg0) {
 				MainFrame self = MainFrame.this;
 				self.hypernymsSlider.setEnabled(chckbxHypernyms.isSelected());
+				self.hyperSliderValue.setEnabled(chckbxHypernyms.isSelected());
+
 			}
 		});
 		horizontalBox_2.add(chckbxHypernyms);
@@ -170,12 +271,31 @@ public class MainFrame extends JFrame {
 		horizontalBox_2.add(horizontalStrut_2);
 
 		hypernymsSlider = new JSlider();
+		hypernymsSlider.setMajorTickSpacing(1);
+		hypernymsSlider.setSnapToTicks(true);
+		hypernymsSlider.setPaintLabels(true);
+		hypernymsSlider.setPaintTicks(true);
 		hypernymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		hypernymsSlider.setEnabled(false);
 		hypernymsSlider.setMaximum(3);
 		hypernymsSlider.setValue(0);
 		
 		horizontalBox_2.add(hypernymsSlider);
+		
+		hyperSliderValue = new JSlider();
+		hyperSliderValue.setMinorTickSpacing(10);
+		hyperSliderValue.setEnabled(false);
+		hyperSliderValue.setValue(90);
+		hyperSliderValue.setPaintLabels(true);
+		hyperSliderValue.setPaintTicks(true);
+		hyperSliderValue.setSnapToTicks(true);
+		hyperSliderValue.setMajorTickSpacing(100);
+		horizontalBox_2.add(hyperSliderValue);
+		
+		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+		labelTable.put( new Integer( 0 ), new JLabel("0.0") );
+		labelTable.put( new Integer( 100 ), new JLabel("1.0") );
+		hyperSliderValue.setLabelTable( labelTable );
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		horizontalBox_3.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -186,6 +306,7 @@ public class MainFrame extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				MainFrame self = MainFrame.this;
 				self.hyponymsSlider.setEnabled(chckbxHyponyms.isSelected());
+				self.hypoSliderValue.setEnabled(chckbxHyponyms.isSelected());
 			}
 		});
 		horizontalBox_3.add(chckbxHyponyms);
@@ -194,11 +315,25 @@ public class MainFrame extends JFrame {
 		horizontalBox_3.add(horizontalStrut_1);
 
 		hyponymsSlider = new JSlider();
+		hyponymsSlider.setMajorTickSpacing(1);
+		hyponymsSlider.setPaintTicks(true);
+		hyponymsSlider.setSnapToTicks(true);
+		hyponymsSlider.setPaintLabels(true);
 		hyponymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		hyponymsSlider.setEnabled(false);
 		horizontalBox_3.add(hyponymsSlider);
 		hyponymsSlider.setValue(0);
 		hyponymsSlider.setMaximum(3);
+		
+		hypoSliderValue = new JSlider();
+		hypoSliderValue.setMinorTickSpacing(10);
+		hypoSliderValue.setValue(40);
+		hypoSliderValue.setSnapToTicks(true);
+		hypoSliderValue.setPaintTicks(true);
+		hypoSliderValue.setPaintLabels(true);
+		hypoSliderValue.setMajorTickSpacing(100);
+		hypoSliderValue.setEnabled(false);
+		horizontalBox_3.add(hypoSliderValue);
 
 		Box horizontalBox_4 = Box.createHorizontalBox();
 		horizontalBox_4.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -209,6 +344,8 @@ public class MainFrame extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				MainFrame self = MainFrame.this;
 				self.synonymsSlider.setEnabled(chckbxSynonyms.isSelected());
+				self.synoSliderValue.setEnabled(chckbxSynonyms.isSelected());
+
 			}
 		});
 		horizontalBox_4.add(chckbxSynonyms);
@@ -217,10 +354,49 @@ public class MainFrame extends JFrame {
 		horizontalBox_4.add(horizontalStrut);
 
 		synonymsSlider = new JSlider();
+		synonymsSlider.setMajorTickSpacing(1);
+		synonymsSlider.setSnapToTicks(true);
+		synonymsSlider.setPaintTicks(true);
+		synonymsSlider.setPaintLabels(true);
 		synonymsSlider.setMaximum(3);
 		synonymsSlider.setValue(0);
 		synonymsSlider.setEnabled(false);
 		horizontalBox_4.add(synonymsSlider);
+		
+		synoSliderValue = new JSlider();
+		synoSliderValue.setMinorTickSpacing(10);
+		synoSliderValue.setValue(90);
+		synoSliderValue.setSnapToTicks(true);
+		synoSliderValue.setPaintTicks(true);
+		synoSliderValue.setPaintLabels(true);
+		synoSliderValue.setMajorTickSpacing(100);
+		synoSliderValue.setEnabled(false);
+		horizontalBox_4.add(synoSliderValue);
+		
+		synoSliderValue.setLabelTable( labelTable );
+		hypoSliderValue.setLabelTable( labelTable );
+		
+		Box horizontalBox_6 = Box.createHorizontalBox();
+		horizontalBox_6.setBorder(new EmptyBorder(0, 0, 0, 0));
+		verticalBox_2.add(horizontalBox_6);
+		
+		chckbxNewCheckBox_1 = new JCheckBox("Hypernyms to hyponyms");
+		chckbxNewCheckBox_1.setEnabled(false);
+		horizontalBox_6.add(chckbxNewCheckBox_1);
+		
+		Component horizontalGlue_3 = Box.createHorizontalGlue();
+		horizontalBox_6.add(horizontalGlue_3);
+		
+		Box horizontalBox_5 = Box.createHorizontalBox();
+		horizontalBox_5.setBorder(new EmptyBorder(0, 0, 0, 0));
+		verticalBox_2.add(horizontalBox_5);
+		
+		chckbxNewCheckBox = new JCheckBox("Hyponyms to hyponyms");
+		chckbxNewCheckBox.setEnabled(false);
+		horizontalBox_5.add(chckbxNewCheckBox);
+		
+		Component horizontalGlue_4 = Box.createHorizontalGlue();
+		horizontalBox_5.add(horizontalGlue_4);
 
 		Box verticalBox_3 = Box.createVerticalBox();
 		verticalBox_3.setBorder(new TitledBorder(null, "Main document",
@@ -237,7 +413,7 @@ public class MainFrame extends JFrame {
 		Box verticalBox_4 = Box.createVerticalBox();
 		verticalBox_4.setBorder(new TitledBorder(null, "Documents to compare",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_4.setBounds(6, 103, 588, 276);
+		verticalBox_4.setBounds(6, 103, 550, 276);
 		getContentPane().add(verticalBox_4);
 
 		model = new SortTableModel();
@@ -249,9 +425,11 @@ public class MainFrame extends JFrame {
 
 
 		table = new JTable(model);
-		table.setGridColor(new Color(150, 150, 200));
 		table.setShowVerticalLines(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setShowHorizontalLines(false);
+		table.setGridColor(new Color(150, 150, 200));
+		table.setDefaultEditor(Object.class, null);
 
 		SelectionListener listener = new SelectionListener(table);
 		table.getSelectionModel().addListSelectionListener(listener);
@@ -271,6 +449,7 @@ public class MainFrame extends JFrame {
 
 		JScrollPane scrollPane_1 = new JScrollPane(table);
 		verticalBox_4.add(scrollPane_1);
+		
 
 		final List list = new List();
 
@@ -293,22 +472,8 @@ public class MainFrame extends JFrame {
 		Box verticalBox_5 = Box.createVerticalBox();
 		verticalBox_5.setBorder(new TitledBorder(null, "Log",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_5.setBounds(6, 380, 588, 239);
+		verticalBox_5.setBounds(6, 380, 550, 239);
 		getContentPane().add(verticalBox_5);
-
-		Box horizontalBox_1 = Box.createHorizontalBox();
-		verticalBox_5.add(horizontalBox_1);
-
-		JButton btnClearLog = new JButton("Clear log");
-		horizontalBox_1.add(btnClearLog);
-
-		Component horizontalGlue_1 = Box.createHorizontalGlue();
-		horizontalBox_1.add(horizontalGlue_1);
-		btnClearLog.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Log.clear();
-			}
-		});
 
 		btnRemoveFiles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -327,11 +492,25 @@ public class MainFrame extends JFrame {
 		panel = new JTextPane();
 		scrollPane.setViewportView(panel);
 		panel.setEditable(false);
+		
+				Box horizontalBox_1 = Box.createHorizontalBox();
+				verticalBox_5.add(horizontalBox_1);
+						
+								Component horizontalGlue_1 = Box.createHorizontalGlue();
+								horizontalBox_1.add(horizontalGlue_1);
+								
+										JButton btnClearLog = new JButton("Clear log");
+										horizontalBox_1.add(btnClearLog);
+								btnClearLog.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent arg0) {
+										Log.clear();
+									}
+								});
 
 		Box verticalBox_6 = Box.createVerticalBox();
 		verticalBox_6.setBorder(new TitledBorder(null, "Algorithm",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_6.setBounds(606, 6, 263, 120);
+		verticalBox_6.setBounds(568, 6, 196, 120);
 		getContentPane().add(verticalBox_6);
 
 		JRadioButton rdbtnFuzzy = new JRadioButton("Fuzzy Similarity");
@@ -356,7 +535,7 @@ public class MainFrame extends JFrame {
 		progressBar = new JProgressBar();
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
-		progressBar.setBounds(606, 599, 263, 20);
+		progressBar.setBounds(568, 599, 346, 20);
 		getContentPane().add(progressBar);
 
 		JButton btnNewButton_1 = new JButton("Stop");
@@ -365,12 +544,12 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton_1.setBounds(606, 568, 89, 29);
+		btnNewButton_1.setBounds(568, 568, 89, 29);
 		getContentPane().add(btnNewButton_1);
 
 		Box verticalBox_7 = Box.createVerticalBox();
 		verticalBox_7.setBorder(new TitledBorder(null, "Additional features", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_7.setBounds(606, 477, 263, 55);
+		verticalBox_7.setBounds(760, 416, 154, 76);
 		getContentPane().add(verticalBox_7);
 
 		JCheckBox chckbxNormalizeStopwords = new JCheckBox("Normalize result");
@@ -429,7 +608,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.setLocation(200, 100);
-		this.setSize(877, 669);
+		this.setSize(927, 672);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
