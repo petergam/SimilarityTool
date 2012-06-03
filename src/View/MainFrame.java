@@ -110,82 +110,8 @@ public class MainFrame extends JFrame {
 		getContentPane().setLayout(null);
 
 		JButton btnCompute = new JButton("Compute");
-<<<<<<< HEAD
-		btnCompute.setBounds(780, 568, 89, 29);
-=======
-		btnCompute.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MainFrame self = MainFrame.this;
 
-				if (self.delegate != null) {
-					ComputeSetup setup = new ComputeSetup();
-
-					int algorithmIndex = 0;
-					for (Enumeration<AbstractButton> e = algorithmButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							algorithmIndex++;
-						}
-					}
-
-					setup.setAlgorithmIndex(AlgorithmIndex
-							.getAlgorithmIndexFromInt(algorithmIndex));
-
-					int filterIndex = 0;
-					for (Enumeration<AbstractButton> e = filterButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							filterIndex++;
-						}
-					}
-
-					setup.setFilterType(WordFilterType
-							.getWordFilterTypeFromInt(filterIndex));
-
-					int stemmerIndex = 0;
-					for (Enumeration<AbstractButton> e = stemmerButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							stemmerIndex++;
-						}
-					}
-
-					setup.setStemmerType(StemmerType
-							.getStemmerTypeFromInt(stemmerIndex));
-
-					int includeIndex = 0;
-					for (Enumeration<AbstractButton> e = includeButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							includeIndex++;
-						}
-					}
-
-					setup.setIncludeType(IncludeType
-							.getIncludeTypeFromInt(includeIndex));
-
-					File[] files = fc.getSelectedFiles();
-					setup.setDocumentFiles(files);
-					
-					setup.setMainDocumentFile(sfc.getSelectedFile());
-					
-
-					self.delegate.computeButtonPressed(setup);
-				} else {
-					System.out.println("Delegate not set");
-				}
-			}
-		});
 		btnCompute.setBounds(825, 568, 89, 29);
->>>>>>> cdf012ebaa36e13ffd8111ae83bf24ae2c02a5d1
 		getContentPane().add(btnCompute);
 
 		Box verticalBox = Box.createVerticalBox();

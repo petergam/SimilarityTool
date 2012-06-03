@@ -110,7 +110,6 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 							
 					        SenseRelateManager.SharedInstance.findSense(document);
 
-
 							loader.close(document);
 							
 					        SwingUtilities.invokeLater(new Runnable() {
