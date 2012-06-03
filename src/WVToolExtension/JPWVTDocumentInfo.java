@@ -94,19 +94,24 @@ public class JPWVTDocumentInfo extends WVTDocumentInfo {
 		for (JPSentence sentence : sentenceArray) {
 			for (JPWord word : sentence.getWords()) {				
 				words.add(word);
-//				System.out.println(word);
-//				ArrayList<JPWord> synonyms = word.getAllSynonyms();
-//				if (synonyms!=null) {
-//					words.addAll(synonyms);
-//				}
-//				
-//				ArrayList<JPWord> hypernyms = word.getAllHypernyms();
-//				if (hypernyms!=null) {
-//					words.addAll(hypernyms);
-//				}	
+
+				ArrayList<JPWord> synonyms = word.getAllSynonyms();
+				if (synonyms!=null) {
+					words.addAll(synonyms);
+				}
+				
+				ArrayList<JPWord> hypernyms = word.getAllHypernyms();
+				if (hypernyms!=null) {
+					words.addAll(hypernyms);
+				}	
+				
+				ArrayList<JPWord> hyponyms = word.getAllHyponyms();
+				if (hyponyms!=null) {
+					words.addAll(hyponyms);
+				}	
 			}
 		}
-				
+						
 		return words;
 	}
 

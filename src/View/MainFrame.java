@@ -48,6 +48,9 @@ import Model.ComputeSetup.IncludeType;
 import Model.ComputeSetup.StemmerType;
 import Model.ComputeSetup.WordFilterType;
 import Utilities.Log;
+import WVToolAdditions.IncludeHypernyms;
+import WVToolAdditions.IncludeHyponyms;
+import WVToolAdditions.IncludeSynonyms;
 import WVToolExtension.JPWVTDocumentInfo;
 import WVToolExtension.JPWVTDocumentInfo.JPDocumentProgressType;
 import javax.swing.event.ChangeListener;
@@ -100,77 +103,6 @@ public class MainFrame extends JFrame {
 		getContentPane().setLayout(null);
 
 		JButton btnCompute = new JButton("Compute");
-		btnCompute.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MainFrame self = MainFrame.this;
-
-				if (self.delegate != null) {
-					ComputeSetup setup = new ComputeSetup();
-
-					int algorithmIndex = 0;
-					for (Enumeration<AbstractButton> e = algorithmButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							algorithmIndex++;
-						}
-					}
-
-					setup.setAlgorithmIndex(AlgorithmIndex
-							.getAlgorithmIndexFromInt(algorithmIndex));
-
-					int filterIndex = 0;
-					for (Enumeration<AbstractButton> e = filterButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							filterIndex++;
-						}
-					}
-
-					setup.setFilterType(WordFilterType
-							.getWordFilterTypeFromInt(filterIndex));
-
-					int stemmerIndex = 0;
-					for (Enumeration<AbstractButton> e = stemmerButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							stemmerIndex++;
-						}
-					}
-
-					setup.setStemmerType(StemmerType
-							.getStemmerTypeFromInt(stemmerIndex));
-
-					int includeIndex = 0;
-					for (Enumeration<AbstractButton> e = includeButtonGroup
-							.getElements(); e.hasMoreElements();) {
-						if (e.nextElement().isSelected()) {
-							break;
-						} else {
-							includeIndex++;
-						}
-					}
-
-					setup.setIncludeType(IncludeType
-							.getIncludeTypeFromInt(includeIndex));
-
-					File[] files = fc.getSelectedFiles();
-					setup.setDocumentFiles(files);
-					
-					setup.setMainDocumentFile(sfc.getSelectedFile());
-					
-
-					self.delegate.computeButtonPressed(setup);
-				} else {
-					System.out.println("Delegate not set");
-				}
-			}
-		});
 		btnCompute.setBounds(780, 568, 89, 29);
 		getContentPane().add(btnCompute);
 
@@ -508,6 +440,85 @@ public class MainFrame extends JFrame {
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnNewMenu.add(mntmQuit);
 
+		btnCompute.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MainFrame self = MainFrame.this;
+
+				if (self.delegate != null) {
+					ComputeSetup setup = new ComputeSetup();
+
+					int algorithmIndex = 0;
+					for (Enumeration<AbstractButton> e = algorithmButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							algorithmIndex++;
+						}
+					}
+
+					setup.setAlgorithmIndex(AlgorithmIndex
+							.getAlgorithmIndexFromInt(algorithmIndex));
+
+					
+					if (chckbxHypernyms.isSelected()) {
+						IncludeHypernyms include = new IncludeHypernyms();
+						include.setLayers(self.hypernymsSlider.getValue());
+						setup.getIncludeTypes().add(include);
+					}
+					
+					if (chckbxHyponyms.isSelected()) {
+						IncludeHyponyms include = new IncludeHyponyms();
+						include.setLayers(self.hypernymsSlider.getValue());
+						setup.getIncludeTypes().add(include);
+					}
+					
+					if (chckbxSynonyms.isSelected()) {
+						IncludeSynonyms include = new IncludeSynonyms();
+						include.setLayers(self.hypernymsSlider.getValue());
+						setup.getIncludeTypes().add(include);
+					}
+					
+					int filterIndex = 0;
+					for (Enumeration<AbstractButton> e = filterButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							filterIndex++;
+						}
+					}
+
+					setup.setFilterType(WordFilterType
+							.getWordFilterTypeFromInt(filterIndex));
+
+					int stemmerIndex = 0;
+					for (Enumeration<AbstractButton> e = stemmerButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							stemmerIndex++;
+						}
+					}
+
+					setup.setStemmerType(StemmerType
+							.getStemmerTypeFromInt(stemmerIndex));
+
+
+					File[] files = fc.getSelectedFiles();
+					setup.setDocumentFiles(files);
+					
+					setup.setMainDocumentFile(sfc.getSelectedFile());
+					
+
+					self.delegate.computeButtonPressed(setup);
+				} else {
+					System.out.println("Delegate not set");
+				}
+			}
+		});
+		
 		this.setVisible(true);
 	}
 

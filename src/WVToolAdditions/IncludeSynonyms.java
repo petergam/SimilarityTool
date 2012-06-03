@@ -10,11 +10,12 @@ public class IncludeSynonyms extends AbstractInclude {
 	public TokenEnumeration include(TokenEnumeration source, JPWVTDocumentInfo d)
 			throws WVToolException {
 
+		int layers = getLayers();
 		WordNetManager wnManager = WordNetManager.SharedInstance;
 
 		for (JPSentence sentence : d.getSentenceArray()) {
 			for (JPWord word : sentence.getWords()) {				
-				wnManager.findSynonyms(word, 0);
+				wnManager.findSynonyms(word, layers);
 			}	
 		}
 		

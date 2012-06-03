@@ -1,5 +1,6 @@
 package WVToolExtension;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,6 +12,8 @@ import javax.swing.SwingWorker;
 import Algorithms.Algorithm;
 import Algorithms.Algorithm.JPAlgorithmProgressDelegate;
 import Model.DocumentRunnable;
+import Model.SenseRelateManager;
+import WVToolAdditions.AbstractInclude;
 import WVToolAdditions.ExtendedTokenizer;
 import WVToolAdditions.JPInclude;
 import WVToolAdditions.JPLoadData;
@@ -25,6 +28,7 @@ import edu.udo.cs.wvtool.generic.stemmer.WVTStemmer;
 import edu.udo.cs.wvtool.generic.tokenizer.WVTTokenizer;
 import edu.udo.cs.wvtool.generic.wordfilter.WVTWordFilter;
 import edu.udo.cs.wvtool.main.WVTool;
+import edu.udo.cs.wvtool.util.TokenEnumeration;
 import edu.udo.cs.wvtool.util.WVToolException;
 
 public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
@@ -79,7 +83,7 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 				        WVTTokenizer tokenizer = null;
 				        WVTWordFilter wordFilter = null;
 				        WVTStemmer stemmer = null;
-						JPInclude include = null;
+						ArrayList<AbstractInclude> includes = null;
 				        JPWordLoader wordLoader = null;
 						
 			            try {
@@ -89,16 +93,23 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 //			                tokenizer = (WVTTokenizer) config.getComponentForStep(WVTConfiguration.STEP_TOKENIZER, document);
 			                wordFilter = (WVTWordFilter) config.getComponentForStep(WVTConfiguration.STEP_WORDFILTER, document);
 			                stemmer = (WVTStemmer) config.getComponentForStep(WVTConfiguration.STEP_STEMMER, document);
-			            	include = (JPInclude) config.getComponentForStep(JPWVTConfiguration.STEP_INCLUDE, document);
+			            	includes = (ArrayList<AbstractInclude>) config.getComponentForStep(JPWVTConfiguration.STEP_INCLUDE, document);
 			                wordLoader = (JPWordLoader) config.getComponentForStep(JPWVTConfiguration.STEP_WORDLOADER, document);
 			                tokenizer = new ExtendedTokenizer();
 			                
-							include.include(wordLoader.load(stemmer.stem(wordFilter.filter(
+			                TokenEnumeration source = wordLoader.load(stemmer.stem(wordFilter.filter(
 									tokenizer.tokenize(
 											charConverter.convertChars(
 													infilter.convertToPlainText(
 															loader.loadDocument(document), document), document),
-															document), document), document), document), document);
+															document), document), document), document);
+							
+							for (AbstractInclude include : includes) {
+								source = include.include(source, document);
+							}
+							
+					        SenseRelateManager.SharedInstance.findSense(document);
+
 
 							loader.close(document);
 							
@@ -108,20 +119,12 @@ public class JPWVTool extends WVTool implements JPAlgorithmProgressDelegate {
 									progress.didLoadDocument(document);
 								}
 					        });
+					        
 							
 						} catch (WVToolException e) {
 
 
 					}
-		            
-
-//			            
-//				        SwingUtilities.invokeLater(new Runnable() {
-//							@Override
-//							public void run() {
-//								progress.didLoadDocument();
-//							}
-//						});
 					}
 				};
 					runnable.document = d;
