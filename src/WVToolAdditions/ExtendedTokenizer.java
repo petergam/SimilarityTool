@@ -1,10 +1,8 @@
 package WVToolAdditions;
 
 import java.io.Reader;
-import java.util.ArrayList;
 
 import WVToolExtension.JPWVTDocumentInfo;
-
 import edu.udo.cs.wvtool.generic.tokenizer.WVTTokenizer;
 import edu.udo.cs.wvtool.main.WVTDocumentInfo;
 import edu.udo.cs.wvtool.util.TokenEnumeration;

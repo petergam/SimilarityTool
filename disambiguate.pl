@@ -77,13 +77,13 @@ if($jsonResponse) {
 			$senseIndex = 0;
 		}
 		
-		$object = $oldText[$index] .  "\", \"new\":\"" . $values[0] . "\", \"tag\":\"" . $values[1] . "\", \"senseIndex\":" . $senseIndex;
+		$object = $oldText[$index] .  "\", \"newWord\":\"" . $values[0] . "\", \"tag\":\"" . $values[1] . "\", \"senseIndex\":" . $senseIndex;
 
 		$words = $words . "\{\"word\":\"" . $object . "\},";
 		$index = $index + 1;
  	}
 	chop($words);
-	my @response = "{\"success\": 1, \"message\": [" . $words . "] }";
+	my @response = "{\"success\": 1, \"relations\": [" . $words . "] }";
 	print @response;
 } else {
 	print "@results";

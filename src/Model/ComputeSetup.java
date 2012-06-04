@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import Algorithms.Algorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
@@ -10,6 +11,7 @@ import WVToolAdditions.AbstractInclude;
 import WVToolAdditions.IncludeDummy;
 import WVToolAdditions.IncludeHypernyms;
 import WVToolAdditions.IncludeSynonyms;
+import WVToolAdditions.JPInclude;
 import edu.udo.cs.wvtool.generic.stemmer.AbstractStemmer;
 import edu.udo.cs.wvtool.generic.stemmer.DummyStemmer;
 import edu.udo.cs.wvtool.generic.stemmer.LovinsStemmerWrapper;
@@ -98,16 +100,10 @@ public class ComputeSetup {
 	private AlgorithmIndex algorithmIndex;
 	private StemmerType stemmerType;
 	private WordFilterType filterType;
-	private IncludeType includeType;
+	private ArrayList<JPInclude> includeTypes = new ArrayList<JPInclude>();
 	private File mainDocumentFile;
 	private File[] documentFiles;
 
-	public IncludeType getIncludeType() {
-		return includeType;
-	}
-	public void setIncludeType(IncludeType includeType) {
-		this.includeType = includeType;
-	}
 	
 	public WordFilterType getFilterType() {
 		return filterType;
@@ -183,17 +179,24 @@ public class ComputeSetup {
 		}
 	}
 	
-	public AbstractInclude getInclude() {
-		switch (includeType) {
-		case IncludeTypeDummy:
-			return new IncludeDummy();
-		case IncludeTypeHypernyms:
-			return new IncludeHypernyms();
-		case IncludeTypeSynonyms:
-			return new IncludeSynonyms();
-		default:
-            throw new RuntimeException("Unknown include: " + includeType);
-		}
+//	public AbstractInclude getInclude() {
+//		switch (includeType) {
+//		case IncludeTypeDummy:
+//			return new IncludeDummy();
+//		case IncludeTypeHypernyms:
+//			return new IncludeHypernyms();
+//		case IncludeTypeSynonyms:
+//			return new IncludeSynonyms();
+//		default:
+//            throw new RuntimeException("Unknown include: " + includeType);
+//		}
+//	}
+	
+	public ArrayList<JPInclude> getIncludeTypes() {
+		return includeTypes;
+	}
+	public void setIncludeTypes(ArrayList<JPInclude> includeTypes) {
+		this.includeTypes = includeTypes;
 	}
 
 	

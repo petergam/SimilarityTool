@@ -59,11 +59,12 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
         System.out.println(stemmer);
         config.setConfigurationRule(WVTConfiguration.STEP_STEMMER, new WVTConfigurationFact(stemmer));
 
-        AbstractInclude include = setup.getInclude();
-        config.setConfigurationRule(JPWVTConfiguration.STEP_INCLUDE, new WVTConfigurationFact(include));
+        config.setConfigurationRule(JPWVTConfiguration.STEP_INCLUDE, new WVTConfigurationFact(setup.getIncludeTypes()));
 
         ExtendedTokenizer tokenizer = new ExtendedTokenizer();
         config.setConfigurationRule(WVTConfiguration.STEP_TOKENIZER, new WVTConfigurationFact(tokenizer));
+        
+        
         
         //for now only English is supported
 		String language = "english";

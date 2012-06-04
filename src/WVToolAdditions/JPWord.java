@@ -49,6 +49,12 @@ public class JPWord {
 	public void setHypernyms(JPWord[] hypernyms) {
 		this.hypernyms = hypernyms;
 	}
+	public JPWord[] getHyponyms() {
+		return hyponyms;
+	}
+	public void setHyponyms(JPWord[] hyponyms) {
+		this.hyponyms = hyponyms;
+	}
 	public JPWordType getWordType() {
 		return wordType;
 	}
@@ -79,7 +85,24 @@ public class JPWord {
 					words.addAll(s);
 				}
 			}
+
+			return words;
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<JPWord> getAllHyponyms() {
+		if (hyponyms != null) {
+			ArrayList<JPWord> words = new ArrayList<JPWord>(Arrays.asList(hyponyms));
 			
+			for (JPWord word : hyponyms) {
+				ArrayList<JPWord> s = word.getAllHyponyms();
+				if (s!=null) {
+					words.addAll(s);
+				}
+			}
+
 			return words;
 		}
 		
@@ -96,7 +119,6 @@ public class JPWord {
 					words.addAll(s);
 				}
 			}
-			
 			return words;
 		}
 		
@@ -125,14 +147,5 @@ public class JPWord {
 		default:
             throw new RuntimeException("Unknown POS for word type: " + wordType);
 		}
-	}
-
-	public JPWord[] getHyponyms() {
-		return hyponyms;
-	}
-
-	public void setHyponyms(JPWord[] hyponyms) {
-		this.hyponyms = hyponyms;
-	}
-	
+	}	
 }
