@@ -3,7 +3,7 @@ package Model;
 import java.io.File;
 import java.util.ArrayList;
 
-import Algorithms.Algorithm;
+import Algorithms.JPAbstractAlgorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
 import Algorithms.LevenshteinDistanceAlgorithm;
 import Algorithms.TFIDFAlgorithm;
@@ -156,7 +156,7 @@ public class JPConfiguration {
 		this.documentFiles = documentFiles;
 	}
 	
-	public Algorithm getAlgorithm() {
+	public JPAbstractAlgorithm getAlgorithm() {
 		switch (this.algorithmIndex) {
 		case AlgorithmIndexFuzzySimilarity:
 			return new FuzzySimilarityAlgorithm();

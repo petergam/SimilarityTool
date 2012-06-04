@@ -7,7 +7,7 @@ import Objects.JPDocument;
 import Objects.JPWord;
 import Utilities.UtilMethods;
 
-public class LevenshteinDistanceAlgorithm extends Algorithm {
+public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 
 	@Override
 	//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

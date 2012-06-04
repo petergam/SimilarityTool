@@ -9,7 +9,7 @@ import Model.SettingsManager;
 
 public class JPSimilarityTool {
 
-    private static String CONFIG_PATH = "Library/";
+    private static String CONFIG_PATH = "";
     private static String FILE_CONFIG_NAME = "file_properties.xml";
     private static String SETTINGS_NAME = "settings.xml";
 
@@ -23,7 +23,6 @@ public class JPSimilarityTool {
 
 			// start the main controller
 			new MainController();
-			
 		}
 		
 	}

@@ -82,7 +82,7 @@ public class JPWord implements Serializable {
 	
 	public ArrayList<JPWord> getAllHypernyms() {
 		if (hypernyms != null) {
-			ArrayList<JPWord> words = hypernyms;
+			ArrayList<JPWord> words = (ArrayList<JPWord>) hypernyms.clone();
 			
 			for (JPWord word : hypernyms) {
 				ArrayList<JPWord> s = word.getAllHypernyms();
@@ -99,7 +99,7 @@ public class JPWord implements Serializable {
 	
 	public ArrayList<JPWord> getAllHyponyms() {
 		if (hyponyms != null) {
-			ArrayList<JPWord> words = hyponyms;
+			ArrayList<JPWord> words = (ArrayList<JPWord>) hyponyms.clone();
 			
 			for (JPWord word : hyponyms) {
 				ArrayList<JPWord> s = word.getAllHyponyms();
@@ -116,7 +116,7 @@ public class JPWord implements Serializable {
 	
 	public ArrayList<JPWord> getAllSynonyms() {
 		if (synonyms != null) {
-			ArrayList<JPWord> words = synonyms;
+			ArrayList<JPWord> words = (ArrayList<JPWord>) synonyms.clone();
 			
 			for (JPWord word : synonyms) {
 				ArrayList<JPWord> s = word.getAllSynonyms();

@@ -20,6 +20,9 @@ import com.google.gson.Gson;
 
 public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 
+	
+	private static final int ThreadPoolSize = 4;
+
 	@Override
     public JPDocument senseRelate(JPDocument document) {
 
@@ -27,7 +30,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 			return document;
 		}
 		
-		ExecutorService engine = Executors.newFixedThreadPool(4);
+		ExecutorService engine = Executors.newFixedThreadPool(ThreadPoolSize);
 		
 		for (final JPSentence sentence : document.getSentenceArray()) {
 			Runnable runnable = new Runnable() {

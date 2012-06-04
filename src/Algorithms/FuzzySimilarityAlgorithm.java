@@ -6,7 +6,7 @@ import Model.JPDocumentCallable;
 import Objects.JPDocument;
 import Objects.JPWord;
 
-public class FuzzySimilarityAlgorithm extends Algorithm {
+public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	
 	//Compute the relationship degree between two words. This is number in the interval [0-1].
 	private static double membershipFunction(String w1, String w2){		
@@ -36,6 +36,7 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 			@Override
 			public void run() {
 				final ArrayList<JPWord> mainDocWords = mainDocument.getAllWords();
+
 				final int mainDocumentWordCount = mainDocWords.size();
 
 				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {

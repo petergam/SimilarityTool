@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import Algorithms.Algorithm;
+import Algorithms.JPAbstractAlgorithm;
 import Include.JPInclude;
 import Loader.JPDocumentLoader;
 import Model.JPConfiguration.IncludeType;
@@ -29,12 +29,14 @@ public class JPWordTool {
 
 	private ExecutorService engine;
 	private SwingWorker<JPDocument, JPDocument> worker;
-	private Algorithm algorithm;
+	private JPAbstractAlgorithm algorithm;
 	private JPProgress progress;
+	
+	private static final int ThreadPoolSize = 2;
 	
 	public void run(final JPConfiguration config, final JPProgressDelegate callbackDelegate, final Runnable callbackRunnable) {
 				
-		engine = Executors.newFixedThreadPool(1);
+		engine = Executors.newFixedThreadPool(ThreadPoolSize);
 		
 		final File mainDocumentFile = config.getMainDocumentFile();
 		final JPDocument[] documents = new JPDocument[config.getDocumentFiles().length];
@@ -175,7 +177,6 @@ public class JPWordTool {
 							progress.willStartAlgorithm();
 						}
 					});
-					
 					algorithm.setAlgorithmProgressDelegate(progress);
 					algorithm.compute(mainDocument, documents, new Runnable() {
 						@Override

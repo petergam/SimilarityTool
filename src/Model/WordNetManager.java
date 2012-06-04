@@ -110,7 +110,6 @@ public enum WordNetManager {
 			IIndexWord idxWord = getDict().getIndexWord(value, pos);
 			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null && word.getWordType()!=JPWordType.JPWordTypeUnknown) {
 
-				System.out.println("syno " + value);
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				synonyms = getSynonyms(wordID,layers);
 			} else if(idxWord!=null){
@@ -128,15 +127,18 @@ public enum WordNetManager {
 		ISynset synset = iword.getSynset();
 		ArrayList<JPWord> synonyms = new ArrayList<JPWord>();
 		
-		for(IWord w : synset.getWords()) {
-			JPWord newWord = new JPWord();
-			newWord.setValue(w.getLemma());
-			synonyms.add(newWord);
-			
-			if (layers>1) {
-				newWord.setSynonyms(getSynonyms(w.getID(), layers-1));
+		if (synset != null) {
+			for(IWord w : synset.getWords()) {
+				JPWord newWord = new JPWord();
+				newWord.setValue(w.getLemma());
+				synonyms.add(newWord);
+				
+				if (layers>0) {
+					newWord.setSynonyms(getSynonyms(w.getID(), layers-1));
+				}
 			}
 		}
+	
 		
 		return synonyms;
 	}
@@ -164,7 +166,6 @@ public enum WordNetManager {
 			
 			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null && word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
 				
-				System.out.println("hyper " + value);
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				hypernyms = getHypernyms(wordID, layers);
 			} else if(idxWord!=null){

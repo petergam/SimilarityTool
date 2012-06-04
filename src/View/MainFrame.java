@@ -719,13 +719,13 @@ public class MainFrame extends JFrame {
 					
 					if (chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled()) {
 						JPIncludeHyponyms include = new JPIncludeHyponyms();
-						include.setLayers(self.hypernymsSlider.getValue());
+						include.setLayers(self.hyponymsSlider.getValue());
 						setup.getIncludeTypes().add(include);
 					}
 					
 					if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 						JPIncludeSynonyms include = new JPIncludeSynonyms();
-						include.setLayers(self.hypernymsSlider.getValue());
+						include.setLayers(self.synonymsSlider.getValue());
 						setup.getIncludeTypes().add(include);
 					}
 					

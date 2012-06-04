@@ -10,15 +10,18 @@ import javax.swing.SwingWorker;
 import Objects.JPDocument;
 import Objects.JPProgress;
 
-public abstract class Algorithm {
+public abstract class JPAbstractAlgorithm {
 
+	private static final int ThreadPoolSize = 6;
+
+	
 	public interface JPAlgorithmProgressDelegate {
 		public void didUpdateProgress(float progress);
 	}
 	
 	protected JPProgress progressDelegate;
 	protected float percent = 0.0f;
-	protected ExecutorService engine = Executors.newFixedThreadPool(6);
+	protected ExecutorService engine = Executors.newFixedThreadPool(ThreadPoolSize);
 	private boolean shutdown = false;
 	
 	public abstract void compute(JPDocument mainDocument, JPDocument[] documents, boolean normalizeResult, Runnable callbackDelegate);

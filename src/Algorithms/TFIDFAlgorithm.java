@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import Objects.JPDocument;
 
-public class TFIDFAlgorithm extends Algorithm {
+public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 
 	
 	public void compute(final JPDocument mainDocument, final JPDocument[] documents,
