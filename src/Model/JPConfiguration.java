@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Algorithms.Algorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
 import Algorithms.LevenshteinDistanceAlgorithm;
+import Algorithms.TFIDFAlgorithm;
 import Include.JPInclude;
 import Loader.JPDocumentLoader;
 import Loader.JPDocumentLoaderPlainText;
@@ -26,7 +27,7 @@ import Trimmer.JPTrimmerStopWords;
 public class JPConfiguration {
 
 	public enum AlgorithmIndex {
-		AlgorithmIndexFuzzySimilarity, AlgorithmIndexLevenshteinDistance;
+		AlgorithmIndexFuzzySimilarity, AlgorithmIndexLevenshteinDistance, AlgorithmIndexTFIDF;
 
 		public static AlgorithmIndex getAlgorithmIndexFromInt(int index) {
 			switch (index) {
@@ -34,6 +35,8 @@ public class JPConfiguration {
 				return AlgorithmIndexFuzzySimilarity;
 			case 1:
 				return AlgorithmIndexLevenshteinDistance;
+			case 2:
+				return AlgorithmIndexTFIDF;
 			default:
 				throw new RuntimeException("Unknown algorithm index: " + index);
 			}
@@ -159,6 +162,8 @@ public class JPConfiguration {
 			return new FuzzySimilarityAlgorithm();
 		case AlgorithmIndexLevenshteinDistance:
 			return new LevenshteinDistanceAlgorithm();
+		case AlgorithmIndexTFIDF:
+			return new TFIDFAlgorithm();
 		default:
             throw new RuntimeException("Unknown algorithm index: " + this.algorithmIndex);
 		}

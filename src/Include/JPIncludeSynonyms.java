@@ -12,6 +12,7 @@ public class JPIncludeSynonyms extends JPAbstractInclude {
 	@Override
 	public JPDocument include(JPDocument document, IncludeType includeType) {
 		int layers = getLayers();
+		System.out.println(layers);
 		WordNetManager wnManager = WordNetManager.SharedInstance;
 		for (JPSentence sentence : document.getSentenceArray()) {
 			for (JPWord word : sentence.getWords()) {
