@@ -45,7 +45,6 @@ public class FuzzySimilarityAlgorithm extends Algorithm {
 							progressDelegate.willStartAlgorithmForDocument(document);
 							
 							ArrayList<JPWord> currentDocWords = document.getAllWords();
-//							System.out.println(document.getSentenceArray().size());
 							int currentDocumentWordCount = currentDocWords.size();
 							
 							double sim = 0;

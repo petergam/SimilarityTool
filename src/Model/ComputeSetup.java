@@ -5,6 +5,7 @@ import java.io.File;
 import Algorithms.Algorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
 import Algorithms.LevenshteinDistanceAlgorithm;
+import Algorithms.TFIDFAlgorithm;
 import WVToolAdditions.AbstractInclude;
 import WVToolAdditions.IncludeDummy;
 import WVToolAdditions.IncludeHypernyms;
@@ -23,7 +24,7 @@ import edu.udo.cs.wvtool.generic.wordfilter.StopWordsWrapper;
 public class ComputeSetup {
 
 	public enum AlgorithmIndex {
-		AlgorithmIndexFuzzySimilarity, AlgorithmIndexLevenshteinDistance;
+		AlgorithmIndexFuzzySimilarity, AlgorithmIndexLevenshteinDistance, AlgorithmIndexTFIDF;
 
 		public static AlgorithmIndex getAlgorithmIndexFromInt(int index) {
 			switch (index) {
@@ -31,6 +32,8 @@ public class ComputeSetup {
 				return AlgorithmIndexFuzzySimilarity;
 			case 1:
 				return AlgorithmIndexLevenshteinDistance;
+			case 2:
+				return AlgorithmIndexTFIDF;
 			default:
 				throw new RuntimeException("Unknown algorithm index: " + index);
 			}
@@ -143,6 +146,8 @@ public class ComputeSetup {
 			return new FuzzySimilarityAlgorithm();
 		case AlgorithmIndexLevenshteinDistance:
 			return new LevenshteinDistanceAlgorithm();
+		case AlgorithmIndexTFIDF:
+			return new TFIDFAlgorithm();
 		default:
             throw new RuntimeException("Unknown algorithm index: " + this.algorithmIndex);
 		}
