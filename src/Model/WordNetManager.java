@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import WVToolAdditions.JPWord;
+import Objects.JPWord;
+import Objects.JPWord.JPWordType;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -89,8 +88,8 @@ public enum WordNetManager {
 		return words;
 	}
 	
-	public synchronized void findSynonyms(JPWord word, int layers) {				
-		JPWord[] synonyms = new JPWord[0];
+	public synchronized void findSynonyms(JPWord word, int layers) {						
+		ArrayList<JPWord> synonyms = new ArrayList<JPWord>();
 		
 		POS[] p;
 		if (word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
@@ -100,14 +99,23 @@ public enum WordNetManager {
 			p = new POS[]{POS.NOUN,POS.ADJECTIVE,POS.ADVERB,POS.VERB};
 		}
 		
+		String value = "";
+		if (word.getSenseValue() != null) {
+			value = word.getSenseValue();
+		} else {
+			value = word.getValue();
+		}
+		
 		for (POS pos : p) {
-			IIndexWord idxWord = getDict().getIndexWord(word.getValue(), pos);
-			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null) {
+			IIndexWord idxWord = getDict().getIndexWord(value, pos);
+			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null && word.getWordType()!=JPWordType.JPWordTypeUnknown) {
+
+				System.out.println("syno " + value);
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				synonyms = getSynonyms(wordID,layers);
 			} else if(idxWord!=null){
 				for (IWordID wordID : idxWord.getWordIDs()) {
-					synonyms = (JPWord[]) ArrayUtils.addAll(synonyms, getSynonyms(wordID,layers));
+					synonyms.addAll(getSynonyms(wordID, layers));					
 				}
 			}
 		}
@@ -115,18 +123,15 @@ public enum WordNetManager {
 		word.setSynonyms(synonyms);		
 	}
 	
-	private JPWord[] getSynonyms(IWordID wordID, int layers) {
+	private ArrayList<JPWord> getSynonyms(IWordID wordID, int layers) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
-
-		JPWord[] synonyms = new JPWord[synset.getWords().size()];
+		ArrayList<JPWord> synonyms = new ArrayList<JPWord>();
 		
-		int index = 0;
 		for(IWord w : synset.getWords()) {
 			JPWord newWord = new JPWord();
 			newWord.setValue(w.getLemma());
-			synonyms[index] = newWord;
-			index++;
+			synonyms.add(newWord);
 			
 			if (layers>1) {
 				newWord.setSynonyms(getSynonyms(w.getID(), layers-1));
@@ -137,7 +142,7 @@ public enum WordNetManager {
 	}
 	
 	public synchronized void findHypernyms(JPWord word, int layers) {				
-		JPWord[] hypernyms = new JPWord[0];
+		ArrayList<JPWord> hypernyms = new ArrayList<JPWord>();
 		
 		POS[] p;
 		if (word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
@@ -147,15 +152,24 @@ public enum WordNetManager {
 			p = new POS[]{POS.NOUN,POS.ADJECTIVE,POS.ADVERB,POS.VERB};
 		}
 		
+		String value = "";
+		if (word.getSenseValue() != null) {
+			value = word.getSenseValue();
+		} else {
+			value = word.getValue();
+		}
+		
 		for (POS pos : p) {
-			IIndexWord idxWord = getDict().getIndexWord(word.getValue(), pos);
+			IIndexWord idxWord = getDict().getIndexWord(value, pos);
 			
 			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null && word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
+				
+				System.out.println("hyper " + value);
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				hypernyms = getHypernyms(wordID, layers);
 			} else if(idxWord!=null){
 				for (IWordID wordID : idxWord.getWordIDs()) {
-					hypernyms = (JPWord[]) ArrayUtils.addAll(hypernyms, getHypernyms(wordID,layers));
+					hypernyms.addAll(getHypernyms(wordID, layers));
 				}
 			}
 		}
@@ -163,7 +177,7 @@ public enum WordNetManager {
 		word.setHypernyms(hypernyms);
 	}
 	
-	private JPWord[] getHypernyms(IWordID wordID, int layers) {
+	private ArrayList<JPWord> getHypernyms(IWordID wordID, int layers) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
 
@@ -185,14 +199,12 @@ public enum WordNetManager {
 				}
 			}
 		}
-		JPWord[] array = new JPWord[hypernyms.size()];
-		hypernyms.toArray(array);
 		
-		return array;
+		return hypernyms;
 	}
 	
 	public synchronized void findHyponyms(JPWord word, int layers) {				
-		JPWord[] hyponyms = new JPWord[0];
+		ArrayList<JPWord> hyponyms = new ArrayList<JPWord>();
 		
 		POS[] p;
 		if (word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
@@ -202,15 +214,23 @@ public enum WordNetManager {
 			p = new POS[]{POS.NOUN,POS.ADJECTIVE,POS.ADVERB,POS.VERB};
 		}
 		
+		String value = "";
+		if (word.getSenseValue() != null) {
+			value = word.getSenseValue();
+		} else {
+			value = word.getValue();
+		}
+		
 		for (POS pos : p) {
-			IIndexWord idxWord = getDict().getIndexWord(word.getValue(), pos);
 			
-			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null && word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
+			IIndexWord idxWord = getDict().getIndexWord(value, pos);
+			
+			if (word.getSenseIndex() != JPWord.SenseIndexUnkown && idxWord !=null && word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {				
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				hyponyms = getHyponyms(wordID, layers);
 			} else if(idxWord!=null){
 				for (IWordID wordID : idxWord.getWordIDs()) {
-					hyponyms = (JPWord[]) ArrayUtils.addAll(hyponyms, getHyponyms(wordID,layers));
+					hyponyms.addAll(getHyponyms(wordID, layers));
 				}
 			}
 		}
@@ -218,7 +238,7 @@ public enum WordNetManager {
 		word.setHyponyms(hyponyms);
 	}
 	
-	private JPWord[] getHyponyms(IWordID wordID, int layers) {
+	private ArrayList<JPWord> getHyponyms(IWordID wordID, int layers) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
 
@@ -240,9 +260,29 @@ public enum WordNetManager {
 				}
 			}
 		}
-		JPWord[] array = new JPWord[hyponyms.size()];
-		hyponyms.toArray(array);
+
+		return hyponyms;
+	}
+	
+	public synchronized String stemWord(JPWord word) {
+		String value = word.getValue();
 		
-		return array;
+		POS[] p;
+		if (word.getWordType()!=JPWord.JPWordType.JPWordTypeUnknown) {
+			POS pos = word.getPOS();
+			p = new POS[]{pos};
+		} else {
+			p = new POS[]{POS.NOUN,POS.ADJECTIVE,POS.ADVERB,POS.VERB};
+		}
+		
+		for (POS pos : p) {
+			IIndexWord idxWord = getDict().getIndexWord(word.getValue(), pos);
+			if (idxWord != null && idxWord.getWordIDs().size()>0) {
+				IWord iWord = getDict().getWord(idxWord.getWordIDs().get(0));
+				value = iWord.getLemma();
+			}
+		}
+		
+		return value;
 	}
 }

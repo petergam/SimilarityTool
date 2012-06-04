@@ -31,10 +31,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -44,25 +47,26 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import Model.ComputeSetup;
-import Model.ComputeSetup.AlgorithmIndex;
-import Model.ComputeSetup.IncludeType;
-import Model.ComputeSetup.StemmerType;
-import Model.ComputeSetup.WordFilterType;
+import Include.JPIncludeHypernyms;
+import Include.JPIncludeHyponyms;
+import Include.JPIncludeSynonyms;
+import Model.JPCache;
+import Model.JPConfiguration;
+import Model.JPConfiguration.AlgorithmIndex;
+import Model.JPConfiguration.IncludeType;
+import Model.JPConfiguration.POSTaggerType;
+import Model.JPConfiguration.SenseRelateType;
+import Model.JPConfiguration.StemmerType;
+import Model.JPConfiguration.TrimmerType;
+import Objects.JPDocument;
+import Objects.JPDocument.JPDocumentProgressType;
 import Utilities.Log;
-import WVToolAdditions.IncludeHypernyms;
-import WVToolAdditions.IncludeHyponyms;
-import WVToolAdditions.IncludeSynonyms;
-import WVToolExtension.JPWVTDocumentInfo;
-import WVToolExtension.JPWVTDocumentInfo.JPDocumentProgressType;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.ListSelectionModel;
 
 public class MainFrame extends JFrame {
 
 	public interface MainFrameDelegate {
-		public void computeButtonPressed(ComputeSetup setup);
+		public void computeButtonPressed(JPConfiguration setup);
+		public void stopButtonPressed();
 	}
 
 	/**
@@ -81,21 +85,24 @@ public class MainFrame extends JFrame {
 	private JSlider hyperSliderValue;
 	private JSlider hypoSliderValue;
 	private JSlider synoSliderValue;
-	private JCheckBox chckbxNewCheckBox_1;
-	private JCheckBox chckbxNewCheckBox;
 	
 	private MainFrameDelegate delegate = null;
 
 	MainFrame mf;
 	private JTextPane textPane;
+	private JButton computeButton;
+	private JButton stopButton;
+	
 	private final ButtonGroup filterButtonGroup = new ButtonGroup();
-	private final ButtonGroup includeButtonGroup = new ButtonGroup();
 	private final ButtonGroup algorithmButtonGroup = new ButtonGroup();
 	private final ButtonGroup stemmerButtonGroup = new ButtonGroup();
 	JButton btnRemoveFiles;
 	public JTable table;
 	public SortTableModel model;
 	int[] rowIndices;
+	private final ButtonGroup posTaggerButtonGroup = new ButtonGroup();
+	private final ButtonGroup senseRelateButtonGroup = new ButtonGroup();
+	private final ButtonGroup includeButtonGroup = new ButtonGroup();
 
 	public MainFrame(MainFrameDelegate delegate) {
 		setResizable(false);
@@ -105,14 +112,14 @@ public class MainFrame extends JFrame {
 		fc.addChoosableFileFilter(new MyFilter());
 		sfc.addChoosableFileFilter(new MyFilter());
 
-		setTitle("Textual Similarities");
+		setTitle("JP Similarity Tool");
 		getContentPane().setBackground(UIManager.getColor("Panel.background"));
 		getContentPane().setLayout(null);
 
-		JButton btnCompute = new JButton("Compute");
+		computeButton = new JButton("Compute");
 
-		btnCompute.setBounds(825, 568, 89, 29);
-		getContentPane().add(btnCompute);
+		computeButton.setBounds(825, 597, 89, 29);
+		getContentPane().add(computeButton);
 
 		Box verticalBox = Box.createVerticalBox();
 		verticalBox.setBorder(new TitledBorder(null, "Stemming",
@@ -126,20 +133,16 @@ public class MainFrame extends JFrame {
 		rdbtnNewRadioButton.setSelected(true);
 		verticalBox.add(rdbtnNewRadioButton);
 
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Lovins");
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Wordnet");
 		stemmerButtonGroup.add(rdbtnNewRadioButton_1);
 		verticalBox.add(rdbtnNewRadioButton_1);
-
-		JRadioButton rdbtnPorter = new JRadioButton("Porter");
-		stemmerButtonGroup.add(rdbtnPorter);
-		verticalBox.add(rdbtnPorter);
 
 		Box verticalBox_1 = Box.createVerticalBox();
 		verticalBox_1.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Filter",
 				TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
-		verticalBox_1.setBounds(568, 416, 180, 76);
+		verticalBox_1.setBounds(568, 524, 180, 76);
 		getContentPane().add(verticalBox_1);
 
 		JRadioButton rdbtnNone = new JRadioButton("None");
@@ -154,7 +157,7 @@ public class MainFrame extends JFrame {
 
 		Box verticalBox_2 = Box.createVerticalBox();
 		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		verticalBox_2.setBounds(568, 138, 346, 266);
+		verticalBox_2.setBounds(568, 210, 346, 302);
 		getContentPane().add(verticalBox_2);
 		
 		Box horizontalBox_7 = Box.createHorizontalBox();
@@ -302,13 +305,24 @@ public class MainFrame extends JFrame {
 		synoSliderValue.setLabelTable( labelTable );
 		hypoSliderValue.setLabelTable( labelTable );
 		
+		Box horizontalBox_8 = Box.createHorizontalBox();
+		verticalBox_2.add(horizontalBox_8);
+		
+		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Include all words");
+		rdbtnNewRadioButton_3.setSelected(true);
+		includeButtonGroup.add(rdbtnNewRadioButton_3);
+		horizontalBox_8.add(rdbtnNewRadioButton_3);
+		
+		Component horizontalGlue_6 = Box.createHorizontalGlue();
+		horizontalBox_8.add(horizontalGlue_6);
+		
 		Box horizontalBox_6 = Box.createHorizontalBox();
 		horizontalBox_6.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_6);
 		
-		chckbxNewCheckBox_1 = new JCheckBox("Hypernyms to hyponyms");
-		chckbxNewCheckBox_1.setEnabled(false);
-		horizontalBox_6.add(chckbxNewCheckBox_1);
+		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Include POS tagged words");
+		includeButtonGroup.add(rdbtnNewRadioButton_5);
+		horizontalBox_6.add(rdbtnNewRadioButton_5);
 		
 		Component horizontalGlue_3 = Box.createHorizontalGlue();
 		horizontalBox_6.add(horizontalGlue_3);
@@ -317,9 +331,9 @@ public class MainFrame extends JFrame {
 		horizontalBox_5.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_5);
 		
-		chckbxNewCheckBox = new JCheckBox("Hyponyms to hyponyms");
-		chckbxNewCheckBox.setEnabled(false);
-		horizontalBox_5.add(chckbxNewCheckBox);
+		JRadioButton rdbtnIncludeSenseRelated = new JRadioButton("Include sense related words");
+		includeButtonGroup.add(rdbtnIncludeSenseRelated);
+		horizontalBox_5.add(rdbtnIncludeSenseRelated);
 		
 		Component horizontalGlue_4 = Box.createHorizontalGlue();
 		horizontalBox_5.add(horizontalGlue_4);
@@ -366,7 +380,6 @@ public class MainFrame extends JFrame {
 		int width = 250;
 		col.setPreferredWidth(width);
 
-
 		JTableHeader header = table.getTableHeader();
 		header.setUpdateTableInRealTime(true);
 		header.addMouseListener(model.new ColumnListener(table));
@@ -398,7 +411,7 @@ public class MainFrame extends JFrame {
 		Box verticalBox_5 = Box.createVerticalBox();
 		verticalBox_5.setBorder(new TitledBorder(null, "Log",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_5.setBounds(6, 380, 550, 239);
+		verticalBox_5.setBounds(6, 380, 550, 268);
 		getContentPane().add(verticalBox_5);
 
 		btnRemoveFiles.addActionListener(new ActionListener() {
@@ -461,25 +474,55 @@ public class MainFrame extends JFrame {
 		progressBar = new JProgressBar();
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
-		progressBar.setBounds(568, 599, 346, 20);
+		progressBar.setBounds(568, 628, 346, 20);
 		getContentPane().add(progressBar);
 
-		JButton btnNewButton_1 = new JButton("Stop");
-		btnNewButton_1.setEnabled(false);
-		btnNewButton_1.addActionListener(new ActionListener() {
+		stopButton = new JButton("Stop");
+		stopButton.setEnabled(false);
+		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				MainFrame self = MainFrame.this;
+				self.delegate.stopButtonPressed();
 			}
 		});
-		btnNewButton_1.setBounds(568, 568, 89, 29);
-		getContentPane().add(btnNewButton_1);
+		stopButton.setBounds(568, 597, 89, 29);
+		getContentPane().add(stopButton);
 
 		Box verticalBox_7 = Box.createVerticalBox();
 		verticalBox_7.setBorder(new TitledBorder(null, "Additional features", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_7.setBounds(760, 416, 154, 76);
+		verticalBox_7.setBounds(760, 524, 154, 76);
 		getContentPane().add(verticalBox_7);
 
 		JCheckBox chckbxNormalizeStopwords = new JCheckBox("Normalize result");
 		verticalBox_7.add(chckbxNormalizeStopwords);
+		
+		Box verticalBox_8 = Box.createVerticalBox();
+		verticalBox_8.setBorder(new TitledBorder(null, "Sense relate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		verticalBox_8.setBounds(769, 128, 145, 76);
+		getContentPane().add(verticalBox_8);
+		
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("None");
+		senseRelateButtonGroup.add(rdbtnNewRadioButton_2);
+		rdbtnNewRadioButton_2.setSelected(true);
+		verticalBox_8.add(rdbtnNewRadioButton_2);
+		
+		JRadioButton rdbtnPerlWordnet = new JRadioButton("Perl WordNet");
+		senseRelateButtonGroup.add(rdbtnPerlWordnet);
+		verticalBox_8.add(rdbtnPerlWordnet);
+		
+		Box verticalBox_9 = Box.createVerticalBox();
+		verticalBox_9.setBorder(new TitledBorder(null, "POS tagger", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		verticalBox_9.setBounds(568, 128, 196, 76);
+		getContentPane().add(verticalBox_9);
+		
+		JRadioButton rdbtnNone_1 = new JRadioButton("None");
+		posTaggerButtonGroup.add(rdbtnNone_1);
+		rdbtnNone_1.setSelected(true);
+		verticalBox_9.add(rdbtnNone_1);
+		
+		JRadioButton rdbtnStanfordPosTagger = new JRadioButton("Stanford POS Tagger");
+		posTaggerButtonGroup.add(rdbtnStanfordPosTagger);
+		verticalBox_9.add(rdbtnStanfordPosTagger);
 
 		// verticalBox_7.add(table);
 
@@ -497,19 +540,12 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int returnVal = fc.showOpenDialog(mf);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-
+					model.setRowCount(0);
 					File[] files = fc.getSelectedFiles();
-
-					if (files.length == 1) {
-						Log.nLog("Loading file to compare with:");
-					} else if (files.length > 1) {
-						Log.nLog("Loading files to compare with:");
-					}
 
 					for (int i = 0; i < files.length; i++) {
 						model.addRow(new Object[] { files[i].getName(),
 								"", "-", "-" });
-						Log.nLog(files[i].getName());
 					}
 					table.repaint();
 				}
@@ -524,9 +560,6 @@ public class MainFrame extends JFrame {
 					getTextPane().removeAll();
 					getTextPane().setText(sfc.getSelectedFile().getName());
 
-					Log.nLog("Loading file:");
-					Log.nLog(sfc.getSelectedFile().getName());
-
 				}
 			}
 		});
@@ -534,7 +567,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.setLocation(200, 100);
-		this.setSize(927, 672);
+		this.setSize(927, 698);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -543,14 +576,30 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnNewMenu);	
 
 		JMenuItem mntmQuit = new JMenuItem("Quit");
+		mntmQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		
+		JMenuItem mntmClearCache = new JMenuItem("Clear cache");
+		mntmClearCache.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPCache cache = new JPCache();
+				cache.clear();
+			}
+		});
+		mnNewMenu.add(mntmClearCache);
 		mnNewMenu.add(mntmQuit);
 
-		btnCompute.addActionListener(new ActionListener() {
+		computeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MainFrame self = MainFrame.this;
 
+				clearModel();
+				
 				if (self.delegate != null) {
-					ComputeSetup setup = new ComputeSetup();
+					JPConfiguration setup = new JPConfiguration();
 
 					int algorithmIndex = 0;
 					for (Enumeration<AbstractButton> e = algorithmButtonGroup
@@ -564,38 +613,64 @@ public class MainFrame extends JFrame {
 
 					setup.setAlgorithmIndex(AlgorithmIndex
 							.getAlgorithmIndexFromInt(algorithmIndex));
+					
+					int posTaggerIndex = 0;
+					for (Enumeration<AbstractButton> e = posTaggerButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							posTaggerIndex++;
+						}
+					}
 
+					setup.setPosTaggerType(POSTaggerType
+							.getPOSTaggerTypeFromInt(posTaggerIndex));
+					
+					int senseRelateIndex = 0;
+					for (Enumeration<AbstractButton> e = senseRelateButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							senseRelateIndex++;
+						}
+					}
+					
+					setup.setSenseRelateType(SenseRelateType
+							.getSenseRelateTypeFromInt(senseRelateIndex));	
+					
 					
 					if (chckbxHypernyms.isSelected()) {
-						IncludeHypernyms include = new IncludeHypernyms();
+						JPIncludeHypernyms include = new JPIncludeHypernyms();
 						include.setLayers(self.hypernymsSlider.getValue());
 						setup.getIncludeTypes().add(include);
 					}
 					
 					if (chckbxHyponyms.isSelected()) {
-						IncludeHyponyms include = new IncludeHyponyms();
+						JPIncludeHyponyms include = new JPIncludeHyponyms();
 						include.setLayers(self.hypernymsSlider.getValue());
 						setup.getIncludeTypes().add(include);
 					}
 					
 					if (chckbxSynonyms.isSelected()) {
-						IncludeSynonyms include = new IncludeSynonyms();
+						JPIncludeSynonyms include = new JPIncludeSynonyms();
 						include.setLayers(self.hypernymsSlider.getValue());
 						setup.getIncludeTypes().add(include);
 					}
 					
-					int filterIndex = 0;
+					int trimmerIndex = 0;
 					for (Enumeration<AbstractButton> e = filterButtonGroup
 							.getElements(); e.hasMoreElements();) {
 						if (e.nextElement().isSelected()) {
 							break;
 						} else {
-							filterIndex++;
+							trimmerIndex++;
 						}
 					}
+					
+					setup.setTrimmerType(TrimmerType.getTrimmerTypeFromInt(trimmerIndex));
 
-					setup.setFilterType(WordFilterType
-							.getWordFilterTypeFromInt(filterIndex));
 
 					int stemmerIndex = 0;
 					for (Enumeration<AbstractButton> e = stemmerButtonGroup
@@ -611,6 +686,19 @@ public class MainFrame extends JFrame {
 							.getStemmerTypeFromInt(stemmerIndex));
 
 
+					int includeIndex = 0;
+					for (Enumeration<AbstractButton> e = includeButtonGroup
+							.getElements(); e.hasMoreElements();) {
+						if (e.nextElement().isSelected()) {
+							break;
+						} else {
+							includeIndex++;
+						}
+					}
+					
+					setup.setIncludeType(IncludeType.getIncludeTypeFromInt(includeIndex));
+					
+					
 					File[] files = fc.getSelectedFiles();
 					setup.setDocumentFiles(files);
 					
@@ -650,11 +738,11 @@ public class MainFrame extends JFrame {
 		progressBar.setValue(progress);
 	}
 	
-	public void updateStatusForDocument(JPWVTDocumentInfo document) {
+	public void updateStatusForDocument(JPDocument document) {
 		Vector<Object> vector = model.getDataVector();
 				
 		for (int i = 0; i < vector.size(); i++) {
-			Vector<Object> v = (Vector<Object>) vector.get(i);//enumeration.nextElement();
+			Vector<Object> v = (Vector<Object>) vector.get(i);
 			if(document != null && v.get(0).equals(document.getDocumentTitle())) {
 				JPDocumentProgressType progressType = document.getProgressType();
 				
@@ -692,11 +780,28 @@ public class MainFrame extends JFrame {
 	}
 
 	public void enableStopButton() {
-//		stopButton.setEnabled(true);
+		stopButton.setEnabled(true);
+		computeButton.setEnabled(false);
 	}
 	
 	public void disableStopButton() {
-//		stopButton.setEnabled(false);
+		stopButton.setEnabled(false);
+		computeButton.setEnabled(true);
+	}
+	
+	public void clearModel() {
+		Vector<Object> vector = model.getDataVector();
+		
+		for (int i = 0; i < vector.size(); i++) {
+			Vector<Object> v = (Vector<Object>) vector.get(i);
+			v.set(1, "");
+			v.set(2, "-");
+			v.set(3, "-");
+
+			vector.set(i, v);
+		}
+		
+		((AbstractTableModel)table.getModel()).fireTableDataChanged();
 	}
 	
 	private class SelectionListener implements ListSelectionListener {

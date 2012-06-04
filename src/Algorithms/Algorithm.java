@@ -7,9 +7,8 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import WVToolAdditions.JPProgress;
-import WVToolExtension.JPWVTDocumentInfo;
-import WVToolExtension.JPWVTool;
+import Objects.JPDocument;
+import Objects.JPProgress;
 
 public abstract class Algorithm {
 
@@ -19,10 +18,11 @@ public abstract class Algorithm {
 	
 	protected JPProgress progressDelegate;
 	protected float percent = 0.0f;
-	protected ExecutorService engine = Executors.newFixedThreadPool(JPWVTool.MAX_THREADS);
+	protected ExecutorService engine = Executors.newFixedThreadPool(6);
+	private boolean shutdown = false;
 	
-	public abstract void compute(JPWVTDocumentInfo mainDocument, JPWVTDocumentInfo[] documents, boolean normalizeResult, Runnable callbackDelegate);
-	public void compute(JPWVTDocumentInfo mainDocument, JPWVTDocumentInfo[] documents, Runnable callbackDelegate) {
+	public abstract void compute(JPDocument mainDocument, JPDocument[] documents, boolean normalizeResult, Runnable callbackDelegate);
+	public void compute(JPDocument mainDocument, JPDocument[] documents, Runnable callbackDelegate) {
 		compute(mainDocument, documents, true, callbackDelegate);
 	}
 	public abstract double[] normalizeResult(double[] resultArray);
@@ -31,28 +31,21 @@ public abstract class Algorithm {
 		this.progressDelegate = progressDelegate;
 	}
 	
-//	protected void didProgress(float updatePercent) {
-//		percent +=updatePercent;
-//		progressDelegate.didUpdateProgress(percent);		
-//	}
-	
 	protected void theadUpdate() {
-        if(Thread.interrupted()){
+        if(shutdown){
             try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
         }
 	}
 	
 	protected void callDelegate(final Runnable callbackDelegate) {
-		engine.shutdown();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
+					engine.shutdown();
 					engine.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 
 			        SwingUtilities.invokeLater(new Runnable() {
@@ -67,10 +60,11 @@ public abstract class Algorithm {
 		}).start();
 	}
 	
-	protected void run(final Runnable backgroundRunnable, final Runnable doneRunnable) {		
+	protected void run(final Runnable backgroundRunnable, final Runnable doneRunnable) {	
 		SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
 			protected Integer doInBackground() throws Exception {
 				backgroundRunnable.run();
+				
 				return null;
 			}
 			
@@ -79,6 +73,15 @@ public abstract class Algorithm {
 			}
 		};
 		
-		worker.execute();
+		worker.execute();	
+	}
+	
+	public void stop() {
+		engine.shutdownNow();
+		setShutdown(true);
+	}
+	
+	private synchronized void setShutdown(boolean shutdown) {
+		this.shutdown = shutdown;
 	}
 }

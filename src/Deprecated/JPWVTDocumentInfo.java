@@ -1,0 +1,138 @@
+package Deprecated;
+//
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//
+//import Objects.JPSentence;
+//import Objects.JPWord;
+//import edu.udo.cs.wvtool.main.WVTDocumentInfo;
+//
+//public class JPWVTDocumentInfo extends WVTDocumentInfo {
+//	private String documentTitle;
+//
+//	private ArrayList<Integer> sentenceIndexArray = new ArrayList<Integer>();	
+//	private ArrayList<JPSentence> sentenceArray = new ArrayList<JPSentence>();
+//
+//	private HashMap<String, Integer> wordHashMap = new HashMap<String, Integer>();
+//	// number of words in document
+//	private int numberOfWords = 0;
+//	
+//	private double score = 0.0;
+//	
+//	public enum JPDocumentProgressType {
+//		JPDocumentProgressTypeNotLoaded,
+//		JPDocumentProgressTypeWaiting,
+//		JPDocumentProgressTypeLoading,
+//		JPDocumentProgressTypeLoaded,
+//		JPDocumentProgressTypeComputing,
+//		JPDocumentProgressTypeComputed
+//	}
+//	private JPDocumentProgressType progressType = JPDocumentProgressType.JPDocumentProgressTypeNotLoaded;;
+//
+//	
+//	public JPWVTDocumentInfo(String arg0, String arg1, String arg2, String arg3) {
+//		super(arg0, arg1, arg2, arg3);
+//	}
+//	
+//	public JPWVTDocumentInfo(String arg0, String arg1, String arg2,
+//			String arg3, int arg4) {
+//		super(arg0, arg1, arg2, arg3, arg4);
+//	}
+//	
+////	public ArrayList<JPWord> getWordsArrayList() {
+////		return wordsArrayList;
+////	}
+////
+////
+////	public void setWordsArrayList(ArrayList<JPWord> wordsArrayList) {
+////		this.wordsArrayList = wordsArrayList;
+////	}
+//
+//
+//	public HashMap<String, Integer> getWordHashMap() {
+//		return wordHashMap;
+//	}
+//
+//
+//	public void setWordHashMap(HashMap<String, Integer> wordHashMap) {
+//		this.wordHashMap = wordHashMap;
+//	}
+//
+//	
+//	public int getNumberOfWords() {
+//		return numberOfWords;
+//	}
+//
+//
+//	public void setNumberOfWords(int numberOfWords) {
+//		this.numberOfWords = numberOfWords;
+//	}
+//
+//	public String getDocumentTitle() {
+//		return documentTitle;
+//	}
+//
+//	public void setDocumentTitle(String documentTitle) {
+//		this.documentTitle = documentTitle;
+//	}
+//	
+//	public double getScore() {
+//		return score;
+//	}
+//
+//	public void setScore(double score) {
+//		this.score = score;
+//	}
+//	
+//	public ArrayList<JPWord> getAllWords() {
+//		ArrayList<JPWord> words = new ArrayList<JPWord>();
+//		
+//		
+//		for (JPSentence sentence : sentenceArray) {
+//			for (JPWord word : sentence.getWords()) {				
+//				words.add(word);
+//
+//				ArrayList<JPWord> synonyms = word.getAllSynonyms();
+//				if (synonyms!=null) {
+//					words.addAll(synonyms);
+//				}
+//				
+//				ArrayList<JPWord> hypernyms = word.getAllHypernyms();
+//				if (hypernyms!=null) {
+//					words.addAll(hypernyms);
+//				}	
+//				
+//				ArrayList<JPWord> hyponyms = word.getAllHyponyms();
+//				if (hyponyms!=null) {
+//					words.addAll(hyponyms);
+//				}	
+//			}
+//		}
+//						
+//		return words;
+//	}
+//
+//	public ArrayList<Integer> getSentenceIndexArray() {
+//		return sentenceIndexArray;
+//	}
+//
+//	public void setSentenceIndexArray(ArrayList<Integer> sentenceIndexArray) {
+//		this.sentenceIndexArray = sentenceIndexArray;
+//	}
+//
+//	public ArrayList<JPSentence> getSentenceArray() {
+//		return sentenceArray;
+//	}
+//
+//	public void setSentenceArray(ArrayList<JPSentence> sentenceArray) {
+//		this.sentenceArray = sentenceArray;
+//	}
+//
+//	public synchronized JPDocumentProgressType getProgressType() {
+//		return progressType;
+//	}
+//
+//	public synchronized void setProgressType(JPDocumentProgressType progressType) {
+//		this.progressType = progressType;
+//	}
+//}
