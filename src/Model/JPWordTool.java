@@ -25,15 +25,34 @@ import SenseRelate.JPSenseRelate;
 import Stemmer.JPStemmer;
 import Trimmer.JPTrimmer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPWordTool.
+ */
 public class JPWordTool {
 
+	/** The engine. */
 	private ExecutorService engine;
+	
+	/** The worker. */
 	private SwingWorker<JPDocument, JPDocument> worker;
+	
+	/** The algorithm. */
 	private JPAbstractAlgorithm algorithm;
+	
+	/** The progress. */
 	private JPProgress progress;
 	
+	/** The Constant ThreadPoolSize. */
 	private static final int ThreadPoolSize = 2;
 	
+	/**
+	 * Run.
+	 *
+	 * @param config the config
+	 * @param callbackDelegate the callback delegate
+	 * @param callbackRunnable the callback runnable
+	 */
 	public void run(final JPConfiguration config, final JPProgressDelegate callbackDelegate, final Runnable callbackRunnable) {
 				
 		engine = Executors.newFixedThreadPool(ThreadPoolSize);
@@ -206,6 +225,20 @@ public class JPWordTool {
 
 	}
 	
+	/**
+	 * Load document.
+	 *
+	 * @param document the document
+	 * @param file the file
+	 * @param loader the loader
+	 * @param posTagger the pos tagger
+	 * @param senseRelate the sense relate
+	 * @param stemmer the stemmer
+	 * @param trimmer the trimmer
+	 * @param includes the includes
+	 * @param includeType the include type
+	 * @return the jP document
+	 */
 	private JPDocument loadDocument(JPDocument document, File file, JPDocumentLoader loader, JPPOSTagger posTagger, JPSenseRelate senseRelate, JPStemmer stemmer, JPTrimmer trimmer, ArrayList<JPInclude> includes, IncludeType includeType) {
 		try {
 			document = trimmer.trim(stemmer.stem(senseRelate.senseRelate(posTagger.tag(loader.load(document,file)))));
@@ -221,6 +254,9 @@ public class JPWordTool {
 		return document;
 	}
 	
+	/**
+	 * Stop.
+	 */
 	public void stop(){
 		engine.shutdownNow();
 		worker.cancel(true);

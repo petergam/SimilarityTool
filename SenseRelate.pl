@@ -59,7 +59,7 @@ defined $wntools or die "\nCouldn't construct WordNet::Tools object";
 my $wsd = WordNet::SenseRelate::AllWords->new (wordnet => $qd,wntools => $wntools,measure => 'WordNet::Similarity::lesk');
 
 # Disambiguate text
-my @results = $wsd->disambiguate (window => 3, tagged => $posTag,context => [@context]);
+my @results = $wsd->disambiguate (window => 3, tagged => $posTag,context => [@context], scheme => "sense1");
 
 # If JSON response is expected
 if($jsonResponse) {

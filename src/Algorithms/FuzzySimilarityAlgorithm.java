@@ -6,9 +6,20 @@ import Model.JPDocumentCallable;
 import Objects.JPDocument;
 import Objects.JPWord;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FuzzySimilarityAlgorithm.
+ */
 public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	
 	//Compute the relationship degree between two words. This is number in the interval [0-1].
+	/**
+	 * Membership function.
+	 *
+	 * @param w1 the w1
+	 * @param w2 the w2
+	 * @return the double
+	 */
 	private static double membershipFunction(String w1, String w2){		
 		double max = Math.max(w1.length(), w2.length());
 
@@ -27,6 +38,9 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 		return relDeg;
 	}
 
+	/* (non-Javadoc)
+	 * @see Algorithms.JPAbstractAlgorithm#compute(Objects.JPDocument, Objects.JPDocument[], boolean, java.lang.Runnable)
+	 */
 	@Override
 	public void compute(final JPDocument mainDocument,
 			final JPDocument[] documents, boolean normalizeResult, final Runnable callbackDelegate) {
@@ -101,6 +115,9 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 			
 	}
 
+	/* (non-Javadoc)
+	 * @see Algorithms.JPAbstractAlgorithm#normalizeResult(double[])
+	 */
 	@Override
 	public double[] normalizeResult(double[] resultArray) {
 		return resultArray;

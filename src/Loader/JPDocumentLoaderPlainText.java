@@ -10,12 +10,22 @@ import Objects.JPDocument;
 import Parser.JPStringParser;
 import Utilities.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPDocumentLoaderPlainText.
+ */
 public class JPDocumentLoaderPlainText extends JPAbstractDocumentLoader {
 
+	/**
+	 * Instantiates a new jP document loader plain text.
+	 */
 	public JPDocumentLoaderPlainText() {
 		fileExtension = "txt";
 	}
 	
+	/* (non-Javadoc)
+	 * @see Loader.JPDocumentLoader#load(Objects.JPDocument, java.io.File)
+	 */
 	@Override
 	public JPDocument load(JPDocument document, File file) throws IOException {
 		JPCache cache = new JPCache();

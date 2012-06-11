@@ -4,8 +4,15 @@ import Model.StanfordPOSTaggerManager;
 import Objects.JPDocument;
 import Objects.JPSentence;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPPOSTaggerStanford.
+ */
 public class JPPOSTaggerStanford extends JPAbstractPOSTagger {
 
+	/* (non-Javadoc)
+	 * @see POSTagger.JPPOSTagger#tag(Objects.JPDocument)
+	 */
 	@Override
 	public JPDocument tag(JPDocument document) {
 

@@ -63,60 +63,137 @@ import Objects.JPDocument;
 import Objects.JPDocument.JPDocumentProgressType;
 import Utilities.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainFrame.
+ */
 public class MainFrame extends JFrame {
 
+	/**
+	 * The Interface MainFrameDelegate.
+	 */
 	public interface MainFrameDelegate {
+		
+		/**
+		 * Compute button pressed.
+		 *
+		 * @param setup the setup
+		 */
 		public void computeButtonPressed(JPConfiguration setup);
+		
+		/**
+		 * Stop button pressed.
+		 */
 		public void stopButtonPressed();
 	}
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	// Create a file chooser
+	/** The fc. */
 	private JFileChooser fc = new JFileChooser();
+	
+	/** The sfc. */
 	private JFileChooser sfc = new JFileChooser();
 
+	/** The panel. */
 	private JTextPane panel;
+	
+	/** The progress bar. */
 	private JProgressBar progressBar;
+	
+	/** The hypernyms slider. */
 	private JSlider hypernymsSlider;
+	
+	/** The hyponyms slider. */
 	private JSlider hyponymsSlider;
+	
+	/** The synonyms slider. */
 	private JSlider synonymsSlider;
+	
+	/** The hyper slider value. */
 	private JSlider hyperSliderValue;
+	
+	/** The hypo slider value. */
 	private JSlider hypoSliderValue;
+	
+	/** The syno slider value. */
 	private JSlider synoSliderValue;
 	
+	/** The chckbx hypernyms. */
 	private JCheckBox chckbxHypernyms;
+	
+	/** The chckbx hyponyms. */
 	private JCheckBox chckbxHyponyms;
+	
+	/** The chckbx synonyms. */
 	private JCheckBox chckbxSynonyms;
 	
+	/** The sense related words radio button. */
 	private JRadioButton senseRelatedWordsRadioButton;
+	
+	/** The pos tagged words radio button. */
 	private JRadioButton posTaggedWordsRadioButton;
+	
+	/** The all words radio button. */
 	private JRadioButton allWordsRadioButton;
 	
+	/** The delegate. */
 	private MainFrameDelegate delegate = null;
 
+	/** The mf. */
 	MainFrame mf;
+	
+	/** The text pane. */
 	private JTextPane textPane;
+	
+	/** The compute button. */
 	private JButton computeButton;
+	
+	/** The stop button. */
 	private JButton stopButton;
 	
+	/** The filter button group. */
 	private final ButtonGroup filterButtonGroup = new ButtonGroup();
+	
+	/** The algorithm button group. */
 	private final ButtonGroup algorithmButtonGroup = new ButtonGroup();
+	
+	/** The stemmer button group. */
 	private final ButtonGroup stemmerButtonGroup = new ButtonGroup();
+	
+	/** The btn remove files. */
 	JButton btnRemoveFiles;
+	
+	/** The table. */
 	public JTable table;
+	
+	/** The model. */
 	public SortTableModel model;
+	
+	/** The row indices. */
 	int[] rowIndices;
+	
+	/** The pos tagger button group. */
 	private final ButtonGroup posTaggerButtonGroup = new ButtonGroup();
+	
+	/** The sense relate button group. */
 	private final ButtonGroup senseRelateButtonGroup = new ButtonGroup();
+	
+	/** The include button group. */
 	private final ButtonGroup includeButtonGroup = new ButtonGroup();
 
+	/** The selected algo index. */
 	private int selectedAlgoIndex = 0;
 	
+	/** The algo listener. */
 	final ChangeListener algoListener;
 
+	/**
+	 * Instantiates a new main frame.
+	 *
+	 * @param delegate the delegate
+	 */
 	public MainFrame(MainFrameDelegate delegate) {
 		setResizable(false);
 		mf = this;
@@ -125,14 +202,14 @@ public class MainFrame extends JFrame {
 		fc.addChoosableFileFilter(new MyFilter());
 		sfc.addChoosableFileFilter(new MyFilter());
 
-		setTitle("JP Similarity Tool");
+		setTitle("Similarity Tool");
 		getContentPane().setBackground(UIManager.getColor("Panel.background"));
 		getContentPane().setLayout(null);
 
 		computeButton = new JButton("Compute");
 		computeButton.setEnabled(false);
 
-		computeButton.setBounds(825, 597, 89, 29);
+		computeButton.setBounds(825, 621, 89, 29);
 		getContentPane().add(computeButton);
 
 
@@ -151,13 +228,21 @@ public class MainFrame extends JFrame {
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Wordnet");
 		stemmerButtonGroup.add(rdbtnNewRadioButton_1);
 		verticalBox.add(rdbtnNewRadioButton_1);
+		
+		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Porter");
+		stemmerButtonGroup.add(rdbtnNewRadioButton_3);
+		verticalBox.add(rdbtnNewRadioButton_3);
+		
+		JRadioButton rdbtnLovins = new JRadioButton("Lovins");
+		stemmerButtonGroup.add(rdbtnLovins);
+		verticalBox.add(rdbtnLovins);
 
 		Box verticalBox_1 = Box.createVerticalBox();
 		verticalBox_1.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Filter",
 				TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
-		verticalBox_1.setBounds(568, 524, 180, 76);
+		verticalBox_1.setBounds(568, 548, 180, 76);
 		getContentPane().add(verticalBox_1);
 
 		JRadioButton rdbtnNone = new JRadioButton("None");
@@ -172,7 +257,7 @@ public class MainFrame extends JFrame {
 
 		Box verticalBox_2 = Box.createVerticalBox();
 		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		verticalBox_2.setBounds(568, 210, 346, 302);
+		verticalBox_2.setBounds(568, 234, 346, 302);
 
 		getContentPane().add(verticalBox_2);
 
@@ -423,7 +508,7 @@ public class MainFrame extends JFrame {
 		Box verticalBox_5 = Box.createVerticalBox();
 		verticalBox_5.setBorder(new TitledBorder(null, "Log",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_5.setBounds(6, 380, 550, 268);
+		verticalBox_5.setBounds(6, 380, 550, 302);
 		getContentPane().add(verticalBox_5);
 
 		btnRemoveFiles.addActionListener(new ActionListener() {
@@ -536,7 +621,7 @@ public class MainFrame extends JFrame {
 		progressBar = new JProgressBar();
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
-		progressBar.setBounds(568, 628, 346, 20);
+		progressBar.setBounds(568, 652, 346, 20);
 		getContentPane().add(progressBar);
 
 		stopButton = new JButton("Stop");
@@ -547,12 +632,12 @@ public class MainFrame extends JFrame {
 				self.delegate.stopButtonPressed();
 			}
 		});
-		stopButton.setBounds(568, 597, 89, 29);
+		stopButton.setBounds(568, 621, 89, 29);
 		getContentPane().add(stopButton);
 
 		Box verticalBox_7 = Box.createVerticalBox();
 		verticalBox_7.setBorder(new TitledBorder(null, "Additional features", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_7.setBounds(760, 524, 154, 76);
+		verticalBox_7.setBounds(760, 548, 154, 76);
 
 		getContentPane().add(verticalBox_7);
 
@@ -561,10 +646,10 @@ public class MainFrame extends JFrame {
 		
 		Box verticalBox_8 = Box.createVerticalBox();
 		verticalBox_8.setBorder(new TitledBorder(null, "Sense relate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_8.setBounds(769, 128, 145, 76);
+		verticalBox_8.setBounds(769, 128, 145, 94);
 		getContentPane().add(verticalBox_8);
 		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("None");
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Baseline");
 		senseRelateButtonGroup.add(rdbtnNewRadioButton_2);
 		rdbtnNewRadioButton_2.setSelected(true);
 		verticalBox_8.add(rdbtnNewRadioButton_2);
@@ -575,7 +660,7 @@ public class MainFrame extends JFrame {
 		
 		Box verticalBox_9 = Box.createVerticalBox();
 		verticalBox_9.setBorder(new TitledBorder(null, "POS tagger", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_9.setBounds(568, 128, 196, 76);
+		verticalBox_9.setBounds(568, 128, 196, 94);
 		getContentPane().add(verticalBox_9);
 		
 		JRadioButton rdbtnNone_1 = new JRadioButton("None");
@@ -586,6 +671,10 @@ public class MainFrame extends JFrame {
 		JRadioButton rdbtnStanfordPosTagger = new JRadioButton("Stanford POS Tagger");
 		posTaggerButtonGroup.add(rdbtnStanfordPosTagger);
 		verticalBox_9.add(rdbtnStanfordPosTagger);
+		
+		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Illinois POS Tagger");
+		posTaggerButtonGroup.add(rdbtnNewRadioButton_5);
+		verticalBox_9.add(rdbtnNewRadioButton_5);
 
 		// verticalBox_7.add(table);
 
@@ -634,7 +723,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.setLocation(200, 100);
-		this.setSize(927, 698);
+		this.setSize(927, 740);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -788,29 +877,59 @@ public class MainFrame extends JFrame {
 		this.setVisible(true);
 	}
 
+	/**
+	 * The Class MyFilter.
+	 */
 	class MyFilter extends javax.swing.filechooser.FileFilter {
+		
+		/* (non-Javadoc)
+		 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+		 */
 		public boolean accept(File file) {
 			String filename = file.getName();
 			return filename.endsWith(".txt");
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.filechooser.FileFilter#getDescription()
+		 */
 		public String getDescription() {
 			return "*.txt";
 		}
 	}
 
+	/**
+	 * Gets the panel.
+	 *
+	 * @return the panel
+	 */
 	public JTextPane getPanel() {
 		return panel;
 	}
 
+	/**
+	 * Gets the text pane.
+	 *
+	 * @return the text pane
+	 */
 	public JTextPane getTextPane() {
 		return textPane;
 	}
 
+	/**
+	 * Sets the progress.
+	 *
+	 * @param progress the new progress
+	 */
 	public void setProgress(int progress) {
 		progressBar.setValue(progress);
 	}
 	
+	/**
+	 * Update status for document.
+	 *
+	 * @param document the document
+	 */
 	public void updateStatusForDocument(JPDocument document) {
 
 		Vector<Object> vector = model.getDataVector();
@@ -856,16 +975,25 @@ public class MainFrame extends JFrame {
 
 	}
 
+	/**
+	 * Enable stop button.
+	 */
 	public void enableStopButton() {
 		stopButton.setEnabled(true);
 		computeButton.setEnabled(false);
 	}
 
+	/**
+	 * Disable stop button.
+	 */
 	public void disableStopButton() {
 		stopButton.setEnabled(false);
 		computeButton.setEnabled(true);
 	}
 	
+	/**
+	 * Clear model.
+	 */
 	public void clearModel() {
 		Vector<Object> vector = model.getDataVector();
 		
@@ -882,15 +1010,36 @@ public class MainFrame extends JFrame {
 
 	}
 
+	/**
+	 * The listener interface for receiving selection events.
+	 * The class that is interested in processing a selection
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addSelectionListener<code> method. When
+	 * the selection event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see SelectionEvent
+	 */
 	private class SelectionListener implements ListSelectionListener {
+		
+		/** The table. */
 		JTable table;
 
 		// It is necessary to keep the table since it is not possible
 		// to determine the table from the event's source
+		/**
+		 * Instantiates a new selection listener.
+		 *
+		 * @param table the table
+		 */
 		SelectionListener(JTable table) {
 			this.table = table;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+		 */
 		public void valueChanged(ListSelectionEvent e) {
 			// If cell selection is enabled, both row and column change events
 			// are fired
@@ -909,15 +1058,31 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * The Class MyComparator.
+	 */
 	class MyComparator implements Comparator {
+		
+		/** The column. */
 		protected String column;
+		
+		/** The index. */
 		protected int index;
 
+		/**
+		 * Instantiates a new my comparator.
+		 *
+		 * @param column the column
+		 * @param index the index
+		 */
 		public MyComparator(String column, int index) {
 			this.column = column;
 			this.index = index;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		public int compare(Object o1, Object o2) {
 			Vector v1 = (Vector) o1;
 			Vector v2 = (Vector) o2;
@@ -939,24 +1104,57 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * The Class SortTableModel.
+	 */
 	class SortTableModel extends DefaultTableModel {
+		
+		/** The sort col. */
 		protected int sortCol = 0;
 
+		/** The is sort asc. */
 		protected boolean isSortAsc = true;
 
+		/** The m_result. */
 		protected int m_result = 0;
+		
+		/** The columns count. */
 		protected int columnsCount = 1;
 
+		/**
+		 * Instantiates a new sort table model.
+		 */
 		public SortTableModel() {
 		}
 
+		/**
+		 * The listener interface for receiving column events.
+		 * The class that is interested in processing a column
+		 * event implements this interface, and the object created
+		 * with that class is registered with a component using the
+		 * component's <code>addColumnListener<code> method. When
+		 * the column event occurs, that object's appropriate
+		 * method is invoked.
+		 *
+		 * @see ColumnEvent
+		 */
 		class ColumnListener extends MouseAdapter {
+			
+			/** The table. */
 			protected JTable table;
 
+			/**
+			 * Instantiates a new column listener.
+			 *
+			 * @param t the t
+			 */
 			public ColumnListener(JTable t) {
 				table = t;
 			}
 
+			/* (non-Javadoc)
+			 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+			 */
 			public void mouseClicked(MouseEvent e) {
 				TableColumnModel colModel = table.getColumnModel();
 				int columnModelIndex = colModel.getColumnIndexAtX(e.getX());
@@ -977,6 +1175,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Sets the flags for leven.
+	 */
 	private void setFlagsForLeven() {
 		chckbxHypernyms.setEnabled(false);
 		chckbxHyponyms.setEnabled(false);
@@ -986,6 +1187,9 @@ public class MainFrame extends JFrame {
 		posTaggedWordsRadioButton.setEnabled(false);
 	}
 
+	/**
+	 * Sets the flags for fuzzy.
+	 */
 	private void setFlagsForFuzzy() {
 		chckbxHypernyms.setEnabled(true);
 		chckbxHyponyms.setEnabled(true);
@@ -995,6 +1199,9 @@ public class MainFrame extends JFrame {
 		posTaggedWordsRadioButton.setEnabled(true);
 	}
 
+	/**
+	 * Sets the flags for term f.
+	 */
 	private void setFlagsForTermF() {
 		chckbxHypernyms.setEnabled(true);
 		chckbxHyponyms.setEnabled(true);
@@ -1004,6 +1211,9 @@ public class MainFrame extends JFrame {
 		posTaggedWordsRadioButton.setEnabled(true);
 	}
 
+	/**
+	 * Sets the flags for ontho.
+	 */
 	private void setFlagsForOntho() {
 		chckbxHypernyms.setEnabled(true);
 		chckbxHyponyms.setEnabled(true);

@@ -7,8 +7,15 @@ import Objects.JPDocument;
 import Objects.JPWord;
 import Utilities.UtilMethods;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LevenshteinDistanceAlgorithm.
+ */
 public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 
+	/* (non-Javadoc)
+	 * @see Algorithms.JPAbstractAlgorithm#compute(Objects.JPDocument, Objects.JPDocument[], boolean, java.lang.Runnable)
+	 */
 	@Override
 	//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
 	public void compute(final JPDocument mainDocument,
@@ -82,6 +89,9 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 		run(backgroundRunnable, doneRunnable);
 	}
 
+	/* (non-Javadoc)
+	 * @see Algorithms.JPAbstractAlgorithm#normalizeResult(double[])
+	 */
 	@Override
 	public double[] normalizeResult(double[] resultArray) {
 		return null;

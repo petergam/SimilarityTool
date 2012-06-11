@@ -7,10 +7,18 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPStemmerWordnet.
+ */
 public class JPStemmerWordnet extends JPAbstractStemmer {
 
+	/** The cache hashmap. */
 	HashMap<String, String> cacheHashmap = new HashMap<String, String>();
 
+	/* (non-Javadoc)
+	 * @see Stemmer.JPStemmer#stem(Objects.JPDocument)
+	 */
 	public JPDocument stem(JPDocument document) {
 		
 		for (JPSentence sentence : document.getSentenceArray()) {

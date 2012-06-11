@@ -22,19 +22,39 @@ import edu.mit.jwi.item.Pointer;
 import edu.mit.jwi.morph.WordnetStemmer;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum WordNetManager.
+ */
 public enum WordNetManager {
+    
+    /** The Shared instance. */
     SharedInstance;
     
+    /** The dict. */
     private IDictionary dict;
     
+    /**
+     * Gets the dict.
+     *
+     * @return the dict
+     */
     public synchronized IDictionary getDict() {
 		return dict;
 	}
 
+	/**
+	 * Sets the dict.
+	 *
+	 * @param dict the new dict
+	 */
 	public synchronized void setDict(IDictionary dict) {
 		this.dict = dict;
 	}
 
+	/**
+	 * Instantiates a new word net manager.
+	 */
 	private WordNetManager() {
 		String wnhome = System.getenv("WNHOME");
 		String path = wnhome + File.separator + "dict";
@@ -52,6 +72,13 @@ public enum WordNetManager {
 		}
     }
     
+    /**
+     * Gets the words from string.
+     *
+     * @param wordString the word string
+     * @param pos the pos
+     * @return the words from string
+     */
     public synchronized IWord[] getWordsFromString(String wordString, POS pos) {
     	IIndexWord idxWord = getDict().getIndexWord(wordString, pos);
     	
@@ -68,6 +95,13 @@ public enum WordNetManager {
     	return words;
     }
     
+    /**
+     * Gets the stemmed words.
+     *
+     * @param word the word
+     * @param pos the pos
+     * @return the stemmed words
+     */
     public synchronized String[] getStemmedWords(String word, POS pos) {
 		WordnetStemmer stemmer = new WordnetStemmer(dict);
 		List<String> stem = stemmer.findStems(word, pos);
@@ -78,6 +112,12 @@ public enum WordNetManager {
 		return words;		
     }
     
+	/**
+	 * Gets the synonyms.
+	 *
+	 * @param word the word
+	 * @return the synonyms
+	 */
 	public synchronized IWord[] getSynonyms(IWord word){
 		ISynset synset = word.getSynset();
 		
@@ -88,6 +128,12 @@ public enum WordNetManager {
 		return words;
 	}
 	
+	/**
+	 * Find synonyms.
+	 *
+	 * @param word the word
+	 * @param layers the layers
+	 */
 	public synchronized void findSynonyms(JPWord word, int layers) {						
 		ArrayList<JPWord> synonyms = new ArrayList<JPWord>();
 		
@@ -113,8 +159,8 @@ public enum WordNetManager {
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				synonyms = getSynonyms(wordID,layers);
 			} else if(idxWord!=null){
-				for (IWordID wordID : idxWord.getWordIDs()) {
-					synonyms.addAll(getSynonyms(wordID, layers));					
+				if(idxWord.getWordIDs().size()>0) {
+					synonyms.addAll(getHyponyms(idxWord.getWordIDs().get(0), layers));
 				}
 			}
 		}
@@ -122,6 +168,13 @@ public enum WordNetManager {
 		word.setSynonyms(synonyms);		
 	}
 	
+	/**
+	 * Gets the synonyms.
+	 *
+	 * @param wordID the word id
+	 * @param layers the layers
+	 * @return the synonyms
+	 */
 	private ArrayList<JPWord> getSynonyms(IWordID wordID, int layers) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
@@ -143,6 +196,12 @@ public enum WordNetManager {
 		return synonyms;
 	}
 	
+	/**
+	 * Find hypernyms.
+	 *
+	 * @param word the word
+	 * @param layers the layers
+	 */
 	public synchronized void findHypernyms(JPWord word, int layers) {				
 		ArrayList<JPWord> hypernyms = new ArrayList<JPWord>();
 		
@@ -169,8 +228,8 @@ public enum WordNetManager {
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				hypernyms = getHypernyms(wordID, layers);
 			} else if(idxWord!=null){
-				for (IWordID wordID : idxWord.getWordIDs()) {
-					hypernyms.addAll(getHypernyms(wordID, layers));
+				if(idxWord.getWordIDs().size()>0) {
+					hypernyms.addAll(getHyponyms(idxWord.getWordIDs().get(0), layers));
 				}
 			}
 		}
@@ -178,6 +237,13 @@ public enum WordNetManager {
 		word.setHypernyms(hypernyms);
 	}
 	
+	/**
+	 * Gets the hypernyms.
+	 *
+	 * @param wordID the word id
+	 * @param layers the layers
+	 * @return the hypernyms
+	 */
 	private ArrayList<JPWord> getHypernyms(IWordID wordID, int layers) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
@@ -204,6 +270,12 @@ public enum WordNetManager {
 		return hypernyms;
 	}
 	
+	/**
+	 * Find hyponyms.
+	 *
+	 * @param word the word
+	 * @param layers the layers
+	 */
 	public synchronized void findHyponyms(JPWord word, int layers) {				
 		ArrayList<JPWord> hyponyms = new ArrayList<JPWord>();
 		
@@ -230,8 +302,8 @@ public enum WordNetManager {
 				IWordID wordID = idxWord.getWordIDs().get(word.getSenseIndex()-1);
 				hyponyms = getHyponyms(wordID, layers);
 			} else if(idxWord!=null){
-				for (IWordID wordID : idxWord.getWordIDs()) {
-					hyponyms.addAll(getHyponyms(wordID, layers));
+				if(idxWord.getWordIDs().size()>0) {
+					hyponyms.addAll(getHyponyms(idxWord.getWordIDs().get(0), layers));
 				}
 			}
 		}
@@ -239,6 +311,13 @@ public enum WordNetManager {
 		word.setHyponyms(hyponyms);
 	}
 	
+	/**
+	 * Gets the hyponyms.
+	 *
+	 * @param wordID the word id
+	 * @param layers the layers
+	 * @return the hyponyms
+	 */
 	private ArrayList<JPWord> getHyponyms(IWordID wordID, int layers) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
@@ -265,6 +344,12 @@ public enum WordNetManager {
 		return hyponyms;
 	}
 	
+	/**
+	 * Stem word.
+	 *
+	 * @param word the word
+	 * @return the string
+	 */
 	public synchronized String stemWord(JPWord word) {
 		String value = word.getValue();
 		

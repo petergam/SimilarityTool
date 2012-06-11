@@ -7,8 +7,15 @@ import Objects.JPSentence;
 import Objects.JPWord;
 import Objects.JPWord.JPWordType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPIncludeHypernyms.
+ */
 public class JPIncludeHypernyms extends JPAbstractInclude {
 
+	/* (non-Javadoc)
+	 * @see Include.JPInclude#include(Objects.JPDocument, Model.JPConfiguration.IncludeType)
+	 */
 	@Override
 	public JPDocument include(JPDocument document, IncludeType includeType) {
 		int layers = getLayers();

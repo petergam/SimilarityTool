@@ -14,17 +14,31 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum SettingsManager.
+ */
 public enum SettingsManager {
+    
+    /** The Shared instance. */
     SharedInstance;
     
+    /** The Constant PerlLibraryPathsKey. */
     public static final String PerlLibraryPathsKey = "PerlLibraryPathsKey";
 
+    /** The settings. */
     private HashMap<String, Object> settings;
     
+    /**
+     * Instantiates a new settings manager.
+     */
     private SettingsManager() {
     	setSettings(new HashMap<String, Object>());
     }
     
+	/**
+	 * Load settings.
+	 */
 	public void loadSettings()  {
 		try {
 	        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -43,6 +57,7 @@ public enum SettingsManager {
 	        
 	        settings.put(PerlLibraryPathsKey, paths);
 	        
+	       	        
 			
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
@@ -59,10 +74,20 @@ public enum SettingsManager {
         
 	}
 
+	/**
+	 * Gets the settings.
+	 *
+	 * @return the settings
+	 */
 	public synchronized HashMap<String, Object> getSettings() {
 		return settings;
 	}
 
+	/**
+	 * Sets the settings.
+	 *
+	 * @param settings the settings
+	 */
 	public synchronized void setSettings(HashMap<String, Object> settings) {
 		this.settings = settings;
 	}

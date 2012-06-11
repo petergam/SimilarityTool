@@ -6,7 +6,18 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPStringParser.
+ */
 public class JPStringParser {
+	
+	/**
+	 * Parses the.
+	 *
+	 * @param string the string
+	 * @return the jP document
+	 */
 	public JPDocument parse(String string) {
 		
 		JPDocument document = new JPDocument();

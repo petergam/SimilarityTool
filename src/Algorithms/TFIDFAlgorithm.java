@@ -8,9 +8,16 @@ import java.util.Map.Entry;
 
 import Objects.JPDocument;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TFIDFAlgorithm.
+ */
 public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 
 	
+	/* (non-Javadoc)
+	 * @see Algorithms.JPAbstractAlgorithm#compute(Objects.JPDocument, Objects.JPDocument[], boolean, java.lang.Runnable)
+	 */
 	public void compute(final JPDocument mainDocument, final JPDocument[] documents,
 			boolean normalizeResult, final Runnable callbackDelegate) {
 
@@ -131,6 +138,13 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 		
 	}
 
+	/**
+	 * Dot prod.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @return the double
+	 */
 	private static double dotProd(double[] a, double[] b){
 		double sum = 0;
 		for(int i = 0; i < a.length; i++){
@@ -139,6 +153,12 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 		return sum;
 	}
 	
+	/**
+	 * Vector length.
+	 *
+	 * @param a the a
+	 * @return the double
+	 */
 	private static double vectorLength(double[] a){
 		double sum = 0;
 		for (int i = 0; i < a.length; i++) {
@@ -148,6 +168,9 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 		return Math.sqrt(sum);
 	}
 
+	/* (non-Javadoc)
+	 * @see Algorithms.JPAbstractAlgorithm#normalizeResult(double[])
+	 */
 	@Override
 	public double[] normalizeResult(double[] resultArray) {
 		return null;

@@ -12,8 +12,17 @@ import org.apache.commons.io.FileUtils;
 
 import Objects.JPDocument;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPCache.
+ */
 public class JPCache {
 	
+	/**
+	 * Cache document.
+	 *
+	 * @param document the document
+	 */
 	public void cacheDocument(JPDocument document) {
 
 		try {
@@ -28,6 +37,12 @@ public class JPCache {
 		} 
 	}
 	
+	/**
+	 * Load cached document.
+	 *
+	 * @param fileName the file name
+	 * @return the jP document
+	 */
 	public JPDocument loadCachedDocument(String fileName) {
 		
 		try {
@@ -46,6 +61,9 @@ public class JPCache {
 		return null;
 	}
 	
+	/**
+	 * Clear.
+	 */
 	public void clear() {
 		try {
 			FileUtils.cleanDirectory(new File("cache"));

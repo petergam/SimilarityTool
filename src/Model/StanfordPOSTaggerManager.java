@@ -10,11 +10,21 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum StanfordPOSTaggerManager.
+ */
 public enum StanfordPOSTaggerManager {
+    
+    /** The Shared instance. */
     SharedInstance;
 
+    /** The tagger. */
     private MaxentTagger tagger;
     
+    /**
+     * Instantiates a new stanford pos tagger manager.
+     */
     private StanfordPOSTaggerManager() {
     	//POS tagger
 		try {
@@ -28,6 +38,12 @@ public enum StanfordPOSTaggerManager {
 		}	
 	}
 
+	/**
+	 * Tag sentence.
+	 *
+	 * @param s the s
+	 * @return the jP sentence
+	 */
 	public JPSentence tagSentence(JPSentence s) {
 		
 		List<HasWord> sentence = new ArrayList<HasWord>();
@@ -44,12 +60,14 @@ public enum StanfordPOSTaggerManager {
 		for (TaggedWord w : tSentence) {
 			
 			JPWord word = s.getWords().get(index);
+			word.setTag(w.tag());
 			word.setWordTypeFromTag(w.tag());
 			word.setSenseIndex(JPWord.SenseIndexUnkown);
 			word.setSenseValue(null);
 			index++;
 		}
 
+		s.setPOSTagged(true);
 		return s;
 	}
 	

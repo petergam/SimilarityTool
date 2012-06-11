@@ -7,11 +7,19 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JPTrimmerStopWords.
+ */
 public class JPTrimmerStopWords extends JPAbstractTrimmer {
 
+	/** The stop words. */
 	private HashMap<String, Integer> stopWords = new HashMap<String, Integer>();
 	
 	
+	/* (non-Javadoc)
+	 * @see Trimmer.JPTrimmer#trim(Objects.JPDocument)
+	 */
 	@Override
 	public JPDocument trim(JPDocument document) {
 		
@@ -35,6 +43,12 @@ public class JPTrimmerStopWords extends JPAbstractTrimmer {
 		return document;
 	}
 	
+	/**
+	 * Removes the stop words.
+	 *
+	 * @param word the word
+	 * @return the jP word
+	 */
 	private JPWord removeStopWords(JPWord word) {
 		
 		if (word.getHypernyms() != null) {
@@ -79,6 +93,9 @@ public class JPTrimmerStopWords extends JPAbstractTrimmer {
 		return word;
 	}
 	
+	/**
+	 * Instantiates a new jP trimmer stop words.
+	 */
 	public JPTrimmerStopWords() {
 		
 		stopWords.put("a", 1);
