@@ -15,8 +15,6 @@ Java application that uses algorithms to find textual similarities. Uses WordNet
 * <a href="http://www.perl.org/">Perl</a>
 * <a href="http://search.cpan.org/dist/WordNet-SenseRelate-AllWords/">WordNet-SenseRelate-AllWords</a>
 
-
-
 ## Installation
 Installation guide can be found at <a href="http://www.student.dtu.dk/~s093263/similaritytool/">http://www.student.dtu.dk/~s093263/similaritytool/</a>
 
