@@ -869,6 +869,7 @@ public class MainFrame extends JFrame {
 					
 					setup.setMainDocumentFile(sfc.getSelectedFile());
 			
+					//Johan code
 					self.delegate.computeAllButtonPressed(setup,0);
 				} else {
 					System.out.println("Delegate not set");
