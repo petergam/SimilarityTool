@@ -31,8 +31,6 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 				HashMap<String, Integer> totalFreq = new HashMap<String, Integer>();
 				ArrayList<double[]> docFreqs;
 
-//				Iterator<Entry<String, ArrayList<JPWordIndex>>> it = mainDocument.getWordHashMap()
-//						.entrySet().iterator();
 
 				for (ArrayList<JPWordIndex> value : mainDocument.getWordHashMap().values()) {
 				    JPWordIndex index = value.get(0);
