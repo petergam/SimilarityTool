@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -9,6 +10,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import Model.JPConfiguration;
 import Model.JPWordTool;
 import Objects.JPDocument;
+import Objects.JPDocument.JPDocumentProgressType;
 import Objects.JPProgress.JPProgressDelegate;
 import Utilities.GUILog;
 import View.MainFrame;
@@ -24,6 +26,12 @@ private MainFrame mainFrame;
     
     /** The start time. Used when calculating the running time of an algorithm*/
     private long startTime;
+    
+    
+    //Sim all docs:
+    int i=-2;
+    JPConfiguration config;
+    double[][] scoreMatrix;
     
     /** The word tool. */
     private JPWordTool wordTool;
@@ -60,6 +68,22 @@ private MainFrame mainFrame;
 			}
 		});
 	}
+	
+	//Johan simimilarity between all
+	public void computeAllButtonPressed(JPConfiguration config, int i) {
+		startTime = System.currentTimeMillis();
+		this.i = i;
+		this.config = config;
+		if (this.scoreMatrix == null) {
+			this.scoreMatrix = new double[config.getDocumentFiles().length][config.getDocumentFiles().length];
+		}
+		wordTool.run(config, this, new Runnable() {
+			@Override
+			public void run() {
+			}
+		});
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see Objects.JPProgress.JPProgressDelegate#didUpdateProgress(Objects.JPProgress.JPProgressDelegate.JPProgressType, float, Objects.JPDocument)
@@ -76,7 +100,34 @@ private MainFrame mainFrame;
 				mainFrame.updateStatusForDocument(document);
 			}
 		});
+		
+		//Inserting into matrix
+		if (document != null) {
+		JPDocumentProgressType progType = document.getProgressType();
+		switch (progType) {
+		case JPDocumentProgressTypeComputed:
+			for (int j = 0; j < config.getDocumentFiles().length; j++) {
+				if (config.getDocumentFiles()[j].getName().equals(document.getDocumentTitle())) {
+//					scoreMatrix[i][j]=roundTwoDecimals(document.getScore());
+					if (scoreMatrix[j][i] != 0.0) {
+						scoreMatrix[i][j] = roundTwoDecimals(Math.max(scoreMatrix[j][i],document.getScore()));
+					}
+					else{
+						scoreMatrix[i][j]=roundTwoDecimals(document.getScore());
+					}
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		}
+		//End of Johan code
 	}
+	double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+    return Double.valueOf(twoDForm.format(d));
+}
 
 	/* (non-Javadoc)
 	 * @see Objects.JPProgress.JPProgressDelegate#didStartProgress()
@@ -100,14 +151,39 @@ private MainFrame mainFrame;
 			@Override
 			public void run() {
 				mainFrame.disableStopButton();
-				mainFrame.setProgress(0);	
+				mainFrame.setProgress(0);
 			}
 		});
 		
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
+
+
 		GUILog.nLog("Running time: " + totalTime);
-		System.out.println("Running time: " + totalTime);
+
+//		System.out.println("Running time: " + totalTime);
+		
+		//If we want similairities between all pairs of docs.
+		i++;
+		if (i != -1 && i < config.getDocumentFiles().length) {
+			config.setMainDocumentFile(config.getDocumentFiles()[i]);
+			computeAllButtonPressed(config, i);
+		}
+		else{
+			//Johan code. Print scoreMatrix
+			for (int i = 1; i < scoreMatrix.length; i++) {
+				System.out.print("AL"+(i+1)+ " := ");
+				for (int j = 0; j < i; j++) {
+					if (j == i-1) {
+						System.out.print(scoreMatrix[i][j]);
+						break;
+					}
+					System.out.print(scoreMatrix[i][j]+",");
+				}
+				System.out.print(":\n");
+			}
+		}
+		
 	}
 
 	/* (non-Javadoc)

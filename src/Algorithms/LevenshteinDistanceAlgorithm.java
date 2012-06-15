@@ -94,6 +94,7 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	 */
 	@Override
 	public double[] normalizeResult(double[] resultArray) {
+		//Shhould be of the form: 1- edit distance / max length of docs.
 		return null;
 	}
 

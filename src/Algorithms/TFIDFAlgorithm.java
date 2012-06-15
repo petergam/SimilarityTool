@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import Objects.JPDocument;
+import Objects.JPSentence;
+import Objects.JPWord;
+import Objects.JPWordIndex;
 
 /**
  * The Class TFIDFAlgorithm.
@@ -28,28 +31,46 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 				HashMap<String, Integer> totalFreq = new HashMap<String, Integer>();
 				ArrayList<double[]> docFreqs;
 
-				Iterator<Entry<String, Integer>> it = mainDocument.getWordHashMap()
-						.entrySet().iterator();
-				while (it.hasNext()) {
-					Map.Entry pairs = (Map.Entry) it.next();
-					totalFreq.put((String) pairs.getKey(), 1);
+//				Iterator<Entry<String, ArrayList<JPWordIndex>>> it = mainDocument.getWordHashMap()
+//						.entrySet().iterator();
+
+				for (ArrayList<JPWordIndex> value : mainDocument.getWordHashMap().values()) {
+				    JPWordIndex index = value.get(0);
+
+				    JPWord word = mainDocument.getSentenceArray().get(index.getSentenceIndex()).getWords().get(index.getWordIndex());
+
+				    if (word.isStopWord() == false) {
+					    totalFreq.put((String) word.getValue(), 1);
+
+					}
 				}
+
 
 				for (int i = 0; i < documents.length; i++) {
 					JPDocument curDoc = documents[i];
-					Iterator<Entry<String, Integer>> it2 = curDoc.getWordHashMap()
-							.entrySet().iterator();
-					while (it2.hasNext()) {
-						Map.Entry pairs = (Map.Entry) it2.next();
-						try {
-							totalFreq
-									.put((String) pairs.getKey(), (Integer) totalFreq
-											.get((String) pairs.getKey()) + 1);
 
-						} catch (Exception e) {
-							totalFreq.put((String) pairs.getKey(), 1);
+					
+					
+					for (Map.Entry<String, ArrayList<JPWordIndex>> entry : curDoc.getWordHashMap().entrySet()) {
+					    String key = entry.getKey();
+					    ArrayList<JPWordIndex> value = entry.getValue();
+
+					    JPWordIndex index = value.get(0);
+
+					    JPWord word = curDoc.getSentenceArray().get(index.getSentenceIndex()).getWords().get(index.getWordIndex());
+
+					    if (word.isStopWord() == false) {
+							try {
+								totalFreq
+										.put((String) word.getValue(), (Integer) totalFreq
+												.get((String) word.getValue()) + 1);
+
+							} catch (Exception e) {
+								totalFreq.put((String) word.getValue(), 1);
+							}
 						}
 					}
+
 				}
 
 				docFreqs = new ArrayList<double[]>();
@@ -70,7 +91,7 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 						Map.Entry pairs = (Map.Entry) it3.next();
 						double weight;
 						try {
-							weight = 1.0 * curDoc.getWordHashMap().get(pairs.getKey())
+							weight = 1.0 * curDoc.getWordHashMap().get(pairs.getKey()).size()
 									/ curDoc.getNumberOfWords();
 							weight *= Math.log(numberOfDocuments
 									/ (totalFreq.get(pairs.getKey()) + 1));
@@ -90,7 +111,7 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 					double weight;
 					try {
 						weight = 1.0
-								* mainDocument.getWordHashMap().get(pairs.getKey())
+								* mainDocument.getWordHashMap().get(pairs.getKey()).size()
 								/ mainDocument.getNumberOfWords();
 						weight *= Math.log(numberOfDocuments
 								/ totalFreq.get(pairs.getKey()));
@@ -115,7 +136,6 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 					double dLength = vectorLength(d);
 
 					double result = dotProd / (mainDocLength * dLength);
-					System.out.println("Result " + result);
 
 					JPDocument document = documents[i];
 					document.setScore(result);

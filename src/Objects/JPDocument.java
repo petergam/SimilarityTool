@@ -17,7 +17,7 @@ public class JPDocument implements Serializable {
 	private ArrayList<JPSentence> sentenceArray = new ArrayList<JPSentence>();
 
 	/** The word hash map. */
-	private HashMap<String, Integer> wordHashMap = new HashMap<String, Integer>();
+	private HashMap<String, ArrayList<JPWordIndex>> wordHashMap = new HashMap<String, ArrayList<JPWordIndex>>();
 	// number of words in document
 	/** The number of words. */
 	private int numberOfWords = 0;
@@ -33,7 +33,7 @@ public class JPDocument implements Serializable {
 	
 	/** Indicates if the document is sense tagged. */
 	private boolean isSenseTagged = false;
-	
+		
 	/**
 	 * The Enum JPDocumentProgressType.
 	 */
@@ -68,23 +68,25 @@ public class JPDocument implements Serializable {
 		
 		
 		for (JPSentence sentence : sentenceArray) {
-			for (JPWord word : sentence.getWords()) {				
-				words.add(word);
+			for (JPWord word : sentence.getWords()) {	
+				if (word.isStopWord() == false) {
+					words.add(word);
 
-				ArrayList<JPWord> synonyms = word.getAllSynonyms();
-				if (synonyms!=null) {
-					words.addAll(synonyms);
+					ArrayList<JPWord> synonyms = word.getAllSynonyms();
+					if (synonyms!=null) {
+						words.addAll(synonyms);
+					}
+					
+					ArrayList<JPWord> hypernyms = word.getAllHypernyms();
+					if (hypernyms!=null) {
+						words.addAll(hypernyms);
+					}	
+					
+					ArrayList<JPWord> hyponyms = word.getAllHyponyms();
+					if (hyponyms!=null) {
+						words.addAll(hyponyms);
+					}
 				}
-				
-				ArrayList<JPWord> hypernyms = word.getAllHypernyms();
-				if (hypernyms!=null) {
-					words.addAll(hypernyms);
-				}	
-				
-				ArrayList<JPWord> hyponyms = word.getAllHyponyms();
-				if (hyponyms!=null) {
-					words.addAll(hyponyms);
-				}	
 			}
 		}
 						
@@ -150,7 +152,7 @@ public class JPDocument implements Serializable {
 	 *
 	 * @return the word hash map
 	 */
-	public HashMap<String, Integer> getWordHashMap() {
+	public HashMap<String, ArrayList<JPWordIndex>> getWordHashMap() {
 		return wordHashMap;
 	}
 
@@ -159,7 +161,7 @@ public class JPDocument implements Serializable {
 	 *
 	 * @param wordHashMap the word hash map
 	 */
-	public void setWordHashMap(HashMap<String, Integer> wordHashMap) {
+	public void setWordHashMap(HashMap<String, ArrayList<JPWordIndex>> wordHashMap) {
 		this.wordHashMap = wordHashMap;
 	}
 

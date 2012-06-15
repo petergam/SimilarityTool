@@ -221,7 +221,8 @@ public class JPConfiguration {
 			case 2:
 				return IncludeTypeSenseRelated;
 			default:
-				throw new RuntimeException("Unknown include type: " + index);
+				return IncludeTypeAll;
+//				throw new RuntimeException("Unknown include type: " + index);
 			}
 		}
 	}
