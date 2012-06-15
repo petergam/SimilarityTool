@@ -2,17 +2,16 @@ package Stemmer;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface JPStemmer.
  */
 public interface JPStemmer {
 
 	/**
-	 * Stem.
+	 * Stems a document using a stemmer
 	 *
-	 * @param document the document
-	 * @return the jP document
+	 * @param document the document that should be stemmed
+	 * @return the stemmed document
 	 */
 	public JPDocument stem(JPDocument document);
 }

@@ -3,9 +3,9 @@ package Include;
 import Model.JPConfiguration.IncludeType;
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPIncludeDummy.
+ * Dummy class. Does no change anything
  */
 public class JPIncludeDummy extends JPAbstractInclude {
 

@@ -2,9 +2,9 @@ package SenseRelate;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPSenseRelateDummy.
+ * Dummy class. Does no change anything
  */
 public class JPSenseRelateDummy extends JPAbstractSenseRelate {
 

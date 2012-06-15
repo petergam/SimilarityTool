@@ -4,51 +4,51 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
-// TODO: Auto-generated Javadoc
 /*
 
- Porter stemmer in Java. The original paper is in
 
- Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
- no. 3, pp 130-137,
-
- See also http://www.tartarus.org/~martin/PorterStemmer
-
- History:
-
- Release 1
-
- Bug 1 (reported by Gonzalo Parra 16/10/99) fixed as marked below.
- The words 'aed', 'eed', 'oed' leave k at 'a' for step 3, and b[k-1]
- is then out outside the bounds of b.
-
- Release 2
-
- Similarly,
-
- Bug 2 (reported by Steve Dyrdahl 22/2/00) fixed as marked below.
- 'ion' by itself leaves j = -1 in the test for 'ion' in step 5, and
- b[j] is then outside the bounds of b.
-
- Release 3
-
- Considerably revised 4/9/00 in the light of many helpful suggestions
- from Brian Goetz of Quiotix Corporation (brian@quiotix.com).
-
- Release 4
 
  */
 
 
 /**
  * The Class JPStemmerPorter.
+ * Implementation of the Porter stemmer
+ * 
+ *  Porter stemmer in Java. The original paper is in
+ *
+ * Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
+ * no. 3, pp 130-137,
+ *
+ * See also http://www.tartarus.org/~martin/PorterStemmer
+ *
+ * History:
+ *
+ * Release 1
+ *
+ * Bug 1 (reported by Gonzalo Parra 16/10/99) fixed as marked below.
+ * The words 'aed', 'eed', 'oed' leave k at 'a' for step 3, and b[k-1]
+ * is then out outside the bounds of b.
+ *
+ * Release 2
+ *
+ * Similarly,
+ *
+ * Bug 2 (reported by Steve Dyrdahl 22/2/00) fixed as marked below.
+ * 'ion' by itself leaves j = -1 in the test for 'ion' in step 5, and
+ * b[j] is then outside the bounds of b.
+ *
+ * Release 3
+ *
+ * Considerably revised 4/9/00 in the light of many helpful suggestions
+ * from Brian Goetz of Quiotix Corporation (brian@quiotix.com).
+ *
+ * Release 4
  */
 public class JPStemmerPorter extends JPAbstractStemmer{
 	
-	/** The b. */
 	private char[] b;
 	
-	/** The k. */
 	private int i, /* offset into b */
 	i_end, /* offset to end of stemmed word */
 	j, k;
@@ -149,11 +149,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		return b;
 	}
 
-	/* cons(i) is true <=> b[i] is a consonant. */
-
 	/**
 	 * Cons.
-	 *
+	 * cons(i) is true <=> b[i] is a consonant.
 	 * @param i the i
 	 * @return true, if successful
 	 */
@@ -172,17 +170,13 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		}
 	}
 
-	/*
+	/**
+	 * M.
 	 * m() measures the number of consonant sequences between 0 and j. if c is a
 	 * consonant sequence and v a vowel sequence, and <..> indicates arbitrary
 	 * presence,
 	 * 
 	 * <c><v> gives 0 <c>vc<v> gives 1 <c>vcvc<v> gives 2 <c>vcvcvc<v> gives 3
-	 * ....
-	 */
-
-	/**
-	 * M.
 	 *
 	 * @return the int
 	 */
@@ -218,10 +212,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		}
 	}
 
-	/* vowelinstem() is true <=> 0,...j contains a vowel */
-
 	/**
 	 * Vowelinstem.
+	 * vowelinstem() is true <=> 0,...j contains a vowel
 	 *
 	 * @return true, if successful
 	 */
@@ -233,10 +226,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		return false;
 	}
 
-	/* doublec(j) is true <=> j,(j-1) contain a double consonant. */
-
 	/**
 	 * Doublec.
+	 * doublec(j) is true <=> j,(j-1) contain a double consonant.
 	 *
 	 * @param j the j
 	 * @return true, if successful
@@ -250,15 +242,16 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 	}
 
 	/*
+
+	 */
+
+	/**
+	 * Cvc.
 	 * cvc(i) is true <=> i-2,i-1,i has the form consonant - vowel - consonant
 	 * and also if the second c is not w,x or y. this is used when trying to
 	 * restore an e at the end of a short word. e.g.
 	 * 
 	 * cav(e), lov(e), hop(e), crim(e), but snow, box, tray.
-	 */
-
-	/**
-	 * Cvc.
 	 *
 	 * @param i the i
 	 * @return true, if successful
@@ -292,13 +285,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		return true;
 	}
 
-	/*
-	 * setto(s) sets (j+1),...k to the characters in the string s, readjusting
-	 * k.
-	 */
-
 	/**
 	 * Sets the to.
+	 *  setto(s) sets (j+1),...k to the characters in the string s, readjusting
 	 *
 	 * @param s the new to
 	 */
@@ -310,10 +299,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		k = j + l;
 	}
 
-	/* r(s) is used further down. */
-
 	/**
 	 * R.
+	 *  r(s) is used further down.
 	 *
 	 * @param s the s
 	 */
@@ -322,7 +310,8 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 			setto(s);
 	}
 
-	/*
+	/**
+	 * Step1.
 	 * step1() gets rid of plurals and -ed or -ing. e.g.
 	 * 
 	 * caresses -> caress ponies -> poni ties -> ti caress -> caress cats -> cat
@@ -333,10 +322,6 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 	 * mess
 	 * 
 	 * meetings -> meet
-	 */
-
-	/**
-	 * Step1.
 	 */
 	private final void step1() {
 		if (b[k] == 's') {
@@ -370,24 +355,20 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		}
 	}
 
-	/* step2() turns terminal y to i when there is another vowel in the stem. */
-
 	/**
 	 * Step2.
+	 * step2() turns terminal y to i when there is another vowel in the stem.
 	 */
 	private final void step2() {
 		if (ends("y") && vowelinstem())
 			b[k] = 'i';
 	}
 
-	/*
+	/**
+	 * Step3.
 	 * step3() maps double suffices to single ones. so -ization ( = -ize plus
 	 * -ation) maps to -ize etc. note that the string before the suffix must
 	 * give m() > 0.
-	 */
-
-	/**
-	 * Step3.
 	 */
 	private final void step3() {
 		if (k == 0)
@@ -495,10 +476,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		}
 	}
 
-	/* step4() deals with -ic-, -full, -ness etc. similar strategy to step3. */
-
 	/**
 	 * Step4.
+	 * step4() deals with -ic-, -full, -ness etc. similar strategy to step3.
 	 */
 	private final void step4() {
 		switch (b[k]) {
@@ -541,10 +521,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 		}
 	}
 
-	/* step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
-
 	/**
 	 * Step5.
+	 * step5() takes off -ant, -ence etc., in context <c>vcvc<v>.
 	 */
 	private final void step5() {
 		if (k == 0)
@@ -622,10 +601,9 @@ public class JPStemmerPorter extends JPAbstractStemmer{
 			k = j;
 	}
 
-	/* step6() removes a final -e if m() > 1. */
-
 	/**
 	 * Step6.
+	 * step6() removes a final -e if m() > 1. 
 	 */
 	private final void step6() {
 		j = k;

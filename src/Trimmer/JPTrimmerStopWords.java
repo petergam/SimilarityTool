@@ -7,9 +7,9 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPTrimmerStopWords.
+ * Removes stop words form a document
  */
 public class JPTrimmerStopWords extends JPAbstractTrimmer {
 
@@ -47,7 +47,7 @@ public class JPTrimmerStopWords extends JPAbstractTrimmer {
 	 * Removes the stop words.
 	 *
 	 * @param word the word
-	 * @return the jP word
+	 * @return the word with stopwords removed
 	 */
 	private JPWord removeStopWords(JPWord word) {
 		

@@ -9,9 +9,9 @@ import Objects.JPSentence;
 import Objects.JPWord;
 import edu.illinois.cs.cogcomp.lbj.pos.POSTagger;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum IllinoisPOSTaggerManager.
+ * Allows POS tagging using the Illinois POS Tagger
  */
 public enum IllinoisPOSTaggerManager {
 	
@@ -21,8 +21,8 @@ public enum IllinoisPOSTaggerManager {
 	/**
 	 * Tag sentence.
 	 *
-	 * @param sentence the sentence
-	 * @return the jP sentence
+	 * @param sentence the sentence that should be POS-tagged
+	 * @return the POS-tagged sentence
 	 */
 	public JPSentence tagSentence(JPSentence sentence) {
 

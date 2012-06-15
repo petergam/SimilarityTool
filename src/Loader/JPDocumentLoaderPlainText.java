@@ -8,9 +8,8 @@ import java.io.IOException;
 import Model.JPCache;
 import Objects.JPDocument;
 import Parser.JPStringParser;
-import Utilities.Log;
+import Utilities.GUILog;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPDocumentLoaderPlainText.
  */
@@ -32,7 +31,7 @@ public class JPDocumentLoaderPlainText extends JPAbstractDocumentLoader {
 		
 		JPDocument anotherDocument = cache.loadCachedDocument(file.getName());
 		if (anotherDocument != null) {
-			Log.nLog("Using cached " + anotherDocument.getDocumentTitle());
+			GUILog.nLog("Using cached " + anotherDocument.getDocumentTitle());
 			return anotherDocument;
 		}
 		

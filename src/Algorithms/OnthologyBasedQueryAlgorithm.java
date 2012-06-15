@@ -2,9 +2,9 @@ package Algorithms;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class OnthologyBasedQueryAlgorithm.
+ * Implements the Onthology Based Query algorithm
  */
 public class OnthologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 

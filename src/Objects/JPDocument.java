@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPDocument.
+ * Represents a document
  */
 public class JPDocument implements Serializable {
 	
@@ -22,7 +22,7 @@ public class JPDocument implements Serializable {
 	/** The number of words. */
 	private int numberOfWords = 0;
 	
-	/** The score. */
+	/** The score of algorithm calculations. */
 	private double score = 0.0;
 	
 	/** The progress type. */
@@ -31,7 +31,7 @@ public class JPDocument implements Serializable {
 	/** The document title. */
 	private String documentTitle;
 	
-	/** The is sense tagged. */
+	/** Indicates if the document is sense tagged. */
 	private boolean isSenseTagged = false;
 	
 	/**
@@ -59,9 +59,9 @@ public class JPDocument implements Serializable {
 	}
 	
 	/**
-	 * Gets the all words.
+	 * Return all words in the document
 	 *
-	 * @return the all words
+	 * @return all the words
 	 */
 	public ArrayList<JPWord> getAllWords() {
 		ArrayList<JPWord> words = new ArrayList<JPWord>();

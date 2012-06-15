@@ -28,9 +28,9 @@ import Trimmer.JPTrimmer;
 import Trimmer.JPTrimmerDummy;
 import Trimmer.JPTrimmerStopWords;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPConfiguration.
+ * Configuration for a computation
  */
 public class JPConfiguration {
 
@@ -147,10 +147,10 @@ public class JPConfiguration {
  POSTaggerTypeIllinois;
 
 		/**
-		 * Gets the pOS tagger type from int.
+		 * Gets the POS tagger type from int.
 		 *
 		 * @param index the index
-		 * @return the pOS tagger type from int
+		 * @return the POS tagger type from int
 		 */
 		public static POSTaggerType getPOSTaggerTypeFromInt(int index) {
 			switch (index) {
@@ -310,16 +310,16 @@ public class JPConfiguration {
 	}
 	
 	/**
-	 * Gets the document files.
+	 * Gets the other document files.
 	 *
-	 * @return the document files
+	 * @return the other document files
 	 */
 	public File[] getDocumentFiles() {
 		return documentFiles;
 	}
 	
 	/**
-	 * Sets the document files.
+	 * Sets the other document files.
 	 *
 	 * @param documentFiles the new document files
 	 */
@@ -384,9 +384,9 @@ public class JPConfiguration {
 	}
 	
 	/**
-	 * Gets the pOS tagger.
+	 * Gets the POS tagger.
 	 *
-	 * @return the pOS tagger
+	 * @return the POS tagger
 	 */
 	public JPPOSTagger getPOSTagger() {
 		switch (posTaggerType) {
@@ -454,18 +454,18 @@ public class JPConfiguration {
 	}
 	
 	/**
-	 * Gets the pos tagger type.
+	 * Gets the POS tagger type.
 	 *
-	 * @return the pos tagger type
+	 * @return the POS tagger type
 	 */
 	public POSTaggerType getPosTaggerType() {
 		return posTaggerType;
 	}
 	
 	/**
-	 * Sets the pos tagger type.
+	 * Sets the POS tagger type.
 	 *
-	 * @param posTaggerType the new pos tagger type
+	 * @param posTaggerType the new POS tagger type
 	 */
 	public void setPosTaggerType(POSTaggerType posTaggerType) {
 		this.posTaggerType = posTaggerType;

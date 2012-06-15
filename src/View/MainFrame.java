@@ -61,11 +61,11 @@ import Model.JPConfiguration.StemmerType;
 import Model.JPConfiguration.TrimmerType;
 import Objects.JPDocument;
 import Objects.JPDocument.JPDocumentProgressType;
-import Utilities.Log;
+import Utilities.GUILog;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MainFrame.
+ * Represents the view. Most of this class is generated with Windows Builder
  */
 public class MainFrame extends JFrame {
 
@@ -90,10 +90,10 @@ public class MainFrame extends JFrame {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	// Create a file chooser
-	/** The fc. */
+	/** The main document file chooser. */
 	private JFileChooser fc = new JFileChooser();
 	
-	/** The sfc. */
+	/** The other documents file chooser. */
 	private JFileChooser sfc = new JFileChooser();
 
 	/** The panel. */
@@ -539,7 +539,7 @@ public class MainFrame extends JFrame {
 		horizontalBox_1.add(btnClearLog);
 		btnClearLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Log.clear();
+				GUILog.clear();
 			}
 		});
 

@@ -2,9 +2,9 @@ package Trimmer;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPTrimmerDummy.
+ *  * Dummy class. Does no change anything
  */
 public class JPTrimmerDummy extends JPAbstractTrimmer {
 

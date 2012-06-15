@@ -6,28 +6,28 @@ import Model.JPDocumentCallable;
 import Objects.JPDocument;
 import Objects.JPWord;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FuzzySimilarityAlgorithm.
+ * Implements the Fuzzy Similarity algorithm
  */
 public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	
-	//Compute the relationship degree between two words. This is number in the interval [0-1].
+
 	/**
-	 * Membership function.
+	 * Membership function. Computes the relationship degree between two words. This is number in the interval [0-1].
 	 *
-	 * @param w1 the w1
-	 * @param w2 the w2
-	 * @return the double
+	 * @param word1 the first word
+	 * @param word2 the second word
+	 * @return the score
 	 */
-	private static double membershipFunction(String w1, String w2){		
-		double max = Math.max(w1.length(), w2.length());
+	private static double membershipFunction(String word1, String word2){		
+		double max = Math.max(word1.length(), word2.length());
 
 		double sum = 0.0;
-		for (int i = 0; i < w1.length(); i++) {
-			for (int j = 0; j < (w1.length()-i); j++) {
-					String subSeq = w1.substring(j, i+j+1);
-					if (w2.contains(subSeq)) {
+		for (int i = 0; i < word1.length(); i++) {
+			for (int j = 0; j < (word1.length()-i); j++) {
+					String subSeq = word1.substring(j, i+j+1);
+					if (word2.contains(subSeq)) {
 						sum++;
 					}
 			}

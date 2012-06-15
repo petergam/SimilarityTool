@@ -2,19 +2,19 @@ package Utilities;
 
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UtilMethods.
+ * Utility methods
  */
 public class UtilMethods {
 
 	/**
-	 * Minimum.
+	 * Minimum. Finds minimum of provided parameters.
 	 *
-	 * @param a the a
-	 * @param b the b
-	 * @param c the c
-	 * @return the int
+	 * @param a the first value
+	 * @param b the second value
+	 * @param c the third value
+	 * @return the minimum value
 	 */
 	public static int minimum(int a, int b, int c) {
         return Math.min(Math.min(a, b), c);

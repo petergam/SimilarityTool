@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import edu.mit.jwi.item.POS;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPWord.
+ * Represents a word
  */
 public class JPWord implements Serializable {
 
@@ -42,7 +42,7 @@ public class JPWord implements Serializable {
 	/** The value. */
 	private String value;
 	
-	/** The sense value. */
+	/** The sense tagged value. */
 	private String senseValue;
 	
 	/** The synonyms. */
@@ -57,10 +57,10 @@ public class JPWord implements Serializable {
 	/** The word type. */
 	private JPWordType wordType;
 	
-	/** The tag. */
+	/** The POS tag. */
 	private String tag;
 	
-	/** The sense index. */
+	/** The WordNet sense index. */
 	private int senseIndex;
 	
 	/**
@@ -263,9 +263,9 @@ public class JPWord implements Serializable {
 	}
 	
 	/**
-	 * Gets the pos.
+	 * Gets the POS.
 	 *
-	 * @return the pos
+	 * @return the POS
 	 */
 	public POS getPOS() {
 		switch (wordType) {

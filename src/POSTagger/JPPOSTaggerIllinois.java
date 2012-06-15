@@ -4,9 +4,9 @@ import Model.IllinoisPOSTaggerManager;
 import Objects.JPDocument;
 import Objects.JPSentence;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPPOSTaggerIllinois.
+ * Tags a document using Illinois POS tagger.
  */
 public class JPPOSTaggerIllinois extends JPAbstractPOSTagger{
 

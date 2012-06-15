@@ -1,6 +1,5 @@
 package Loader;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPAbstractDocumentLoader.
  */

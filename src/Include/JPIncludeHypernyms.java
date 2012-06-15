@@ -7,7 +7,6 @@ import Objects.JPSentence;
 import Objects.JPWord;
 import Objects.JPWord.JPWordType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPIncludeHypernyms.
  */

@@ -5,9 +5,9 @@ import java.util.concurrent.Callable;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPDocumentCallable.
+ * Callable that can hold a document and a file object
  */
 public class JPDocumentCallable implements Callable<JPDocument> {
 	
@@ -22,7 +22,6 @@ public class JPDocumentCallable implements Callable<JPDocument> {
 	 */
 	@Override
 	public JPDocument call() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -2,9 +2,9 @@ package POSTagger;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPPOSTaggerDummy.
+ * Dummy class. Does no change anything
  */
 public class JPPOSTaggerDummy extends JPAbstractPOSTagger{
 

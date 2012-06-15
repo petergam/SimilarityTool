@@ -3,9 +3,9 @@ package Objects;
 import Objects.JPDocument.JPDocumentProgressType;
 import Objects.JPProgress.JPProgressDelegate.JPProgressType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPProgress.
+ * Handles progress and notifies delegate
  */
 public class JPProgress {
 	
@@ -69,7 +69,7 @@ public class JPProgress {
 		public void didUpdateProgress(JPProgressType progressType, float percentDone, JPDocument document);
 	}
 	
-	/** The running. */
+	/** Indicates if progress is running. */
 	private boolean running = false;
 	
 	/** The number of documents. */

@@ -7,9 +7,9 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPStemmerWordnet.
+ * Stems a document using WordNet
  */
 public class JPStemmerWordnet extends JPAbstractStemmer {
 

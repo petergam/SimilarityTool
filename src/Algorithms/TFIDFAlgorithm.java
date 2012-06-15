@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TFIDFAlgorithm.
  */

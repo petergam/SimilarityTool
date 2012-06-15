@@ -6,9 +6,9 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPStringParser.
+ * Parses a string to a document
  */
 public class JPStringParser {
 	

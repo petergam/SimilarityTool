@@ -5,8 +5,10 @@ import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 
-// TODO: Auto-generated Javadoc
-/*
+/**
+ * The Class JPStemmerLovins.
+ * Implementation of the Lovins stemmer.
+ * 
  *    LovinsStemmer.java
  *    Copyright (C) 2001 Eibe Frank
  *
@@ -23,9 +25,6 @@ import Objects.JPWord;
  *    You should have received a copy of the GNU General Public License
  *    along with this program; if not, write to the Free Software
  *    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
-/**
- * The Class JPStemmerLovins.
  */
 public class JPStemmerLovins extends JPAbstractStemmer {
 

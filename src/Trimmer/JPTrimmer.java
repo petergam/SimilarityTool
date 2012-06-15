@@ -2,17 +2,16 @@ package Trimmer;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface JPTrimmer.
  */
 public interface JPTrimmer {
 	
 	/**
-	 * Trim.
+	 * Trim. Trims a document by removing information.
 	 *
-	 * @param document the document
-	 * @return the jP document
+	 * @param document the document that should be trimmed
+	 * @return the trimmed document
 	 */
 	public JPDocument trim(JPDocument document);
 }
