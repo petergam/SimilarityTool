@@ -1,6 +1,8 @@
 package Model;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +12,9 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum StanfordPOSTaggerManager.
+ * Allows POS tagging using the Stanford POS Tagger
  */
 public enum StanfordPOSTaggerManager {
     
@@ -27,8 +29,8 @@ public enum StanfordPOSTaggerManager {
      */
     private StanfordPOSTaggerManager() {
     	//POS tagger
-		try {
-			tagger = new MaxentTagger("models/english-left3words-distsim.tagger");
+		try {			
+			tagger = new MaxentTagger("english-left3words-distsim.tagger");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,8 +43,8 @@ public enum StanfordPOSTaggerManager {
 	/**
 	 * Tag sentence.
 	 *
-	 * @param s the s
-	 * @return the jP sentence
+	 * @param sentence the sentence that should be POS-tagged
+	 * @return the POS-tagged sentence
 	 */
 	public JPSentence tagSentence(JPSentence s) {
 		

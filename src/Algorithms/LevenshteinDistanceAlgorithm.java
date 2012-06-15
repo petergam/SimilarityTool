@@ -7,9 +7,9 @@ import Objects.JPDocument;
 import Objects.JPWord;
 import Utilities.UtilMethods;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LevenshteinDistanceAlgorithm.
+ * Implements the Levenshtein Distance algorithm
  */
 public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 

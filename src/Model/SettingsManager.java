@@ -2,6 +2,8 @@ package Model;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,9 +16,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum SettingsManager.
+ * Loads the settings.xml file into a HashMap
  */
 public enum SettingsManager {
     
@@ -26,7 +28,7 @@ public enum SettingsManager {
     /** The Constant PerlLibraryPathsKey. */
     public static final String PerlLibraryPathsKey = "PerlLibraryPathsKey";
 
-    /** The settings. */
+    /** The settings HashMap. */
     private HashMap<String, Object> settings;
     
     /**
@@ -37,14 +39,17 @@ public enum SettingsManager {
     }
     
 	/**
-	 * Load settings.
+	 * Load settings from settings.xml
 	 */
-	public void loadSettings()  {
+	public void loadSettings()  {		
 		try {
 	        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+
+			String path = "/settings.xml";
+			InputStream is = this.getClass().getResourceAsStream(path); 
 			
-			Document doc = docBuilder.parse (new File("settings.xml"));
+			Document doc = docBuilder.parse (is);
 	        doc.getDocumentElement ().normalize();
 
 	        NodeList listOfLibraries = doc.getElementsByTagName("library_folder");

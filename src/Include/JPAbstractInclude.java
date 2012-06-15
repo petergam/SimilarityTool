@@ -1,12 +1,11 @@
 package Include;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPAbstractInclude.
  */
 public abstract class JPAbstractInclude implements JPInclude {
 
-	/** The layers. */
+	/** The number of layers. */
 	private int layers = 0;
 
 	/**

@@ -3,16 +3,16 @@ package Objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPSentence.
+ * Represents a sentece
  */
 public class JPSentence implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1541610976401476879L;
 	
-	/** The is pos tagged. */
+	/** Indicates if POS tagged. */
 	private boolean isPOSTagged = false;
 	
 	/** The words. */
@@ -37,18 +37,18 @@ public class JPSentence implements Serializable {
 	}
 
 	/**
-	 * Checks if is pOS tagged.
+	 * Checks if is POS tagged.
 	 *
-	 * @return true, if is pOS tagged
+	 * @return true, if is POS tagged
 	 */
 	public boolean isPOSTagged() {
 		return isPOSTagged;
 	}
 
 	/**
-	 * Sets the pOS tagged.
+	 * Sets if POS tagged.
 	 *
-	 * @param isPOSTagged the new pOS tagged
+	 * @param isPOSTagged the new POS tagged
 	 */
 	public void setPOSTagged(boolean isPOSTagged) {
 		this.isPOSTagged = isPOSTagged;
@@ -72,11 +72,11 @@ public class JPSentence implements Serializable {
 	}
 	
 	/**
-	 * Gets the pOS tagged sentece string.
+	 * Gets the POS tagged sentence string.
 	 *
-	 * @return the pOS tagged sentece string
+	 * @return the POS tagged sentence string
 	 */
-	public String getPOSTaggedSenteceString() {
+	public String getPOSTaggedSentenceString() {
 		if (isPOSTagged) {
 			StringBuilder sentence = new StringBuilder();
 			for (JPWord word : getWords()) {

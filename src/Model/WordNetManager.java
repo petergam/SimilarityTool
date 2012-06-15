@@ -22,9 +22,9 @@ import edu.mit.jwi.item.Pointer;
 import edu.mit.jwi.morph.WordnetStemmer;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum WordNetManager.
+ * Uses JWI to perform basic WordNet operations
  */
 public enum WordNetManager {
     

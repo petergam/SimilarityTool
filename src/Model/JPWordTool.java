@@ -25,9 +25,9 @@ import SenseRelate.JPSenseRelate;
 import Stemmer.JPStemmer;
 import Trimmer.JPTrimmer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPWordTool.
+ * Allow loading and calculations to be performed. Handles everything concerning threads.
  */
 public class JPWordTool {
 
@@ -49,9 +49,9 @@ public class JPWordTool {
 	/**
 	 * Run.
 	 *
-	 * @param config the config
-	 * @param callbackDelegate the callback delegate
-	 * @param callbackRunnable the callback runnable
+	 * @param config the config for the computations
+	 * @param callbackDelegate delegate that will be notified about progress
+	 * @param callbackRunnable runnable that will be run when everything is done
 	 */
 	public void run(final JPConfiguration config, final JPProgressDelegate callbackDelegate, final Runnable callbackRunnable) {
 				
@@ -231,13 +231,13 @@ public class JPWordTool {
 	 * @param document the document
 	 * @param file the file
 	 * @param loader the loader
-	 * @param posTagger the pos tagger
+	 * @param posTagger the POS tagger
 	 * @param senseRelate the sense relate
 	 * @param stemmer the stemmer
 	 * @param trimmer the trimmer
 	 * @param includes the includes
 	 * @param includeType the include type
-	 * @return the jP document
+	 * @return the loaded document
 	 */
 	private JPDocument loadDocument(JPDocument document, File file, JPDocumentLoader loader, JPPOSTagger posTagger, JPSenseRelate senseRelate, JPStemmer stemmer, JPTrimmer trimmer, ArrayList<JPInclude> includes, IncludeType includeType) {
 		try {
@@ -255,7 +255,7 @@ public class JPWordTool {
 	}
 	
 	/**
-	 * Stop.
+	 * Stop the calculations
 	 */
 	public void stop(){
 		engine.shutdownNow();

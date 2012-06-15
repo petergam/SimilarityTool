@@ -2,9 +2,9 @@ package Stemmer;
 
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPStemmerDummy.
+ * Dummy class. Does no change anything
  */
 public class JPStemmerDummy extends JPAbstractStemmer {
 	

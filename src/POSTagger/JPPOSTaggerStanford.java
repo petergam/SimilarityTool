@@ -4,9 +4,9 @@ import Model.StanfordPOSTaggerManager;
 import Objects.JPDocument;
 import Objects.JPSentence;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPPOSTaggerStanford.
+ * Tags a document using Stanford POS tagger
  */
 public class JPPOSTaggerStanford extends JPAbstractPOSTagger {
 

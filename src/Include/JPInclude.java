@@ -3,18 +3,17 @@ package Include;
 import Model.JPConfiguration.IncludeType;
 import Objects.JPDocument;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface JPInclude.
  */
 public interface JPInclude {
 	
     /**
-     * Include.
+     * Include. Include extra information in a document.
      *
      * @param document the document
      * @param includeType the include type
-     * @return the jP document
+     * @return the new document
      */
     public JPDocument include(JPDocument document, IncludeType includeType);
 	

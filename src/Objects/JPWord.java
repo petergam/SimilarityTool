@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import edu.mit.jwi.item.POS;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPWord.
+ * Represents a word
  */
 public class JPWord implements Serializable {
 
@@ -42,7 +42,7 @@ public class JPWord implements Serializable {
 	/** The value. */
 	private String value;
 	
-	/** The sense value. */
+	/** The sense tagged value. */
 	private String senseValue;
 	
 	/** The synonyms. */
@@ -57,11 +57,14 @@ public class JPWord implements Serializable {
 	/** The word type. */
 	private JPWordType wordType;
 	
-	/** The tag. */
+	/** The POS tag. */
 	private String tag;
 	
-	/** The sense index. */
+	/** The WordNet sense index. */
 	private int senseIndex;
+	
+	/** Indicates if the word is a stop word. */
+	private boolean isStopWord = false;
 	
 	/**
 	 * Instantiates a new jP word.
@@ -189,9 +192,11 @@ public class JPWord implements Serializable {
 			ArrayList<JPWord> words = (ArrayList<JPWord>) hypernyms.clone();
 			
 			for (JPWord word : hypernyms) {
-				ArrayList<JPWord> s = word.getAllHypernyms();
-				if (s!=null) {
-					words.addAll(s);
+				if (isStopWord == false) {
+					ArrayList<JPWord> s = word.getAllHypernyms();
+					if (s!=null) {
+						words.addAll(s);
+					}
 				}
 			}
 
@@ -211,10 +216,13 @@ public class JPWord implements Serializable {
 			ArrayList<JPWord> words = (ArrayList<JPWord>) hyponyms.clone();
 			
 			for (JPWord word : hyponyms) {
-				ArrayList<JPWord> s = word.getAllHyponyms();
-				if (s!=null) {
-					words.addAll(s);
+				if (isStopWord == false) {
+					ArrayList<JPWord> s = word.getAllHyponyms();
+					if (s!=null) {
+						words.addAll(s);
+					}
 				}
+
 			}
 
 			return words;
@@ -233,9 +241,11 @@ public class JPWord implements Serializable {
 			ArrayList<JPWord> words = (ArrayList<JPWord>) synonyms.clone();
 			
 			for (JPWord word : synonyms) {
-				ArrayList<JPWord> s = word.getAllSynonyms();
-				if (s!=null) {
-					words.addAll(s);
+				if (isStopWord == false) {
+					ArrayList<JPWord> s = word.getAllSynonyms();
+					if (s!=null) {
+						words.addAll(s);
+					}
 				}
 			}
 			return words;
@@ -263,9 +273,9 @@ public class JPWord implements Serializable {
 	}
 	
 	/**
-	 * Gets the pos.
+	 * Gets the POS.
 	 *
-	 * @return the pos
+	 * @return the POS
 	 */
 	public POS getPOS() {
 		switch (wordType) {
@@ -336,5 +346,23 @@ public class JPWord implements Serializable {
 	 */
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+
+	/**
+	 * Returns if the word is a stop word.
+	 *
+	 * @return returns true if the word is a stop word.
+	 */
+	public boolean isStopWord() {
+		return isStopWord;
+	}
+
+	/**
+	 * Sets if the word is a stop word.
+	 *
+	 * @param isStopWord, true if the word is a stop word
+	 */
+	public void setStopWord(boolean isStopWord) {
+		this.isStopWord = isStopWord;
 	}
 }

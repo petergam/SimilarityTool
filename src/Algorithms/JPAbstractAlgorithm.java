@@ -10,25 +10,26 @@ import javax.swing.SwingWorker;
 import Objects.JPDocument;
 import Objects.JPProgress;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPAbstractAlgorithm.
+ * Abstract class the represents an algorithm.
+ * All algorithms should extend this class.
  */
 public abstract class JPAbstractAlgorithm {
 
-	/** The Constant ThreadPoolSize. */
+	/** The Constant ThreadPoolSize. The number of threads available */
 	private static final int ThreadPoolSize = 6;
 
 	
 	/**
-	 * The Interface JPAlgorithmProgressDelegate.
+	 * The Interface JPAlgorithmProgressDelegate. Updates a delegate with progress from 0-100.
 	 */
 	public interface JPAlgorithmProgressDelegate {
 		
 		/**
 		 * Did update progress.
 		 *
-		 * @param progress the progress
+		 * @param the new progress value (0-100).
 		 */
 		public void didUpdateProgress(float progress);
 	}
@@ -36,21 +37,21 @@ public abstract class JPAbstractAlgorithm {
 	/** The progress delegate. */
 	protected JPProgress progressDelegate;
 	
-	/** The percent. */
+	/** The current percent loaded */
 	protected float percent = 0.0f;
 	
-	/** The engine. */
+	/** The engine used to control threads. */
 	protected ExecutorService engine = Executors.newFixedThreadPool(ThreadPoolSize);
 	
-	/** The shutdown. */
+	/** Indicating whenever the computations has been shutdown. */
 	private boolean shutdown = false;
 	
 	/**
 	 * Compute.
 	 *
 	 * @param mainDocument the main document
-	 * @param documents the documents
-	 * @param normalizeResult the normalize result
+	 * @param documents the other documents
+	 * @param normalizeResult whenever the result should be normalized
 	 * @param callbackDelegate the callback delegate
 	 */
 	public abstract void compute(JPDocument mainDocument, JPDocument[] documents, boolean normalizeResult, Runnable callbackDelegate);
@@ -59,7 +60,7 @@ public abstract class JPAbstractAlgorithm {
 	 * Compute.
 	 *
 	 * @param mainDocument the main document
-	 * @param documents the documents
+	 * @param documents the other documents
 	 * @param callbackDelegate the callback delegate
 	 */
 	public void compute(JPDocument mainDocument, JPDocument[] documents, Runnable callbackDelegate) {
@@ -69,10 +70,10 @@ public abstract class JPAbstractAlgorithm {
 	/**
 	 * Normalize result.
 	 *
-	 * @param resultArray the result array
-	 * @return the double[]
+	 * @param resultArray the results that should be normalized
+	 * @return the normalized result
 	 */
-	public abstract double[] normalizeResult(double[] resultArray);
+	protected abstract double[] normalizeResult(double[] resultArray);
 	
 	/**
 	 * Sets the algorithm progress delegate.
@@ -84,7 +85,7 @@ public abstract class JPAbstractAlgorithm {
 	}
 	
 	/**
-	 * Thead update.
+	 * Should be called once in a while if a task is performed that block the thread for a long time in order to support shutdowns.
 	 */
 	protected void theadUpdate() {
         if(shutdown){
@@ -121,10 +122,10 @@ public abstract class JPAbstractAlgorithm {
 	}
 	
 	/**
-	 * Run.
+	 * Run makes sure everything runs on seperate threads.
 	 *
-	 * @param backgroundRunnable the background runnable
-	 * @param doneRunnable the done runnable
+	 * @param backgroundRunnable will be run on a background thread
+	 * @param doneRunnable will be run after the background thread has finished
 	 */
 	protected void run(final Runnable backgroundRunnable, final Runnable doneRunnable) {	
 		SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>() {
@@ -143,7 +144,7 @@ public abstract class JPAbstractAlgorithm {
 	}
 	
 	/**
-	 * Stop.
+	 * Stops the algorithm from running
 	 */
 	public void stop() {
 		engine.shutdownNow();
@@ -151,9 +152,9 @@ public abstract class JPAbstractAlgorithm {
 	}
 	
 	/**
-	 * Sets the shutdown.
+	 * Shuts down the calculations
 	 *
-	 * @param shutdown the new shutdown
+	 * @param whenever or not to shutdown.
 	 */
 	private synchronized void setShutdown(boolean shutdown) {
 		this.shutdown = shutdown;

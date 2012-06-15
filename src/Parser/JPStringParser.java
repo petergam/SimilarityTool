@@ -1,14 +1,16 @@
 package Parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
+import Objects.JPWordIndex;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPStringParser.
+ * Parses a string to a document
  */
 public class JPStringParser {
 	
@@ -32,11 +34,21 @@ public class JPStringParser {
 				word.setValue(currentWord.toString());
 				currentSentence.getWords().add(word);
 
-				HashMap<String, Integer> wordHashMap = document.getWordHashMap();
+				HashMap<String, ArrayList<JPWordIndex>> wordHashMap = document.getWordHashMap();
 				if (wordHashMap.containsKey(currentWord.toString())) {
-					wordHashMap.put(currentWord.toString(), wordHashMap.get(currentWord.toString())+1);
+					JPWordIndex wordIndex = new JPWordIndex();
+					wordIndex.setWordIndex(currentSentence.getWords().size()-1);
+					wordIndex.setSentenceIndex(document.getSentenceArray().size());
+					
+					ArrayList<JPWordIndex> indexes = wordHashMap.get(currentWord.toString());
+					indexes.add(wordIndex);
 				} else {
-					wordHashMap.put(currentWord.toString(), 1);
+					ArrayList<JPWordIndex> indexes = new ArrayList<JPWordIndex>();
+					JPWordIndex wordIndex = new JPWordIndex();
+					wordIndex.setWordIndex(currentSentence.getWords().size()-1);
+					wordIndex.setSentenceIndex(document.getSentenceArray().size());
+					indexes.add(wordIndex);
+					wordHashMap.put(currentWord.toString(), indexes);
 				}
 				document.setNumberOfWords(document.getNumberOfWords()+1);
 				
@@ -49,6 +61,23 @@ public class JPStringParser {
 					word.setValue(currentWord.toString());
 					currentSentence.getWords().add(word);
 					currentWord = new StringBuilder();
+					
+					HashMap<String, ArrayList<JPWordIndex>> wordHashMap = document.getWordHashMap();
+					if (wordHashMap.containsKey(currentWord.toString())) {
+						JPWordIndex wordIndex = new JPWordIndex();
+						wordIndex.setWordIndex(currentSentence.getWords().size()-1);
+						wordIndex.setSentenceIndex(document.getSentenceArray().size());
+						
+						ArrayList<JPWordIndex> indexes = wordHashMap.get(currentWord.toString());
+						indexes.add(wordIndex);
+					} else {
+						ArrayList<JPWordIndex> indexes = new ArrayList<JPWordIndex>();
+						JPWordIndex wordIndex = new JPWordIndex();
+						wordIndex.setWordIndex(currentSentence.getWords().size()-1);
+						wordIndex.setSentenceIndex(document.getSentenceArray().size());
+						indexes.add(wordIndex);
+						wordHashMap.put(currentWord.toString(), indexes);
+					}
 				}
 
 				if (currentSentence.getWords().size()>0) {

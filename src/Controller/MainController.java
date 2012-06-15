@@ -12,11 +12,10 @@ import Model.JPWordTool;
 import Objects.JPDocument;
 import Objects.JPDocument.JPDocumentProgressType;
 import Objects.JPProgress.JPProgressDelegate;
-import Utilities.Log;
+import Utilities.GUILog;
 import View.MainFrame;
 import View.MainFrame.MainFrameDelegate;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MainController.
  */
@@ -25,7 +24,7 @@ public class MainController implements MainFrameDelegate, JPProgressDelegate {
     /** The main frame. */
 private MainFrame mainFrame;
     
-    /** The start time. */
+    /** The start time. Used when calculating the running time of an algorithm*/
     private long startTime;
     
     
@@ -51,7 +50,7 @@ private MainFrame mainFrame;
 		mainFrame = new MainFrame(delegate);
 		
 		//initialize GUI logger
-		Log.setupLogger(mainFrame.getPanel());
+		GUILog.setupLogger(mainFrame.getPanel());
 		
 		wordTool = new JPWordTool();
 	}
@@ -158,7 +157,10 @@ private MainFrame mainFrame;
 		
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		Log.nLog("Running time: " + totalTime);
+
+
+		GUILog.nLog("Running time: " + totalTime);
+
 //		System.out.println("Running time: " + totalTime);
 		
 		//If we want similairities between all pairs of docs.
@@ -208,7 +210,7 @@ private MainFrame mainFrame;
 	}
 	
 	/**
-	 * Make native look and feel.
+	 * Make a native look and feel
 	 */
 	private void makeNativeLookAndFeel() {
         try {
