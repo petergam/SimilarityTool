@@ -85,6 +85,9 @@ public class MainFrame extends JFrame {
 		 * Stop button pressed.
 		 */
 		public void stopButtonPressed();
+
+		//Remove later
+		public void computeAllButtonPressed(JPConfiguration setup, int i);
 	}
 
 	/** The Constant serialVersionUID. */
@@ -865,9 +868,8 @@ public class MainFrame extends JFrame {
 					setup.setDocumentFiles(files);
 					
 					setup.setMainDocumentFile(sfc.getSelectedFile());
-					
-
-					self.delegate.computeButtonPressed(setup);
+			
+					self.delegate.computeAllButtonPressed(setup,0);
 				} else {
 					System.out.println("Delegate not set");
 				}
