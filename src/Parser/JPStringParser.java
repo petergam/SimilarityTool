@@ -22,14 +22,7 @@ public class JPStringParser {
 	 * @param string the string
 	 * @return the jP document
 	 */
-	public JPDocument parse(JPDocument document, String string) {
-		JPCache cache = new JPCache();
-		JPDocument anotherDocument = cache.loadCachedDocument(document.getDocumentTitle());
-		if (anotherDocument != null) {
-			GUILog.nLog("Using cached " + anotherDocument.getDocumentTitle());
-			return anotherDocument;
-		}
-		
+	public JPDocument parse(JPDocument document, String string) {		
 		StringBuilder currentWord = new StringBuilder();
 		JPSentence currentSentence = new JPSentence();
 		for (char ch: string.toCharArray()) {

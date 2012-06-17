@@ -749,8 +749,7 @@ public class MainFrame extends JFrame {
 		JMenuItem mntmClearCache = new JMenuItem("Clear cache");
 		mntmClearCache.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPCache cache = new JPCache();
-				cache.clear();
+				JPCache.SharedCache.clear();
 			}
 		});
 		mnNewMenu.add(mntmClearCache);

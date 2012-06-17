@@ -28,8 +28,13 @@ public class JPSenseRelation implements Serializable {
 	/**
 	 * The Class Relation.
 	 */
-	public class Relation {
+	public class Relation implements Serializable {
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -897803862537487085L;
+
 		/** The word. */
 		private String word;
 		

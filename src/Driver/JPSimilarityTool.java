@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import Controller.MainController;
+import Model.JPCache;
 import Model.SettingsManager;
 
 /**
@@ -24,6 +25,9 @@ public class JPSimilarityTool {
 		if (isRequiredSoftwwareInstalled()) {
 			//load settings.xml
 			SettingsManager.SharedInstance.loadSettings();
+			
+			//start cache
+			JPCache.SharedCache.loadCache(JPCache.sDefaultCacheName);
 
 			// start the main controller
 			new MainController();
