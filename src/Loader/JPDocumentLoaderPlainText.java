@@ -1,9 +1,12 @@
 package Loader;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import Model.JPCache;
 import Objects.JPDocument;
@@ -21,29 +24,36 @@ public class JPDocumentLoaderPlainText extends JPAbstractDocumentLoader {
 	public JPDocumentLoaderPlainText() {
 		fileExtension = "txt";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see Loader.JPDocumentLoader#load(Objects.JPDocument, java.io.File)
 	 */
 	@Override
 	public String load(File file) throws IOException {
-        String result = null;
-        DataInputStream in = null;
+		StringBuilder stringBuilder = new StringBuilder();
+		try {
 
-        try {
-            byte[] buffer = new byte[(int) file.length()];
-            in = new DataInputStream(new FileInputStream(file));
-            in.readFully(buffer);
-            result = new String(buffer);
-        } catch (IOException e) {
-            throw new RuntimeException("IO problem in fileToString", e);
-        } finally {
-            try {
-                in.close();
-            } catch (IOException e) { /* ignore it */
-            }
-        }
-        return result;
+			BufferedReader i = new BufferedReader(new InputStreamReader(
+					new FileInputStream(file), "UTF8"));
 
+			String str1;
+			while ((str1 = i.readLine()) != null)
+				stringBuilder.append(str1);
+		} catch (UnsupportedEncodingException ue) {
+		} catch (IOException e) {
+		}
+		
+		return replaceJunk(stringBuilder.toString());
+	}
+
+	private String replaceJunk(String string) {
+		string = string.replace('é', 'e');
+		string = string.replace('á', 'a');
+		string = string.replace('è', 'e');
+		string = string.replace('à', 'a');
+		
+		return string;
 	}
 }

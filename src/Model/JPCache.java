@@ -51,7 +51,6 @@ public enum JPCache {
 					+ ".jp");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			cacheHashmap = (ConcurrentHashMap<Object, Object>) ois.readObject();
-
 			ois.close();
 
 		} catch (FileNotFoundException e) {
@@ -81,7 +80,7 @@ public enum JPCache {
 	 * @return the cached value
 	 */
 	public Object getCachedValue(Object key) {
-		return cacheHashmap.get(key);
+		return cacheHashmap.get(key.toString());
 	}
 	
 	/**

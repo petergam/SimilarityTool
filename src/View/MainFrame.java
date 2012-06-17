@@ -876,9 +876,9 @@ public class MainFrame extends JFrame {
 					setup.setMainDocumentFile(sfc.getSelectedFile());
 			
 					//Johan code for comparison on all docs.
-					self.delegate.computeAllButtonPressed(setup,0);
+//					self.delegate.computeAllButtonPressed(setup,0);
 
-//					self.delegate.computeButtonPressed(setup);
+					self.delegate.computeButtonPressed(setup);
 				} else {
 					System.out.println("Delegate not set");
 				}

@@ -17,6 +17,7 @@ import Objects.JPSentence;
 import Objects.JPWord;
 import Objects.JPSenseRelation;
 import Utilities.GUILog;
+import Utilities.UtilMethods;
 
 import com.google.gson.Gson;
 
@@ -34,24 +35,20 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 	 * @see SenseRelate.JPSenseRelate#senseRelate(Objects.JPDocument)
 	 */
 	@Override
-    public JPDocument senseRelate(JPDocument document) {
-		if (document.isSenseTagged()) {
-			return document;
-		}
-		
-				
+    public JPDocument senseRelate(final JPDocument document) {				
 		ExecutorService engine = Executors.newFixedThreadPool(ThreadPoolSize);
-		
+
 		for (final JPSentence sentence : document.getSentenceArray()) {
 			Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
 					try {
-						
-
 						String sentenceString = sentence.isPOSTagged() ? sentence.getPOSTaggedSentenceString() : sentence.getSentenceString();
+						String sha1 = UtilMethods.sha1(sentenceString);
 						JPSenseRelation senseRelation = null;
-						if(JPCache.SharedCache.getCachedValue(sentenceString)==null) {
+						if(JPCache.SharedCache.getCachedValue(sha1)==null) {	
+							System.out.println(document.getDocumentTitle() + " " + sha1 + " " + sentenceString);
+							
 							String[] paths = (String[]) SettingsManager.SharedInstance.getSettings().get(SettingsManager.PerlLibraryPathsKey);
 							
 							int parameters = sentence.isPOSTagged() ? 5 : 4;
@@ -64,7 +61,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 								commands[index] = "-I";
 								commands[index+1] = paths[i];
 							}
-							
+
 
 							String path = new File(SettingsManager.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
 
@@ -89,12 +86,10 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 							String jsonResponse = writer.toString();
 							senseRelation = new Gson().fromJson(
 									jsonResponse, JPSenseRelation.class);
-							
-							JPCache.SharedCache.setCachedValue(senseRelation, sentenceString);
+							JPCache.SharedCache.setCachedValue(senseRelation, sha1);
 							
 						} else {
-//							System.out.println("Using cache");
-							senseRelation = (JPSenseRelation) JPCache.SharedCache.getCachedValue(sentenceString);
+							senseRelation = (JPSenseRelation) JPCache.SharedCache.getCachedValue(sha1);
 						}
 						
 
@@ -123,7 +118,6 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 			};
 
 			engine.submit(runnable);
-
 		}
 		
 		try {
