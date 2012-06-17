@@ -101,33 +101,31 @@ private MainFrame mainFrame;
 			}
 		});
 		
-		//Inserting into matrix
-		if (document != null) {
-		JPDocumentProgressType progType = document.getProgressType();
-		switch (progType) {
-		case JPDocumentProgressTypeComputed:
-			for (int j = 0; j < config.getDocumentFiles().length; j++) {
-				if (config.getDocumentFiles()[j].getName().equals(document.getDocumentTitle())) {
-//					scoreMatrix[i][j]=roundTwoDecimals(document.getScore());
-					if (scoreMatrix[j][i] != 0.0) {
-						scoreMatrix[i][j] = roundTwoDecimals(Math.max(scoreMatrix[j][i],document.getScore()));
-					}
-					else{
-						scoreMatrix[i][j]=roundTwoDecimals(document.getScore());
+		// Inserting into matrix
+		if (document != null && scoreMatrix!=null) {
+			JPDocumentProgressType progType = document.getProgressType();
+			switch (progType) {
+			case JPDocumentProgressTypeComputed:
+				for (int j = 0; j < config.getDocumentFiles().length; j++) {
+					if (config.getDocumentFiles()[j].getName().equals(
+							document.getDocumentTitle())) {
+						if (scoreMatrix[j][i] != 0.0) {
+							scoreMatrix[i][j] = roundTwoDecimals(Math.max(
+									scoreMatrix[j][i], document.getScore()));
+						} else {
+							scoreMatrix[i][j] = roundTwoDecimals(document
+									.getScore());
+						}
 					}
 				}
+				break;
+			default:
+				break;
 			}
-			break;
-		default:
-			break;
 		}
-		}
-		//End of Johan code
+		// End of Johan code
 	}
-	double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-    return Double.valueOf(twoDForm.format(d));
-}
+
 
 	/* (non-Javadoc)
 	 * @see Objects.JPProgress.JPProgressDelegate#didStartProgress()
@@ -164,8 +162,10 @@ private MainFrame mainFrame;
 //		System.out.println("Running time: " + totalTime);
 		
 		//If we want similairities between all pairs of docs.
+		if (i != -2) {
+
 		i++;
-		if (i != -1 && i < config.getDocumentFiles().length) {
+		if (i < config.getDocumentFiles().length) {
 			config.setMainDocumentFile(config.getDocumentFiles()[i]);
 			computeAllButtonPressed(config, i);
 		}
@@ -182,7 +182,9 @@ private MainFrame mainFrame;
 				}
 				System.out.print(":\n");
 			}
-		}
+			scoreMatrix=null;
+		}	
+	}
 		
 	}
 
@@ -233,5 +235,10 @@ private MainFrame mainFrame;
 			  System.setProperty("apple.laf.useScreenMenuBar", "true");
 		}
 	}
+	
+	double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.####");
+    return Double.valueOf(twoDForm.format(d));
+}
 
 }

@@ -1,5 +1,6 @@
 package Objects;
 
+import java.io.Serializable;
 import java.util.List;
 
 import Objects.JPWord.JPWordType;
@@ -8,7 +9,12 @@ import Objects.JPWord.JPWordType;
  * The Class JPSenseRelation.
  * Represents the object returned when using WordNet sense relation using the Perl program SenseRelate.pl
  */
-public class JPSenseRelation {
+public class JPSenseRelation implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2614531523611290923L;
 
 	/** Indicates if call was a success. 1 = success, 0 = fail*/
 	private int success;

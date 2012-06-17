@@ -29,14 +29,18 @@ public class JPCache {
 //		try {
 //			URL url = this.getClass().getResource("/Cache/");
 //
-//			FileOutputStream fos = new FileOutputStream(url.getPath() + document.getDocumentTitle() + ".jp");
+//			String documentTitle = document.getDocumentTitle();
+//			
+//			FileOutputStream fos = new FileOutputStream("cache/"+ documentTitle + ".jp");
 //			
 //			ObjectOutputStream oos = new ObjectOutputStream(fos); 
 //			oos.writeObject(document); 
 //			oos.flush(); 
 //			oos.close(); 
 //		} catch (FileNotFoundException e) {
+//			System.out.println("Cache doc error");
 //		} catch (IOException e) {
+//			System.out.println("IOException write doc");
 //		} 
 	}
 	
@@ -50,15 +54,19 @@ public class JPCache {
 		
 //		try {
 //			URL url = this.getClass().getResource("/Cache/");
-//			FileInputStream fis = new FileInputStream(url.getPath() + fileName + ".jp");
+//			
+//			FileInputStream fis = new FileInputStream("cache/"+fileName+".jp");
 //			ObjectInputStream ois = new ObjectInputStream(fis); 
 //			JPDocument document = (JPDocument)ois.readObject(); 
 //			ois.close(); 
 //			
 //			return document;
 //		} catch (FileNotFoundException e) {
+//			System.out.println("Cache load doc error");
 //		} catch (IOException e) {
+//			System.out.println("Cache load IOexception");
 //		} catch (ClassNotFoundException e) {
+//			System.out.println("Cache classNotFound error");
 //		} 
 
 		
@@ -71,7 +79,7 @@ public class JPCache {
 	public void clear() {
 		try {
 			URL url = this.getClass().getResource("/Cache/");
-			FileUtils.cleanDirectory(new File(url.getPath()));
+			FileUtils.cleanDirectory(new File("cache"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

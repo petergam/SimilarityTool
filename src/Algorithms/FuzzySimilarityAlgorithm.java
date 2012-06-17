@@ -49,10 +49,10 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 			
 			@Override
 			public void run() {
-				final ArrayList<JPWord> mainDocWords = mainDocument.getAllWords();
+				final ArrayList<JPWord> mainDocWords = mainDocument.getWords(false);
 
 				final int mainDocumentWordCount = mainDocWords.size();
-
+//				System.out.println("Maindoc words: " + mainDocumentWordCount);
 				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {
 					JPDocumentCallable runnable = new JPDocumentCallable() {
 						@Override
@@ -61,9 +61,10 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 
 							ArrayList<JPWord> currentDocWords = document.getAllWords();
 							int currentDocumentWordCount = currentDocWords.size();
-							
+//							System.out.println("CompareDoc: " + currentDocumentWordCount);
+
 							double sim = 0;
-							double max = Math.max(mainDocumentWordCount, currentDocumentWordCount);
+							double max = Math.max(mainDocumentWordCount, document.getWords(false).size());
 							double sum = 0;
 
 							for (int i = 0; i < mainDocumentWordCount; i++) {
@@ -119,8 +120,9 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	 * @see Algorithms.JPAbstractAlgorithm#normalizeResult(double[])
 	 */
 	@Override
-	public double[] normalizeResult(double[] resultArray) {
-		return resultArray;
+	public double normalizeResult(JPDocument mainDoc, JPDocument compareDoc, double score) {
+		
+		return 0.0;
 	}
 	
 }

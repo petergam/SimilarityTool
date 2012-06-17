@@ -20,7 +20,7 @@ public class JPPOSTaggerStanford extends JPAbstractPOSTagger {
 		for (JPSentence sentence : document.getSentenceArray()) {
 			posTagger.tagSentence(sentence);			
 		}
-		
+	
 		return document;
 	}
 }
