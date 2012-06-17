@@ -26,16 +26,22 @@ public class JPCache {
 	 */
 	public void cacheDocument(JPDocument document) {
 
-		try {
-			FileOutputStream fos = new FileOutputStream("cache/");
-			
-			ObjectOutputStream oos = new ObjectOutputStream(fos); 
-			oos.writeObject(document); 
-			oos.flush(); 
-			oos.close(); 
-		} catch (FileNotFoundException e) {
-		} catch (IOException e) {
-		} 
+//		try {
+//			URL url = this.getClass().getResource("/Cache/");
+//
+//			String documentTitle = document.getDocumentTitle();
+//			
+//			FileOutputStream fos = new FileOutputStream("cache/"+ documentTitle + ".jp");
+//			
+//			ObjectOutputStream oos = new ObjectOutputStream(fos); 
+//			oos.writeObject(document); 
+//			oos.flush(); 
+//			oos.close(); 
+//		} catch (FileNotFoundException e) {
+//			System.out.println("Cache doc error");
+//		} catch (IOException e) {
+//			System.out.println("IOException write doc");
+//		} 
 	}
 	
 	/**
@@ -46,17 +52,22 @@ public class JPCache {
 	 */
 	public JPDocument loadCachedDocument(String fileName) {
 		
-		try {
-			FileInputStream fis = new FileInputStream("cache/" + fileName + ".jp");
-			ObjectInputStream ois = new ObjectInputStream(fis); 
-			JPDocument document = (JPDocument)ois.readObject(); 
-			ois.close(); 
-			
-			return document;
-		} catch (FileNotFoundException e) {
-		} catch (IOException e) {
-		} catch (ClassNotFoundException e) {
-		} 
+//		try {
+//			URL url = this.getClass().getResource("/Cache/");
+//			
+//			FileInputStream fis = new FileInputStream("cache/"+fileName+".jp");
+//			ObjectInputStream ois = new ObjectInputStream(fis); 
+//			JPDocument document = (JPDocument)ois.readObject(); 
+//			ois.close(); 
+//			
+//			return document;
+//		} catch (FileNotFoundException e) {
+//			System.out.println("Cache load doc error");
+//		} catch (IOException e) {
+//			System.out.println("Cache load IOexception");
+//		} catch (ClassNotFoundException e) {
+//			System.out.println("Cache classNotFound error");
+//		} 
 
 		
 		return null;

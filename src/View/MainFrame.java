@@ -132,6 +132,8 @@ public class MainFrame extends JFrame {
 	/** The chckbx synonyms. */
 	private JCheckBox chckbxSynonyms;
 	
+	private JCheckBox chckbxNormalizeStopwords;
+	
 	/** The sense related words radio button. */
 	private JRadioButton senseRelatedWordsRadioButton;
 	
@@ -303,6 +305,7 @@ public class MainFrame extends JFrame {
 		horizontalBox_2.add(horizontalStrut_2);
 
 		hypernymsSlider = new JSlider();
+		hypernymsSlider.setMinimum(1);
 		hypernymsSlider.setMajorTickSpacing(1);
 		hypernymsSlider.setSnapToTicks(true);
 		hypernymsSlider.setPaintLabels(true);
@@ -347,6 +350,7 @@ public class MainFrame extends JFrame {
 		horizontalBox_3.add(horizontalStrut_1);
 
 		hyponymsSlider = new JSlider();
+		hyponymsSlider.setMinimum(1);
 		hyponymsSlider.setMajorTickSpacing(1);
 		hyponymsSlider.setPaintTicks(true);
 		hyponymsSlider.setSnapToTicks(true);
@@ -386,6 +390,7 @@ public class MainFrame extends JFrame {
 		horizontalBox_4.add(horizontalStrut);
 
 		synonymsSlider = new JSlider();
+		synonymsSlider.setMinimum(1);
 		synonymsSlider.setMajorTickSpacing(1);
 		synonymsSlider.setSnapToTicks(true);
 		synonymsSlider.setPaintTicks(true);
@@ -602,7 +607,7 @@ public class MainFrame extends JFrame {
 
 						break;
 					case 2:
-						setFlagsForOntho();
+						setFlagsForTermF();
 
 						break;
 					case 3:
@@ -644,7 +649,7 @@ public class MainFrame extends JFrame {
 
 		getContentPane().add(verticalBox_7);
 
-		JCheckBox chckbxNormalizeStopwords = new JCheckBox("Normalize result");
+		chckbxNormalizeStopwords = new JCheckBox("Normalize result");
 		verticalBox_7.add(chckbxNormalizeStopwords);
 		
 		Box verticalBox_8 = Box.createVerticalBox();
@@ -805,19 +810,20 @@ public class MainFrame extends JFrame {
 					
 					if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
 						JPIncludeHypernyms include = new JPIncludeHypernyms();
-						include.setLayers(self.hypernymsSlider.getValue());
+						System.out.println("Slider: " + (self.hypernymsSlider.getValue()-1));
+						include.setLayers(self.hypernymsSlider.getValue()-1);
 						setup.getIncludeTypes().add(include);
 					}
 					
 					if (chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled()) {
 						JPIncludeHyponyms include = new JPIncludeHyponyms();
-						include.setLayers(self.hyponymsSlider.getValue());
+						include.setLayers(self.hyponymsSlider.getValue()-1);
 						setup.getIncludeTypes().add(include);
 					}
 					
 					if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 						JPIncludeSynonyms include = new JPIncludeSynonyms();
-						include.setLayers(self.synonymsSlider.getValue());
+						include.setLayers(self.synonymsSlider.getValue()-1);
 						setup.getIncludeTypes().add(include);
 					}
 					
@@ -863,13 +869,17 @@ public class MainFrame extends JFrame {
 					
 					setup.setIncludeType(IncludeType.getIncludeTypeFromInt(includeIndex));
 					
+					setup.setNormalized(chckbxNormalizeStopwords.isSelected());
 					
 					File[] files = fc.getSelectedFiles();
 					setup.setDocumentFiles(files);
 					
 					setup.setMainDocumentFile(sfc.getSelectedFile());
 			
+					//Johan code for comparison on all docs.
 					self.delegate.computeAllButtonPressed(setup,0);
+
+//					self.delegate.computeButtonPressed(setup);
 				} else {
 					System.out.println("Delegate not set");
 				}
@@ -1193,6 +1203,9 @@ public class MainFrame extends JFrame {
 	 * Sets the flags for fuzzy.
 	 */
 	private void setFlagsForFuzzy() {
+		chckbxHypernyms.setEnabled(false);
+		chckbxHyponyms.setEnabled(false);
+		chckbxSynonyms.setEnabled(false);
 		chckbxHypernyms.setEnabled(true);
 		chckbxHyponyms.setEnabled(true);
 		chckbxSynonyms.setEnabled(true);
@@ -1205,18 +1218,21 @@ public class MainFrame extends JFrame {
 	 * Sets the flags for term f.
 	 */
 	private void setFlagsForTermF() {
-		chckbxHypernyms.setEnabled(true);
-		chckbxHyponyms.setEnabled(true);
-		chckbxSynonyms.setEnabled(true);
-		senseRelatedWordsRadioButton.setEnabled(true);
-		allWordsRadioButton.setEnabled(true);
-		posTaggedWordsRadioButton.setEnabled(true);
+		chckbxHypernyms.setEnabled(false);
+		chckbxHyponyms.setEnabled(false);
+		chckbxSynonyms.setEnabled(false);
+		senseRelatedWordsRadioButton.setEnabled(false);
+		allWordsRadioButton.setEnabled(false);
+		posTaggedWordsRadioButton.setEnabled(false);
 	}
 
 	/**
 	 * Sets the flags for ontho.
 	 */
 	private void setFlagsForOntho() {
+		chckbxHypernyms.setEnabled(false);
+		chckbxHyponyms.setEnabled(false);
+		chckbxSynonyms.setEnabled(false);
 		chckbxHypernyms.setEnabled(true);
 		chckbxHyponyms.setEnabled(true);
 		chckbxSynonyms.setEnabled(true);

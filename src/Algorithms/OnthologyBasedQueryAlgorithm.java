@@ -36,8 +36,9 @@ public class OnthologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 	 * @see Algorithms.JPAbstractAlgorithm#normalizeResult(double[])
 	 */
 	@Override
-	public double[] normalizeResult(double[] resultArray) {
-		return null;
+	public double normalizeResult(JPDocument mainDoc, JPDocument compareDoc, double score) {
+		
+		return 0.0;
 	}
 
 }

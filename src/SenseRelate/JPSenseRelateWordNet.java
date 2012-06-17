@@ -125,6 +125,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 		document.setSenseTagged(true);
 		JPCache cache = new JPCache();
         cache.cacheDocument(document);
+
 		return document;
 	}
 

@@ -93,6 +93,10 @@ public class JPStringParser {
 			}
 		}
 		
+		if(currentSentence.getWords().size() > 0) {
+			document.getSentenceArray().add(currentSentence);
+		}
+		
 		return document;
 	}
 }

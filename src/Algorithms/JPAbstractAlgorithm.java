@@ -73,7 +73,7 @@ public abstract class JPAbstractAlgorithm {
 	 * @param resultArray the results that should be normalized
 	 * @return the normalized result
 	 */
-	protected abstract double[] normalizeResult(double[] resultArray);
+	protected abstract double normalizeResult(JPDocument mainDoc, JPDocument compareDoc, double score);
 	
 	/**
 	 * Sets the algorithm progress delegate.

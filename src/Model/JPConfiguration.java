@@ -34,6 +34,7 @@ import Trimmer.JPTrimmerStopWords;
  */
 public class JPConfiguration {
 
+	boolean normalized;
 	/**
 	 * The Enum AlgorithmIndex.
 	 */
@@ -533,5 +534,13 @@ public class JPConfiguration {
 	 */
 	public void setIncludeType(IncludeType includeType) {
 		this.includeType = includeType;
+	}
+	
+	public void setNormalized(boolean normalized) {
+		this.normalized = normalized;
+	}
+	
+	public boolean getNormalized() {
+		return normalized;
 	}
 }

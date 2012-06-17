@@ -25,6 +25,9 @@ public class JPDocument implements Serializable {
 	/** The score of algorithm calculations. */
 	private double score = 0.0;
 	
+	/** The normalized score of algorithm calculations. */
+	private double normalizedScore = 0.0;
+	
 	/** The progress type. */
 	private JPDocumentProgressType progressType = JPDocumentProgressType.JPDocumentProgressTypeNotLoaded;;
 
@@ -63,7 +66,12 @@ public class JPDocument implements Serializable {
 	 *
 	 * @return all the words
 	 */
-	public ArrayList<JPWord> getAllWords() {
+	public ArrayList<JPWord> getAllWords(){ 
+						
+		return getWords(true);
+	}
+	
+	public ArrayList<JPWord> getWords(boolean synset) {
 		ArrayList<JPWord> words = new ArrayList<JPWord>();
 		
 		
@@ -72,6 +80,7 @@ public class JPDocument implements Serializable {
 				if (word.isStopWord() == false) {
 					words.add(word);
 
+					if (synset) {
 					ArrayList<JPWord> synonyms = word.getAllSynonyms();
 					if (synonyms!=null) {
 						words.addAll(synonyms);
@@ -85,6 +94,7 @@ public class JPDocument implements Serializable {
 					ArrayList<JPWord> hyponyms = word.getAllHyponyms();
 					if (hyponyms!=null) {
 						words.addAll(hyponyms);
+					}
 					}
 				}
 			}
@@ -217,6 +227,24 @@ public class JPDocument implements Serializable {
 	 */
 	public void setSenseTagged(boolean isSenseTagged) {
 		this.isSenseTagged = isSenseTagged;
+	}
+
+	/**
+	 * Gets the normalized score.
+	 *
+	 * @return the normalized score
+	 */
+	public double getNormalizedScore() {
+		return normalizedScore;
+	}
+
+	/**
+	 * Sets the normalized score.
+	 *
+	 * @param normalizedScore the new normalized score.
+	 */
+	public void setNormalizedScore(double normalizedScore) {
+		this.normalizedScore = normalizedScore;
 	}
 
 }

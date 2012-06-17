@@ -19,7 +19,7 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	@Override
 	//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
 	public void compute(final JPDocument mainDocument,
-			final JPDocument[] documents, boolean normalizeResult, final Runnable callbackDelegate) {
+			final JPDocument[] documents, final boolean normalizeResult, final Runnable callbackDelegate) {
 		
 		Runnable backgroundRunnable = new Runnable() {
 			@Override
@@ -64,7 +64,12 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 								}
 							}
 						
-							document.setScore(distance[mainDocumentSize][currentDocumentSize]);
+							if (normalizeResult) {
+								double normalizedResult = normalizeResult(mainDocument,document,distance[mainDocumentSize][currentDocumentSize]);
+								document.setScore(normalizedResult);
+							}else{
+								document.setScore(distance[mainDocumentSize][currentDocumentSize]);
+							}
 							
 							progressDelegate.didFinishAlgorithmForDocument(document);
 						
@@ -93,9 +98,8 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	 * @see Algorithms.JPAbstractAlgorithm#normalizeResult(double[])
 	 */
 	@Override
-	public double[] normalizeResult(double[] resultArray) {
-		//Shhould be of the form: 1- edit distance / max length of docs.
-		return null;
+	public double normalizeResult(JPDocument mainDoc, JPDocument compareDoc, double score) {
+		return (1-(score/Math.max(compareDoc.getAllWords().size(),mainDoc.getAllWords().size())));
 	}
 
 }
