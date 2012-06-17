@@ -21,6 +21,7 @@ import Objects.JPDocument;
 import Objects.JPProgress;
 import Objects.JPProgress.JPProgressDelegate;
 import POSTagger.JPPOSTagger;
+import Parser.JPStringParser;
 import SenseRelate.JPSenseRelate;
 import Stemmer.JPStemmer;
 import Trimmer.JPTrimmer;
@@ -241,8 +242,10 @@ public class JPWordTool {
 	 */
 	private JPDocument loadDocument(JPDocument document, File file, JPDocumentLoader loader, JPPOSTagger posTagger, JPSenseRelate senseRelate, JPStemmer stemmer, JPTrimmer trimmer, ArrayList<JPInclude> includes, IncludeType includeType) {
 		try {
-			document = trimmer.trim(stemmer.stem(senseRelate.senseRelate(posTagger.tag(loader.load(document,file)))));
-			
+	        JPStringParser parser = new JPStringParser();
+	        document.setDocumentTitle(file.getName());
+
+			document = trimmer.trim(stemmer.stem(senseRelate.senseRelate(posTagger.tag(parser.parse(document,loader.load(file))))));
 			for (JPInclude include : includes) {
 				include.include(document, includeType);
 			}

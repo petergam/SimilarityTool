@@ -18,5 +18,5 @@ public interface JPDocumentLoader {
 	 * @return the loaded document
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public JPDocument load(JPDocument document, File file) throws IOException;
+	public String load(File file) throws IOException;
 }

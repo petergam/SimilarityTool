@@ -38,6 +38,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 		if (document.isSenseTagged()) {
 			return document;
 		}
+		
 				
 		ExecutorService engine = Executors.newFixedThreadPool(ThreadPoolSize);
 		
@@ -46,6 +47,8 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 				@Override
 				public void run() {
 					try {
+						
+
 						String sentenceString = sentence.isPOSTagged() ? sentence.getPOSTaggedSentenceString() : sentence.getSentenceString();
 						String[] paths = (String[]) SettingsManager.SharedInstance.getSettings().get(SettingsManager.PerlLibraryPathsKey);
 						
@@ -60,10 +63,9 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 							commands[index+1] = paths[i];
 						}
 						
-						
+
 						String path = new File(SettingsManager.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
 
-						System.out.println(path);
 						
 						if (sentence.isPOSTagged()) {
 							commands[commands.length-4] = path + "/SenseRelate.pl";
@@ -85,7 +87,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 						String jsonResponse = writer.toString();
 						JPSenseRelation senseRelation = new Gson().fromJson(
 								jsonResponse, JPSenseRelation.class);
-
+						
 						if (senseRelation.getSuccess() == 1) {
 							for (int i = 0; i < sentence.getWords().size(); i++) {
 								JPWord word = sentence.getWords().get(i);
@@ -105,6 +107,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+	
 				}
 			};
 

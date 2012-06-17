@@ -3,10 +3,12 @@ package Parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Model.JPCache;
 import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 import Objects.JPWordIndex;
+import Utilities.GUILog;
 
 /**
  * The Class JPStringParser.
@@ -20,9 +22,13 @@ public class JPStringParser {
 	 * @param string the string
 	 * @return the jP document
 	 */
-	public JPDocument parse(String string) {
-		
-		JPDocument document = new JPDocument();
+	public JPDocument parse(JPDocument document, String string) {
+		JPCache cache = new JPCache();
+		JPDocument anotherDocument = cache.loadCachedDocument(document.getDocumentTitle());
+		if (anotherDocument != null) {
+			GUILog.nLog("Using cached " + anotherDocument.getDocumentTitle());
+			return anotherDocument;
+		}
 		
 		StringBuilder currentWord = new StringBuilder();
 		JPSentence currentSentence = new JPSentence();

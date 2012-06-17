@@ -66,7 +66,9 @@ public class JPSentence implements Serializable {
 			sentence.append(word.getValue());
 			sentence.append(" ");
 		}
-		sentence.deleteCharAt(sentence.length()-1);
+		if (sentence.length()>0) {
+			sentence.deleteCharAt(sentence.length()-1);
+		}
 		
 		return sentence.toString();
 	}

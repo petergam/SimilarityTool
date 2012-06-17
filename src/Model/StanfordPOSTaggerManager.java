@@ -47,6 +47,9 @@ public enum StanfordPOSTaggerManager {
 	 * @return the POS-tagged sentence
 	 */
 	public JPSentence tagSentence(JPSentence s) {
+		if (s.getWords().size()==0) {
+			return s;
+		}
 		
 		List<HasWord> sentence = new ArrayList<HasWord>();
 		

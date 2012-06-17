@@ -26,15 +26,7 @@ public class JPDocumentLoaderPlainText extends JPAbstractDocumentLoader {
 	 * @see Loader.JPDocumentLoader#load(Objects.JPDocument, java.io.File)
 	 */
 	@Override
-	public JPDocument load(JPDocument document, File file) throws IOException {
-		JPCache cache = new JPCache();
-		
-		JPDocument anotherDocument = cache.loadCachedDocument(file.getName());
-		if (anotherDocument != null) {
-			GUILog.nLog("Using cached " + anotherDocument.getDocumentTitle());
-			return anotherDocument;
-		}
-		
+	public String load(File file) throws IOException {
         String result = null;
         DataInputStream in = null;
 
@@ -51,11 +43,7 @@ public class JPDocumentLoaderPlainText extends JPAbstractDocumentLoader {
             } catch (IOException e) { /* ignore it */
             }
         }
-        
-        JPStringParser parser = new JPStringParser();
-        
-        document = parser.parse(result);
-        document.setDocumentTitle(file.getName());
-        return document;
+        return result;
+
 	}
 }
