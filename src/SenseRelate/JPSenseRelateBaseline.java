@@ -18,7 +18,13 @@ public class JPSenseRelateBaseline extends JPAbstractSenseRelate {
 		document.setSenseTagged(true);
 		for (JPSentence sentence : document.getSentenceArray())  {
 			for (JPWord word : sentence.getWords()) {
-				word.setSenseIndex(0);
+				if (word.wordNetID != null) {
+					word.setSenseIndex(1);
+				} else {
+					word.setSenseIndex(0);
+				}
+				
+				
 			}
 		}
 		return document;

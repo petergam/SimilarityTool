@@ -96,7 +96,8 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 									
 									if (maxDegree != 1.0 && mainDocWords.get(i).getNeighbourWord() !=null) {
 										for (Object[] neighbourWord : mainDocWords.get(i).getNeighbourWord()) {
-											msF = membershipFunction(word1, (String)neighbourWord[0]);
+//											System.out.println(neighbourWord[0]);
+											msF = membershipFunction((String)neighbourWord[0], word2);
 											if (msF > maxDegree) {
 												maxDegree = msF;
 												if (maxDegree == 1.0) {

@@ -589,7 +589,6 @@ public class MainFrame extends JFrame {
 					}
 					
 				
-					System.out.println(adjustSettings);
 
 					if ((Boolean)adjustSettings.get("HyperHypoInclude") || (Boolean)adjustSettings.get("SynoInclude")) {
 						JPIncludeNeighbourWords include = new JPIncludeNeighbourWords();
