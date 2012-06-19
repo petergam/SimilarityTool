@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class LevenshteinPopup extends AbstractAlgorithmPopupFrame {
 
-	public LevenshteinPopup(HashMap<String, String> settings) {
+	public LevenshteinPopup(HashMap<String, Object> settings) {
 		super(settings);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Levenshtein Distance");

@@ -13,7 +13,7 @@ import javax.swing.Box;
 
 public class TfidfPopup extends AbstractAlgorithmPopupFrame {
 
-	public TfidfPopup(HashMap<String, String> settings) {
+	public TfidfPopup(HashMap<String, Object> settings) {
 		super(settings);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Term Frequency - Inverse Document Frequency");

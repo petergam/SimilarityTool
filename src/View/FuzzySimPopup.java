@@ -65,8 +65,8 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	
 	JRadioButton rdbtnNewRadioButton_5;
 	
-	public FuzzySimPopup(HashMap<String, String> settings) {
-		super(settings);
+	public FuzzySimPopup(HashMap<String, Object> adjustSettings) {
+		super(adjustSettings);
 		setAlwaysOnTop(true);
 		this.setSize(new Dimension(359, 494));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -243,8 +243,8 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		
 		 thres.setLabelTable(thresLabelTable);		
 		
-		if (settings != null) {
-			loadSettings(settings);
+		if (adjustSettings != null) {
+			loadSettings(adjustSettings);
 		}
 	}
 	
@@ -263,7 +263,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				posTaggerIndex++;
 			}
 		}
-		super.settings.put("PosIndex", ""+posTaggerIndex);
+		super.settings.put("PosIndex", posTaggerIndex);
 		
 		
 		int senseRelateIndex = 0;
@@ -276,7 +276,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				senseRelateIndex++;
 			}
 		}
-		super.settings.put("SenseIndex", ""+ senseRelateIndex);
+		super.settings.put("SenseIndex", senseRelateIndex);
 		
 		int includeIndex = 0;
 		for (Enumeration<AbstractButton> e = includeButtonGroup
@@ -288,29 +288,29 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				includeIndex++;
 			}
 		}
-		super.settings.put("IncludeIndex", ""+ includeIndex);
+		super.settings.put("IncludeIndex", includeIndex);
 		
-		super.settings.put("Threshold", ""+(thres.getValue()));
+		super.settings.put("Threshold", thres.getValue());
 		
 		if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
-			super.settings.put("HyperHypoInclude", "true");
-			super.settings.put("HyperHypoLayers", ""+(hypernymsSlider.getValue()-1));
+			super.settings.put("HyperHypoInclude", true);
+			super.settings.put("HyperHypoLayers", hypernymsSlider.getValue()-1);
 		}
 		else if (!chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
-			super.settings.put("HyperHypoInclude", "false");
+			super.settings.put("HyperHypoInclude", false);
 		}
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
-			super.settings.put("SynoInclude", "true");
+			super.settings.put("SynoInclude", true);
 		}
 		else if (!chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
-			super.settings.put("SynoInclude", "false");
+			super.settings.put("SynoInclude", false);
 		}
 	}	
 	
 	@Override
-	public void loadSettings(HashMap<String, String> settings){
-		if (settings.get("IncludeIndex") != null) {
-			switch (Integer.parseInt(settings.get("IncludeIndex"))) {
+	public void loadSettings(HashMap<String, Object> adjustSettings){
+		if (adjustSettings.get("IncludeIndex") != null) {
+			switch ((Integer )adjustSettings.get("IncludeIndex")) {
 			case 0:
 				includeButtonGroup.setSelected(allWordsRadioButton.getModel(), true);
 				break;
@@ -325,31 +325,31 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 			}
 		}
 
-		if (settings.get("HyperHypoInclude") != null) {
-			if (settings.get("HyperHypoInclude").equals("true")) {
+		if (adjustSettings.get("HyperHypoInclude") != null) {
+			if ((Boolean)adjustSettings.get("HyperHypoInclude")) {
 			chckbxHypernyms.setSelected(true);
 			hypernymsSlider.setEnabled(true);
-			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperHypoLayers"))+1);
+			hypernymsSlider.setValue((Integer) adjustSettings.get("HyperHypoLayers")+1);
 			}
-			else if (settings.get("HyperHypoInclude").equals("false")) {
+			else if (!(Boolean) adjustSettings.get("HyperHypoInclude")) {
 				chckbxHypernyms.setSelected(false);
 				hypernymsSlider.setEnabled(false);
 			}
 		}
-		if (settings.get("SynoInclude") != null) {
-			if (settings.get("SynoInclude").equals("true")) {
+		if (adjustSettings.get("SynoInclude") != null) {
+			if ((Boolean)adjustSettings.get("SynoInclude")) {
 				chckbxSynonyms.setSelected(true);
 			}
-			else if (settings.get("SynoInclude").equals("false")) {
+			else if ((Boolean)adjustSettings.get("SynoInclude")) {
 				chckbxSynonyms.setSelected(false);
 			}
 		}
-		if (settings.get("Threshold") != null) {
-			thres.setValue(Integer.parseInt(settings.get("Threshold")));
+		if (adjustSettings.get("Threshold") != null) {
+			thres.setValue((Integer)adjustSettings.get("Threshold"));
 		}
 		
-		if (settings.get("SenseIndex") != null) {
-			switch (Integer.parseInt(settings.get("SenseIndex"))) {
+		if (adjustSettings.get("SenseIndex") != null) {
+			switch ((Integer)adjustSettings.get("SenseIndex")) {
 			case 0:
 				senseRelateButtonGroup.setSelected(rdbtnNewRadioButton_2.getModel(), true);
 				break;
@@ -360,8 +360,8 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				break;
 			}
 		}
-		if (settings.get("PosIndex") != null) {
-			switch (Integer.parseInt(settings.get("PosIndex"))) {
+		if (adjustSettings.get("PosIndex") != null) {
+			switch ((Integer)adjustSettings.get("PosIndex")) {
 			case 0:
 				posTaggerButtonGroup.setSelected(rdbtnNone_1.getModel(), true);
 				break;

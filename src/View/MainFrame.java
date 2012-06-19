@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
 
 	private AbstractAlgorithmPopupFrame adjustFrame;
 
-	private HashMap<String, String> adjustSettings = new HashMap<String, String>();
+	private HashMap<String, Object> adjustSettings = new HashMap<String, Object>();
 
 	/** The progress bar. */
 	private JProgressBar progressBar;
@@ -394,7 +394,20 @@ public class MainFrame extends JFrame {
 					}
 				}
 				if (algorithmIndex != lastAlgoPopup) {
-					adjustSettings = new HashMap<String, String>();
+					adjustSettings = new HashMap<String, Object>();
+					adjustSettings.put("PosIndex", 0);
+					adjustSettings.put("SenseIndex", 0);
+					adjustSettings.put("HyperHypoInclude", false);
+					adjustSettings.put("HyperScore", 40);
+					adjustSettings.put("HypoScore", 90);
+
+					adjustSettings.put("SynoInclude", false);
+					adjustSettings.put("SynoScore", 90);
+					adjustSettings.put("Threshold", 50);
+					adjustSettings.put("ThresholdInclude", false);
+					adjustSettings.put("IncludeIndex", 0);
+					adjustSettings.put("MatchIndex", 0);
+
 				}
 				
 				switch (algorithmIndex) {
@@ -546,33 +559,33 @@ public class MainFrame extends JFrame {
 
 					if (adjustSettings
 								.get("PosIndex") != null) {
-						int posIndex = Integer.parseInt(adjustSettings
-								.get("PosIndex"));
+						int posIndex = (Integer)adjustSettings
+								.get("PosIndex");
 						setup.setPosTaggerType(POSTaggerType
 								.getPOSTaggerTypeFromInt(posIndex));
 					}
 
 					if (adjustSettings
 								.get("SenseIndex") != null) {
-						int senseRelateIndex = Integer.parseInt(adjustSettings
-								.get("SenseIndex"));
+						int senseRelateIndex = (Integer)adjustSettings
+								.get("SenseIndex");
 						setup.setSenseRelateType(SenseRelateType
 								.getSenseRelateTypeFromInt(senseRelateIndex));
 					}
 					
 				
 
-					if (adjustSettings.get("HyperHypoLayers") != null || adjustSettings.get("SynoInclude") != null) {
+					if (adjustSettings.get("HyperHypoInclude") != null || adjustSettings.get("SynoInclude") != null) {
 						JPIncludeNeighbourWords include = new JPIncludeNeighbourWords();
 
-						if(adjustSettings.get("HyperHypoLayers") != null && adjustSettings.get("SynoInclude") != null) {
+						if(adjustSettings.get("HyperHypoInclude") != null && adjustSettings.get("SynoInclude") != null) {
 							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeAll);
-							include.setLayers(Integer.parseInt(adjustSettings
-									.get("HyperHypoLayers")));
-						} else if (adjustSettings.get("HyperHypoLayers") != null) {
+							include.setLayers((Integer)adjustSettings
+									.get("HyperHypoLayers"));
+						} else if (adjustSettings.get("HyperHypoInclude") != null) {
 							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeHypoHyperNyms);
-							include.setLayers(Integer.parseInt(adjustSettings
-									.get("HyperHypoLayers")));
+							include.setLayers((Integer)adjustSettings
+									.get("HyperHypoLayers"));
 						} else {
 							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeSynonyms);
 						}
@@ -583,13 +596,13 @@ public class MainFrame extends JFrame {
 
 					
 					if (adjustSettings.get("Threshold") != null) {
-						setup.algorithmSettings.put("Threshold", ""+(Integer.parseInt(adjustSettings.get("Threshold"))/100.0));
+						setup.algorithmSettings.put("Threshold", ""+((Integer)adjustSettings.get("Threshold"))/100.0);
 					}
 					
 					if (adjustSettings
 							.get("MatchIndex") != null) {
-					int senseRelateIndex = Integer.parseInt(adjustSettings
-							.get("MatchIndex"));
+					int senseRelateIndex = (Integer)adjustSettings
+							.get("MatchIndex");
 					
 					//Send the match index here
 				}
@@ -623,8 +636,8 @@ public class MainFrame extends JFrame {
 
 					
 					if (adjustSettings.get("IncludeIndex") != null) {
-						int includeIndex = Integer.parseInt(adjustSettings
-								.get("IncludeIndex"));
+						int includeIndex = (Integer)adjustSettings
+								.get("IncludeIndex");
 						setup.setIncludeType(IncludeType
 								.getIncludeTypeFromInt(includeIndex));
 					}
