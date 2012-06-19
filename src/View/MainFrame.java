@@ -621,14 +621,14 @@ public class MainFrame extends JFrame {
 					
 				
 
-					if (adjustSettings.get("HyperHypoLayers") != null) {
+					if (adjustSettings.get("HyperHypoLayers") != null && adjustSettings.get("HyperHypoInclude").equals("true")) {
 						JPIncludeHypernyms include = new JPIncludeHypernyms();
 						include.setLayers(Integer.parseInt(adjustSettings
 								.get("HyperHypoLayers")));
 						setup.getIncludeTypes().add(include);
 					}
 
-					if (adjustSettings.get("SynoInclude") != null) {
+					if (adjustSettings.get("SynoInclude") != null && adjustSettings.get("SynoInclude").equals("true")) {
 						//Change this.
 //						JPIncludeSynonyms include = new JPIncludeSynonyms();
 //						include.setLayers(Integer.parseInt(adjustSettings
@@ -639,6 +639,14 @@ public class MainFrame extends JFrame {
 					if (adjustSettings.get("Threshold") != null) {
 						setup.algorithmSettings.put("Threshold", ""+(Integer.parseInt(adjustSettings.get("Threshold"))/100.0));
 					}
+					
+					if (adjustSettings
+							.get("MatchIndex") != null) {
+					int senseRelateIndex = Integer.parseInt(adjustSettings
+							.get("MatchIndex"));
+					
+					//Send the match index here
+				}
 				
 					int trimmerIndex = 0;
 					for (Enumeration<AbstractButton> e = filterButtonGroup
