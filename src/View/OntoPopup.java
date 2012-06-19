@@ -23,23 +23,19 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 
 public class OntoPopup extends AbstractAlgorithmPopupFrame {
 
 	/** The hypernyms slider. */
 	private JSlider hypernymsSlider;
 	
-	/** The hyponyms slider. */
-	private JSlider hyponymsSlider;
-	
 	/** The synonyms slider. */
 	private JSlider synonymsSlider;
 	
 	/** The chckbx hypernyms. */
 	private JCheckBox chckbxHypernyms;
-	
-	/** The chckbx hyponyms. */
-	private JCheckBox chckbxHyponyms;
 	
 	/** The chckbx synonyms. */
 	private JCheckBox chckbxSynonyms;
@@ -85,7 +81,7 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	public OntoPopup(HashMap<String, String> settings) {
 		super(settings);
 		setAlwaysOnTop(true);
-		this.setSize(new Dimension(360, 541));
+		this.setSize(new Dimension(354, 686));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Ontology Based Query");
 		System.out.println("Baam1");
@@ -134,154 +130,178 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			}
 		});
 
-		btnClose.setBounds(225, 484, 129, 29);
+		btnClose.setBounds(223, 629, 129, 29);
 		getContentPane().add(btnClose);
 		
 		Box verticalBox_2 = Box.createVerticalBox();
 		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		verticalBox_2.setBounds(6, 123, 346, 349);
+		verticalBox_2.setBounds(6, 123, 346, 494);
 		getContentPane().add(verticalBox_2);
 
 		getContentPane().add(verticalBox_2);
-
-		Box horizontalBox_7 = Box.createHorizontalBox();
-		verticalBox_2.add(horizontalBox_7);
-
-		Component horizontalGlue_5 = Box.createHorizontalGlue();
-		horizontalBox_7.add(horizontalGlue_5);
-
-		JLabel lblNewLabel = new JLabel("Layers");
-		horizontalBox_7.add(lblNewLabel);
-		
-		Component horizontalStrut_4 = Box.createHorizontalStrut(60);
-		horizontalBox_7.add(horizontalStrut_4);
-		
-		JLabel lblNewLabel_1 = new JLabel("Similarity");
-		horizontalBox_7.add(lblNewLabel_1);
-		
-		Component horizontalStrut_3 = Box.createHorizontalStrut(35);
-		horizontalBox_7.add(horizontalStrut_3);
-
-		Box horizontalBox_2 = Box.createHorizontalBox();
-		horizontalBox_2.setBorder(new EmptyBorder(0, 0, 0, 0));
-		verticalBox_2.add(horizontalBox_2);
-
-		chckbxHypernyms = new JCheckBox("Hypernyms");
-		chckbxHypernyms.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				hypernymsSlider.setEnabled(chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled());
-				hyperValueSlider.setEnabled(chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled());
-			}
-		});
-		horizontalBox_2.add(chckbxHypernyms);
-
-		Component horizontalGlue_2 = Box.createHorizontalGlue();
-		horizontalBox_2.add(horizontalGlue_2);
-
-		Component horizontalStrut_2 = Box.createHorizontalStrut(22);
-		horizontalBox_2.add(horizontalStrut_2);
-
-		hypernymsSlider = new JSlider();
-		hypernymsSlider.setMinimum(1);
-		hypernymsSlider.setMajorTickSpacing(1);
-		hypernymsSlider.setSnapToTicks(true);
-		hypernymsSlider.setPaintLabels(true);
-		hypernymsSlider.setPaintTicks(true);
-		hypernymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		hypernymsSlider.setEnabled(false);
-		hypernymsSlider.setMaximum(2);
-		hypernymsSlider.setValue(0);
-
-		horizontalBox_2.add(hypernymsSlider);
-		
-		hyperValueSlider = new JSlider();
-		hyperValueSlider.setValue(40);
-		hyperValueSlider.setMinorTickSpacing(10);
-		hyperValueSlider.setPaintLabels(true);
-		hyperValueSlider.setMajorTickSpacing(100);
-		hyperValueSlider.setSnapToTicks(true);
-		hyperValueSlider.setEnabled(false);
-		hyperValueSlider.setPaintTicks(true);
-		horizontalBox_2.add(hyperValueSlider);
 
 		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
 		labelTable.put(new Integer(0), new JLabel("0.0"));
 		labelTable.put(new Integer(100), new JLabel("1.0"));
-
-		Box horizontalBox_3 = Box.createHorizontalBox();
-		horizontalBox_3.setBorder(new EmptyBorder(0, 0, 0, 0));
-		verticalBox_2.add(horizontalBox_3);
-
-		chckbxHyponyms = new JCheckBox("Hyponyms");
-		chckbxHyponyms.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				hyponymsSlider.setEnabled(chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled());
-				hypoValueSlider.setEnabled(chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled());
-			}
-		});
-		horizontalBox_3.add(chckbxHyponyms);
-
-		Component horizontalStrut_1 = Box.createHorizontalStrut(26);
-		horizontalBox_3.add(horizontalStrut_1);
-
-		hyponymsSlider = new JSlider();
-		hyponymsSlider.setMinimum(1);
-		hyponymsSlider.setMajorTickSpacing(1);
-		hyponymsSlider.setPaintTicks(true);
-		hyponymsSlider.setSnapToTicks(true);
-		hyponymsSlider.setPaintLabels(true);
-		hyponymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		hyponymsSlider.setEnabled(false);
-		horizontalBox_3.add(hyponymsSlider);
-		hyponymsSlider.setValue(0);
-		hyponymsSlider.setMaximum(2);
 		
-		hypoValueSlider = new JSlider();
-		hypoValueSlider.setValue(90);
-		hypoValueSlider.setSnapToTicks(true);
-		hypoValueSlider.setPaintTicks(true);
-		hypoValueSlider.setPaintLabels(true);
-		hypoValueSlider.setMinorTickSpacing(10);
-		hypoValueSlider.setMajorTickSpacing(100);
-		hypoValueSlider.setEnabled(false);
-		horizontalBox_3.add(hypoValueSlider);
-
-		Box horizontalBox_4 = Box.createHorizontalBox();
-		horizontalBox_4.setBorder(new EmptyBorder(0, 0, 0, 0));
-		verticalBox_2.add(horizontalBox_4);
-
-		chckbxSynonyms = new JCheckBox("Synonyms");
-		chckbxSynonyms.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				synonymsSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
-				synoValueSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
-			}
-		});
-		horizontalBox_4.add(chckbxSynonyms);
-
-		Component horizontalStrut = Box.createHorizontalStrut(29);
-		horizontalBox_4.add(horizontalStrut);
-
-		synonymsSlider = new JSlider();
-		synonymsSlider.setMinimum(1);
-		synonymsSlider.setMajorTickSpacing(1);
-		synonymsSlider.setSnapToTicks(true);
-		synonymsSlider.setPaintTicks(true);
-		synonymsSlider.setPaintLabels(true);
-		synonymsSlider.setMaximum(2);
-		synonymsSlider.setValue(0);
-		synonymsSlider.setEnabled(false);
-		horizontalBox_4.add(synonymsSlider);
+		Box verticalBox_5 = Box.createVerticalBox();
+		verticalBox_5.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		verticalBox_2.add(verticalBox_5);
+								
+										Box horizontalBox_2 = Box.createHorizontalBox();
+										verticalBox_5.add(horizontalBox_2);
+										horizontalBox_2.setBorder(new EmptyBorder(0, 0, 0, 0));
+										
+												chckbxHypernyms = new JCheckBox("Hypo/hypernym");
+												chckbxHypernyms.addChangeListener(new ChangeListener() {
+													public void stateChanged(ChangeEvent arg0) {
+														hypernymsSlider.setEnabled(chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled());
+														hyperValueSlider.setEnabled(chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled());
+														hypoValueSlider.setEnabled(chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled());
+													}
+												});
+												horizontalBox_2.add(chckbxHypernyms);
+												
+												Component horizontalGlue_1 = Box.createHorizontalGlue();
+												horizontalBox_2.add(horizontalGlue_1);
+																						
+																						Box horizontalBox_7 = Box.createHorizontalBox();
+																						verticalBox_5.add(horizontalBox_7);
+																										
+																										Component horizontalStrut_2 = Box.createHorizontalStrut(25);
+																										horizontalBox_7.add(horizontalStrut_2);
+																										
+																										JLabel lblNewLabel = new JLabel("Layers");
+																										horizontalBox_7.add(lblNewLabel);
+																										
+																										Component horizontalStrut_4 = Box.createHorizontalStrut(175);
+																										horizontalBox_7.add(horizontalStrut_4);
+																								
+																										hypernymsSlider = new JSlider();
+																										horizontalBox_7.add(hypernymsSlider);
+																										hypernymsSlider.setMinimum(1);
+																										hypernymsSlider.setMajorTickSpacing(1);
+																										hypernymsSlider.setSnapToTicks(true);
+																										hypernymsSlider.setPaintLabels(true);
+																										hypernymsSlider.setPaintTicks(true);
+																										hypernymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
+																										hypernymsSlider.setEnabled(false);
+																										hypernymsSlider.setMaximum(2);
+																										hypernymsSlider.setValue(0);
+																						
+																						Box horizontalBox_9 = Box.createHorizontalBox();
+																						verticalBox_5.add(horizontalBox_9);
+																						
+																						Component horizontalStrut_6 = Box.createHorizontalStrut(25);
+																						horizontalBox_9.add(horizontalStrut_6);
+																						
+																						JLabel lblHyponymSim = new JLabel("Hyponym sim");
+																						horizontalBox_9.add(lblHyponymSim);
+																						
+																						Component horizontalStrut_3 = Box.createHorizontalStrut(130);
+																						horizontalBox_9.add(horizontalStrut_3);
+																						
+																						hyperValueSlider = new JSlider();
+																						horizontalBox_9.add(hyperValueSlider);
+																						hyperValueSlider.setValue(40);
+																						hyperValueSlider.setMinorTickSpacing(10);
+																						hyperValueSlider.setPaintLabels(true);
+																						hyperValueSlider.setMajorTickSpacing(100);
+																						hyperValueSlider.setSnapToTicks(true);
+																						hyperValueSlider.setEnabled(false);
+																						hyperValueSlider.setPaintTicks(true);
+																						
+																						 hyperValueSlider.setLabelTable(labelTable);
+																				
+																						Box horizontalBox_3 = Box.createHorizontalBox();
+																						verticalBox_5.add(horizontalBox_3);
+																						horizontalBox_3.setBorder(new EmptyBorder(0, 0, 0, 0));
+																						 
+																						 Component horizontalStrut_7 = Box.createHorizontalStrut(25);
+																						 horizontalBox_3.add(horizontalStrut_7);
+																						 
+																						 JLabel lblHypernymSim = new JLabel("Hypernym sim");
+																						 horizontalBox_3.add(lblHypernymSim);
+																						 
+																						 Component horizontalStrut_8 = Box.createHorizontalStrut(125);
+																						 horizontalBox_3.add(horizontalStrut_8);
+																						 
+																						 hypoValueSlider = new JSlider();
+																						 horizontalBox_3.add(hypoValueSlider);
+																						 hypoValueSlider.setValue(90);
+																						 hypoValueSlider.setSnapToTicks(true);
+																						 hypoValueSlider.setPaintTicks(true);
+																						 hypoValueSlider.setPaintLabels(true);
+																						 hypoValueSlider.setMinorTickSpacing(10);
+																						 hypoValueSlider.setMajorTickSpacing(100);
+																						 hypoValueSlider.setEnabled(false);
+																						 hypoValueSlider.setLabelTable(labelTable);
 		
-		synoValueSlider = new JSlider();
-		synoValueSlider.setValue(90);
-		synoValueSlider.setSnapToTicks(true);
-		synoValueSlider.setPaintTicks(true);
-		synoValueSlider.setPaintLabels(true);
-		synoValueSlider.setMinorTickSpacing(10);
-		synoValueSlider.setMajorTickSpacing(100);
-		synoValueSlider.setEnabled(false);
-		horizontalBox_4.add(synoValueSlider);
+		Box verticalBox_6 = Box.createVerticalBox();
+		verticalBox_6.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		verticalBox_2.add(verticalBox_6);
+		
+				Box horizontalBox_4 = Box.createHorizontalBox();
+				verticalBox_6.add(horizontalBox_4);
+				horizontalBox_4.setBorder(new EmptyBorder(0, 0, 0, 0));
+				
+						chckbxSynonyms = new JCheckBox("Synonyms");
+						chckbxSynonyms.addChangeListener(new ChangeListener() {
+							public void stateChanged(ChangeEvent e) {
+								synonymsSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
+								synoValueSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
+							}
+						});
+						horizontalBox_4.add(chckbxSynonyms);
+						
+						Component horizontalGlue = Box.createHorizontalGlue();
+						horizontalBox_4.add(horizontalGlue);
+										
+										Box horizontalBox_1 = Box.createHorizontalBox();
+										verticalBox_6.add(horizontalBox_1);
+												
+												Component horizontalStrut = Box.createHorizontalStrut(25);
+												horizontalBox_1.add(horizontalStrut);
+												
+												JLabel label = new JLabel("Layers");
+												horizontalBox_1.add(label);
+												
+												Component horizontalStrut_1 = Box.createHorizontalStrut(175);
+												horizontalBox_1.add(horizontalStrut_1);
+										
+												synonymsSlider = new JSlider();
+												horizontalBox_1.add(synonymsSlider);
+												synonymsSlider.setMinimum(1);
+												synonymsSlider.setMajorTickSpacing(1);
+												synonymsSlider.setSnapToTicks(true);
+												synonymsSlider.setPaintTicks(true);
+												synonymsSlider.setPaintLabels(true);
+												synonymsSlider.setMaximum(2);
+												synonymsSlider.setValue(0);
+												synonymsSlider.setEnabled(false);
+										
+										Box horizontalBox_10 = Box.createHorizontalBox();
+										verticalBox_6.add(horizontalBox_10);
+										
+										Component horizontalStrut_9 = Box.createHorizontalStrut(25);
+										horizontalBox_10.add(horizontalStrut_9);
+										
+										JLabel lblSynonymSim = new JLabel("Synonym sim");
+										horizontalBox_10.add(lblSynonymSim);
+										
+										Component horizontalStrut_10 = Box.createHorizontalStrut(130);
+										horizontalBox_10.add(horizontalStrut_10);
+										
+										synoValueSlider = new JSlider();
+										horizontalBox_10.add(synoValueSlider);
+										synoValueSlider.setValue(90);
+										synoValueSlider.setSnapToTicks(true);
+										synoValueSlider.setPaintTicks(true);
+										synoValueSlider.setPaintLabels(true);
+										synoValueSlider.setMinorTickSpacing(10);
+										synoValueSlider.setMajorTickSpacing(100);
+										synoValueSlider.setEnabled(false);
+										synoValueSlider.setLabelTable(labelTable);
 		
 		Box horizontalBox = Box.createHorizontalBox();
 		horizontalBox.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -349,10 +369,6 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 		
 		Component horizontalGlue_4 = Box.createHorizontalGlue();
 		horizontalBox_5.add(horizontalGlue_4);
-		
-		 hyperValueSlider.setLabelTable(labelTable);
-		 synoValueSlider.setLabelTable(labelTable);
-		 hypoValueSlider.setLabelTable(labelTable);
 
 		if (settings != null) {
 			loadSettings(settings);
@@ -401,16 +417,12 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 		super.settings.put("IncludeIndex", ""+ includeIndex);
 		
 		if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
-			super.settings.put("HyperInclude", "true");
-			super.settings.put("HyperLayers", ""+(hypernymsSlider.getValue()-1));
+			super.settings.put("HyperHypoInclude", "true");
+			super.settings.put("HyperHypoLayers", ""+(hypernymsSlider.getValue()-1));
 			super.settings.put("HyperScore", ""+(hyperValueSlider.getValue()));
-
-		}
-		if (chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled()) {
-			super.settings.put("HypoInclude", "true");
-			super.settings.put("HypoLayers", ""+(hyponymsSlider.getValue()-1));
 			super.settings.put("HypoScore", ""+(hypoValueSlider.getValue()));
 		}
+
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 			super.settings.put("SynoInclude", "true");
 			super.settings.put("SynoLayers", ""+(synonymsSlider.getValue()-1));
@@ -439,19 +451,12 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 				break;
 			}
 		}
-		if (settings.get("HypoLayers") != null) {
-			System.out.println("Is here");
-			chckbxHyponyms.setSelected(true);
-			hyponymsSlider.setEnabled(true);
-			hyponymsSlider.setValue(Integer.parseInt(settings.get("HypoLayers"))+1);
-			hypoValueSlider.setValue(Integer.parseInt(settings.get("HypoScore")));
-
-		}
-		if (settings.get("HyperLayers") != null) {
+		if (settings.get("HyperHypoLayers") != null) {
 			chckbxHypernyms.setSelected(true);
 			hypernymsSlider.setEnabled(true);
-			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperLayers"))+1);
+			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperHypoLayers"))+1);
 			hyperValueSlider.setValue(Integer.parseInt(settings.get("HyperScore")));
+			hypoValueSlider.setValue(Integer.parseInt(settings.get("HypoScore")));
 		}
 		if (settings.get("SynoLayers") != null) {
 			chckbxSynonyms.setSelected(true);

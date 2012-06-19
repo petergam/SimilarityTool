@@ -603,21 +603,23 @@ public class MainFrame extends JFrame {
 					setup.setAlgorithmIndex(AlgorithmIndex
 							.getAlgorithmIndexFromInt(algorithmIndex));
 
-					try {
+					if (adjustSettings
+								.get("PosIndex") != null) {
 						int posIndex = Integer.parseInt(adjustSettings
 								.get("PosIndex"));
 						setup.setPosTaggerType(POSTaggerType
 								.getPOSTaggerTypeFromInt(posIndex));
-					} catch (Exception e) {
 					}
 
-					try {
+					if (adjustSettings
+								.get("SenseIndex") != null) {
 						int senseRelateIndex = Integer.parseInt(adjustSettings
 								.get("SenseIndex"));
 						setup.setSenseRelateType(SenseRelateType
 								.getSenseRelateTypeFromInt(senseRelateIndex));
-					} catch (Exception e) {
 					}
+					
+				
 
 					if (adjustSettings.get("HyperInclude") != null
 							&& adjustSettings.get("HyperLayers") != null) {
@@ -675,14 +677,13 @@ public class MainFrame extends JFrame {
 							.getStemmerTypeFromInt(stemmerIndex));
 
 					
-					try {
+					if (adjustSettings.get("IncludeIndex") != null) {
 						int includeIndex = Integer.parseInt(adjustSettings
 								.get("IncludeIndex"));
 						setup.setIncludeType(IncludeType
 								.getIncludeTypeFromInt(includeIndex));
-
-					} catch (Exception e) {
 					}
+	
 
 					setup.setNormalized(chckbxNormalizeStopwords.isSelected());
 					//
