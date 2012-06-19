@@ -357,56 +357,6 @@ public class MainFrame extends JFrame {
 		algorithmButtonGroup.add(rdbtnNewRadioButton_onthology);
 		verticalBox_6.add(rdbtnNewRadioButton_onthology);
 
-		// algoListener = new ChangeListener() {
-		//
-		// public void stateChanged(ChangeEvent changEvent) {
-		// AbstractButton aButton = (AbstractButton) changEvent
-		// .getSource();
-		// ButtonModel aModel = aButton.getModel();
-		// boolean armed = aModel.isArmed();
-		// boolean pressed = aModel.isPressed();
-		// boolean selected = aModel.isSelected();
-		// if (selected && !armed && !pressed) {
-		// int algorithmIndex = 0;
-		// for (Enumeration<AbstractButton> e = algorithmButtonGroup
-		// .getElements(); e.hasMoreElements();) {
-		// if (e.nextElement().isSelected()) {
-		// break;
-		// } else {
-		// algorithmIndex++;
-		// }
-		// }
-		//
-		// selectedAlgoIndex = algorithmIndex;
-		//
-		// switch (algorithmIndex) {
-		// case 0:
-		// setFlagsForFuzzy();
-		// break;
-		// case 1:
-		// setFlagsForLeven();
-		//
-		// break;
-		// case 2:
-		// setFlagsForTermF();
-		//
-		// break;
-		// case 3:
-		// setFlagsForOntho();
-		//
-		// break;
-		//
-		// default:
-		// break;
-		// }
-		// }
-		// }
-		// };
-		// rdbtnFuzzy.addChangeListener(algoListener);
-		// rdbtnNewRadioButton_4.addChangeListener(algoListener);
-		// rdbtnI.addChangeListener(algoListener);
-		// rdbtnNewRadioButton_onthology.addChangeListener(algoListener);
-
 		progressBar = new JProgressBar();
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
@@ -1019,58 +969,4 @@ public class MainFrame extends JFrame {
 			}
 		}
 	}
-
-	// /**
-	// * Sets the flags for leven.
-	// */
-	// private void setFlagsForLeven() {
-	// chckbxHypernyms.setEnabled(false);
-	// chckbxHyponyms.setEnabled(false);
-	// chckbxSynonyms.setEnabled(false);
-	// senseRelatedWordsRadioButton.setEnabled(false);
-	// allWordsRadioButton.setEnabled(false);
-	// posTaggedWordsRadioButton.setEnabled(false);
-	// }
-	//
-	// /**
-	// * Sets the flags for fuzzy.
-	// */
-	// private void setFlagsForFuzzy() {
-	// chckbxHypernyms.setEnabled(false);
-	// chckbxHyponyms.setEnabled(false);
-	// chckbxSynonyms.setEnabled(false);
-	// chckbxHypernyms.setEnabled(true);
-	// chckbxHyponyms.setEnabled(true);
-	// chckbxSynonyms.setEnabled(true);
-	// senseRelatedWordsRadioButton.setEnabled(true);
-	// allWordsRadioButton.setEnabled(true);
-	// posTaggedWordsRadioButton.setEnabled(true);
-	// }
-	//
-	// /**
-	// * Sets the flags for term f.
-	// */
-	// private void setFlagsForTermF() {
-	// chckbxHypernyms.setEnabled(false);
-	// chckbxHyponyms.setEnabled(false);
-	// chckbxSynonyms.setEnabled(false);
-	// senseRelatedWordsRadioButton.setEnabled(false);
-	// allWordsRadioButton.setEnabled(false);
-	// posTaggedWordsRadioButton.setEnabled(false);
-	// }
-	//
-	// /**
-	// * Sets the flags for ontho.
-	// */
-	// private void setFlagsForOntho() {
-	// chckbxHypernyms.setEnabled(false);
-	// chckbxHyponyms.setEnabled(false);
-	// chckbxSynonyms.setEnabled(false);
-	// chckbxHypernyms.setEnabled(true);
-	// chckbxHyponyms.setEnabled(true);
-	// chckbxSynonyms.setEnabled(true);
-	// senseRelatedWordsRadioButton.setEnabled(true);
-	// allWordsRadioButton.setEnabled(true);
-	// posTaggedWordsRadioButton.setEnabled(true);
-	// }
 }

@@ -250,6 +250,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	
 	@Override
 	public void setSettings(){
+		super.settings = new HashMap<String, String>();
 		
 		int posTaggerIndex = 0;
 		for (Enumeration<AbstractButton> e = posTaggerButtonGroup
@@ -299,6 +300,9 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		}
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 			super.settings.put("SynoInclude", "true");
+		}
+		else if (!chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
+			super.settings.put("SynoInclude", "false");
 		}
 	}	
 	
