@@ -1,5 +1,7 @@
 package Algorithms;
 
+import java.util.HashMap;
+
 import Objects.JPDocument;
 
 /**
@@ -12,7 +14,7 @@ public class OnthologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 	 * @see Algorithms.JPAbstractAlgorithm#compute(Objects.JPDocument, Objects.JPDocument[], boolean, java.lang.Runnable)
 	 */
 	@Override
-	public void compute(final JPDocument mainDocument, final JPDocument[] documents,
+	public void compute(final JPDocument mainDocument, final JPDocument[] documents, HashMap<String, String> algorithmSettings,
 			boolean normalizeResult, final Runnable callbackDelegate) {
 		
 		Runnable backgroundRunnable = new Runnable() {

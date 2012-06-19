@@ -76,6 +76,11 @@ if($jsonResponse) {
 			$senseIndex = 0;
 		}
 		
+		if ($senseIndex =~ /^[+-]?\d+$/ ) {
+		} else {
+			$senseIndex = 0;
+		}
+		
 		$object = $oldText[$index] .  "\", \"newWord\":\"" . $values[0] . "\", \"tag\":\"" . $values[1] . "\", \"senseIndex\":" . $senseIndex;
 
 		$words = $words . "\{\"word\":\"" . $object . "\},";

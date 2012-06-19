@@ -2,6 +2,7 @@ package Model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Algorithms.JPAbstractAlgorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
@@ -263,6 +264,8 @@ public class JPConfiguration {
 	
 	/** The document files. */
 	private File[] documentFiles;
+		
+	public HashMap<String,String> algorithmSettings = new HashMap<String, String>();
 	
 
 	/**
@@ -559,4 +562,5 @@ public class JPConfiguration {
 	public void setIncludeNeighbourWordsType(IncludeNeighbourWordsType includeNeighbourWordsType) {
 		this.includeNeighbourWordsType = includeNeighbourWordsType;
 	}
+
 }

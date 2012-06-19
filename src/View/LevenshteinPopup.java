@@ -1,0 +1,35 @@
+package View;
+
+import java.util.HashMap;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class LevenshteinPopup extends AbstractAlgorithmPopupFrame {
+
+	public LevenshteinPopup(HashMap<String, String> settings) {
+		super(settings);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setTitle("Levenshtein Distance");
+		getContentPane().setLayout(null);
+		this.setSize(new Dimension(395, 112));
+
+		JLabel lblThereAreNo = new JLabel("There are no custom settings for this algorithm.");
+		lblThereAreNo.setBounds(47, 6, 312, 36);
+		getContentPane().add(lblThereAreNo);
+		
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				dispose();	
+			}
+		});
+		btnClose.setBounds(152, 54, 88, 29);
+		getContentPane().add(btnClose);
+	}
+}
