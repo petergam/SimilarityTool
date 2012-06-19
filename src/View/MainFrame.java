@@ -375,6 +375,21 @@ public class MainFrame extends JFrame {
 		chckbxNormalizeStopwords = new JCheckBox("Normalize result");
 		verticalBox_7.add(chckbxNormalizeStopwords);
 
+		adjustSettings = new HashMap<String, Object>();
+		adjustSettings.put("PosIndex", 0);
+		adjustSettings.put("SenseIndex", 0);
+		adjustSettings.put("IncludeIndex", 0);
+		adjustSettings.put("MatchIndex", 0);
+		
+		adjustSettings.put("HyperHypoInclude", false);
+		adjustSettings.put("SynoInclude", false);
+		adjustSettings.put("ThresholdInclude", false);
+
+		adjustSettings.put("HyperScore", 40);
+		adjustSettings.put("HypoScore", 90);
+		adjustSettings.put("SynoScore", 90);
+		adjustSettings.put("Threshold", 50);
+		
 		btnAdjust = new JButton("Adjust");
 		btnAdjust.setBounds(669, 138, 95, 29);
 		btnAdjust.addActionListener(new ActionListener() {
@@ -397,17 +412,17 @@ public class MainFrame extends JFrame {
 					adjustSettings = new HashMap<String, Object>();
 					adjustSettings.put("PosIndex", 0);
 					adjustSettings.put("SenseIndex", 0);
-					adjustSettings.put("HyperHypoInclude", false);
-					adjustSettings.put("HyperScore", 40);
-					adjustSettings.put("HypoScore", 90);
-
-					adjustSettings.put("SynoInclude", false);
-					adjustSettings.put("SynoScore", 90);
-					adjustSettings.put("Threshold", 50);
-					adjustSettings.put("ThresholdInclude", false);
 					adjustSettings.put("IncludeIndex", 0);
 					adjustSettings.put("MatchIndex", 0);
+					
+					adjustSettings.put("HyperHypoInclude", false);
+					adjustSettings.put("SynoInclude", false);
+					adjustSettings.put("ThresholdInclude", false);
 
+					adjustSettings.put("HyperScore", 40);
+					adjustSettings.put("HypoScore", 90);
+					adjustSettings.put("SynoScore", 90);
+					adjustSettings.put("Threshold", 50);
 				}
 				
 				switch (algorithmIndex) {
