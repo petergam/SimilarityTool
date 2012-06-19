@@ -9,40 +9,32 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -52,12 +44,11 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import Include.JPIncludeHypernyms;
-import Include.JPIncludeHyponyms;
-import Include.JPIncludeSynonyms;
+import Include.JPIncludeNeighbourWords;
 import Model.JPCache;
 import Model.JPConfiguration;
 import Model.JPConfiguration.AlgorithmIndex;
+import Model.JPConfiguration.IncludeNeighbourWordsType;
 import Model.JPConfiguration.IncludeType;
 import Model.JPConfiguration.POSTaggerType;
 import Model.JPConfiguration.SenseRelateType;
@@ -109,7 +100,7 @@ public class MainFrame extends JFrame {
 
 	private AbstractAlgorithmPopupFrame adjustFrame;
 
-	private HashMap<String, String> adjustSettings;
+	private HashMap<String, String> adjustSettings = new HashMap<String, String>();
 
 	/** The progress bar. */
 	private JProgressBar progressBar;
@@ -571,20 +562,25 @@ public class MainFrame extends JFrame {
 					
 				
 
-					if (adjustSettings.get("HyperHypoLayers") != null && adjustSettings.get("HyperHypoInclude").equals("true")) {
-						JPIncludeHypernyms include = new JPIncludeHypernyms();
-						include.setLayers(Integer.parseInt(adjustSettings
-								.get("HyperHypoLayers")));
+					if (adjustSettings.get("HyperHypoLayers") != null || adjustSettings.get("SynoInclude") != null) {
+						JPIncludeNeighbourWords include = new JPIncludeNeighbourWords();
+
+						if(adjustSettings.get("HyperHypoLayers") != null && adjustSettings.get("SynoInclude") != null) {
+							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeAll);
+							include.setLayers(Integer.parseInt(adjustSettings
+									.get("HyperHypoLayers")));
+						} else if (adjustSettings.get("HyperHypoLayers") != null) {
+							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeHypoHyperNyms);
+							include.setLayers(Integer.parseInt(adjustSettings
+									.get("HyperHypoLayers")));
+						} else {
+							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeSynonyms);
+						}
+						
 						setup.getIncludeTypes().add(include);
 					}
 
-					if (adjustSettings.get("SynoInclude") != null && adjustSettings.get("SynoInclude").equals("true")) {
-						//Change this.
-//						JPIncludeSynonyms include = new JPIncludeSynonyms();
-//						include.setLayers(Integer.parseInt(adjustSettings
-//								.get("SynoLayers")));
-//						setup.getIncludeTypes().add(include);
-					}
+
 					
 					if (adjustSettings.get("Threshold") != null) {
 						setup.algorithmSettings.put("Threshold", ""+(Integer.parseInt(adjustSettings.get("Threshold"))/100.0));

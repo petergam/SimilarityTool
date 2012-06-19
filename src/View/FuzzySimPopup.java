@@ -249,6 +249,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	}
 	
 	@Override
+
 	public void setSettings(){
 		super.settings = new HashMap<String, String>();
 		
