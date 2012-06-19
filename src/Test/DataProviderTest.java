@@ -33,11 +33,45 @@ public class DataProviderTest {
 			{ new File("Texts/EmptyFile.txt"), 0, "" } };
 
 	
-	@DataProvider(name = "generate-sentences")
-	public Object[][] docummentPOSDataProvider() {		
+	@DataProvider(name = "generate-documents")
+	public Object[][] semcorDocumentDataProvider() {		
 		
 		SemCorParser semCorParser = new SemCorParser();
 		JPDocument[] expectedDocuments = semCorParser.parse(new File("semcor3.0/"));
+		
+		Object[][] returnArray = new Object[expectedDocuments.length][2];
+		
+		int i = 0;
+		for (JPDocument expectedDocument : expectedDocuments) {
+			JPDocument newDocument = new JPDocument();
+			newDocument.setDocumentTitle(expectedDocument.getDocumentTitle());
+			
+			for (JPSentence sentence : expectedDocument.getSentenceArray()) {
+				JPSentence s = new JPSentence();
+				
+				for (JPWord word : sentence.getWords()) {
+					JPWord w = new JPWord();
+					w.setValue(word.getValue());
+					s.getWords().add(w);
+				}
+				newDocument.getSentenceArray().add(s);
+			}
+
+			newDocument.setNumberOfWords(expectedDocument.getNumberOfWords());
+			
+			returnArray[i][0] = newDocument;
+			returnArray[i][1] = expectedDocument;
+			i++;
+		}
+		
+		return returnArray;
+	}
+	
+	@DataProvider(name = "generate-documentslight")
+	public Object[][] semcorDocumentLightDataProvider() {		
+		
+		SemCorParser semCorParser = new SemCorParser();
+		JPDocument[] expectedDocuments = semCorParser.parse(new File("semcorlight3.0/"));
 		
 		Object[][] returnArray = new Object[expectedDocuments.length][2];
 		
@@ -155,6 +189,33 @@ public class DataProviderTest {
 		}
 
 		return new Object[][] { { document, stemmings } };
+	}
+	
+	@DataProvider(name = "generate-simpleDocumenTagged")
+	public Object[][] documentDataProvider() {
+		JPDocument document = new JPDocument();
+
+		for (int i = 0; i < sentences.length; i++) {
+			Object[][] sentence = sentences[i];
+			JPSentence s = new JPSentence();
+			s.setPOSTagged(true);
+
+			Object[] sense = new Object[sentence.length];
+
+			for (int j = 0; j < sentence.length; j++) {
+				Object[] word = sentence[j];
+				JPWord w = new JPWord();
+				w.setValue((String) word[0]);
+				w.setTag((String) word[1]);
+				s.getWords().add(w);
+				w.setSenseIndex((Integer) word[2]);
+			}
+
+
+			document.getSentenceArray().add(s);
+		}
+
+		return new Object[][] { { document} };
 	}
 
 }

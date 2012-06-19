@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Default test"
+           tests="3"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="1.715">
+  <properties />
+  
+  
+            <testcase name="include" time="0.453" classname="Test.JPIncludeHypoHyperNymsTest" />
+                <testcase name="include" time="1.038" classname="Test.JPIncludeHypoHyperNymsTest" />
+                <testcase name="include" time="0.224" classname="Test.JPIncludeHypoHyperNymsTest" />
+      
+</testsuite>

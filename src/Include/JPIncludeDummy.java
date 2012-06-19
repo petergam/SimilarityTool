@@ -1,5 +1,6 @@
 package Include;
 
+import Model.JPConfiguration.IncludeNeighbourWordsType;
 import Model.JPConfiguration.IncludeType;
 import Objects.JPDocument;
 
@@ -13,7 +14,7 @@ public class JPIncludeDummy extends JPAbstractInclude {
 	 * @see Include.JPInclude#include(Objects.JPDocument, Model.JPConfiguration.IncludeType)
 	 */
 	@Override
-	public JPDocument include(JPDocument document, IncludeType includeType) {
+    public JPDocument include(JPDocument document, IncludeType includeType, IncludeNeighbourWordsType includeNeigbbourWordsType) {
 		return document;
 	}
 	

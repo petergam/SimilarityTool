@@ -1,9 +1,14 @@
 package Test;
 
+import java.util.ArrayList;
+
 import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import Model.JPCache;
 import Model.SettingsManager;
 import Objects.JPDocument;
 import Objects.JPSentence;
@@ -15,46 +20,51 @@ public class JPSenseRelateWordNetTest extends DataProviderTest {
 	@BeforeTest
 	public void setup() {
 		SettingsManager.SharedInstance.loadSettings();
+		JPCache.SharedCache.loadCache(JPCache.sDefaultCacheName);
 	}
 	
-	@Test(dataProvider = "generate-documentSense")
-	public void senseRelate(JPDocument document, Object[][] expectedSenses) {
+	private ArrayList<Double> successPercent = new ArrayList<Double>();
+	
+	@Test(dataProvider = "generate-documentslight")
+	public void senseRelate(JPDocument document, JPDocument expectedDocument) {
 		JPSenseRelateWordNet senseRelate = new JPSenseRelateWordNet();
+		
 		JPDocument senseRelatedDocument = senseRelate.senseRelate(document);
+		
+		double overallFails = 0;
 
-		int sentenceIndex = 0;
-		for (JPSentence sentence : senseRelatedDocument.getSentenceArray()) {
-			Object[] senses = expectedSenses[sentenceIndex];
-			int wordIndex = 0;
-			for (JPWord word : sentence.getWords()) {
-				Integer sense = (Integer) senses[wordIndex];
+		for (int i = 0; i < senseRelatedDocument.getSentenceArray().size(); i++) {
+			JPSentence sentence = senseRelatedDocument.getSentenceArray().get(i);
+			JPSentence expectedSentence = expectedDocument.getSentenceArray()
+					.get(i);
 
-				Assert.assertEquals(sense.intValue(), word.getSenseIndex());
+			for (int j = 0; j < sentence.getWords().size(); j++) {
+				JPWord word = sentence.getWords().get(j);
+				JPWord expectedWord = expectedSentence.getWords().get(j);
 
-				wordIndex++;
+				Assert.assertEquals(word.getValue(), expectedWord.getValue());
+
+				overallFails = word.getSenseIndex()==expectedWord.getSenseIndex() ? overallFails : overallFails+1;
 			}
-			sentenceIndex++;
 		}
+		
+		Double percent = 100-(overallFails/document.getNumberOfWords())*100;
+		
+		Reporter.log("Success percent for " + document.getDocumentTitle() + ": " + percent);
+		
+		successPercent.add(percent);
 	}
-
-	@Test(dataProvider = "generate-documentSensePOSTagged")
-	public void senseRelatePOStagged(JPDocument document, Object[][] expectedSenses) {
-		JPSenseRelateWordNet senseRelate = new JPSenseRelateWordNet();
-		JPDocument senseRelatedDocument = senseRelate.senseRelate(document);
-
-		int sentenceIndex = 0;
-		for (JPSentence sentence : senseRelatedDocument.getSentenceArray()) {
-			Object[] senses = expectedSenses[sentenceIndex];
-			int wordIndex = 0;
-			for (JPWord word : sentence.getWords()) {
-				Integer sense = (Integer) senses[wordIndex];
-
-				Assert.assertEquals(sense.intValue(), word.getSenseIndex());
-
-				wordIndex++;
-			}
-			sentenceIndex++;
+	
+	@AfterTest
+	public void printResult() {
+		
+		double sum = 0.0;
+		for (Double percent : successPercent) {
+			sum += percent;
 		}
+		
+		double overallPercent = sum/successPercent.size();
+		
+		Reporter.log("Overall WordNet sense relate success percent: " + overallPercent);
 	}
-
 }

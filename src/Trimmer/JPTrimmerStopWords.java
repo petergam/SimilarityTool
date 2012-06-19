@@ -22,79 +22,16 @@ public class JPTrimmerStopWords extends JPAbstractTrimmer {
 	 */
 	@Override
 	public JPDocument trim(JPDocument document) {
-		
-//		ArrayList<JPSentence> sentences = (ArrayList<JPSentence>) document.getSentenceArray().clone();
-//		int index = 0;
 		for(JPSentence sentence : document.getSentenceArray()) {
-//			ArrayList<JPWord> words = (ArrayList<JPWord>) sentence.getWords().clone();
 			for (JPWord word : sentence.getWords()) {
 				if (stopWords.containsKey(word.getValue().toLowerCase())) {
 					word.setStopWord(true);
-//					words.remove(word);
 				}
 				
-				word = removeStopWords(word);
-			}
-			
-//			sentences.get(index).setWords(words);
+			}	
 		}
-		
-//		document.setSentenceArray(sentences);
 		
 		return document;
-	}
-	
-	/**
-	 * Removes the stop words.
-	 *
-	 * @param word the word
-	 * @return the word with stopwords removed
-	 */
-	private JPWord removeStopWords(JPWord word) {
-		
-		if (word.getHypernyms() != null) {
-//			ArrayList<JPWord> hypernyms = (ArrayList<JPWord>) word.getHypernyms().clone();
-			
-			for (JPWord w : word.getHypernyms()) {
-				if (stopWords.containsKey(w.getValue().toLowerCase())) {
-					w.setStopWord(true);
-//					hypernyms.remove(w);
-				}if (w.getHypernyms() != null) {
-					removeStopWords(w);
-				}
-			}
-//			word.setHypernyms(hypernyms);
-		}
-
-		if (word.getHyponyms() != null) {
-//			ArrayList<JPWord> hyponyms = (ArrayList<JPWord>) word.getHyponyms().clone();
-			
-			for (JPWord w : word.getHyponyms()) {
-				if (stopWords.containsKey(w.getValue().toLowerCase())) {
-					w.setStopWord(true);
-//					hyponyms.remove(w);
-				}if (w.getHyponyms() != null) {
-					removeStopWords(w);
-				}
-			}
-//			word.setHyponyms(hyponyms);
-		}
-		
-		if (word.getSynonyms() != null) {
-//			ArrayList<JPWord> synonyms = (ArrayList<JPWord>) word.getSynonyms().clone();
-			
-			for (JPWord w : word.getSynonyms()) {
-				if (stopWords.containsKey(w.getValue().toLowerCase())) {
-					w.setStopWord(true);
-//					synonyms.remove(w);
-				}if (w.getSynonyms() != null) {
-					removeStopWords(w);
-				}
-			}
-//			word.setSynonyms(synonyms);			
-		}
-	
-		return word;
 	}
 	
 	/**

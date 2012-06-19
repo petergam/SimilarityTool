@@ -3,12 +3,12 @@ package Parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Model.JPCache;
+import Model.WordNetManager;
 import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
 import Objects.JPWordIndex;
-import Utilities.GUILog;
+import edu.mit.jwi.item.IWordID;
 
 /**
  * The Class JPStringParser.
@@ -88,6 +88,13 @@ public class JPStringParser {
 		
 		if(currentSentence.getWords().size() > 0) {
 			document.getSentenceArray().add(currentSentence);
+		}
+		
+		for (JPSentence sentence : document.getSentenceArray()) {
+			for (JPWord word : sentence.getWords()) {
+				IWordID id = WordNetManager.SharedInstance.getWordID(word);
+				word.wordNetID = id;
+			}
 		}
 		
 		return document;
