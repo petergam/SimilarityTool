@@ -256,6 +256,8 @@ public class JPConfiguration {
 	/** The document files. */
 	private File[] documentFiles;
 	
+	private double threshold;
+	
 
 	/**
 	 * Gets the algorithm index.
@@ -542,5 +544,13 @@ public class JPConfiguration {
 	
 	public boolean getNormalized() {
 		return normalized;
+	}
+
+	public double getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(double threshold) {
+		this.threshold = threshold;
 	}
 }

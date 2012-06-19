@@ -47,7 +47,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 						String sha1 = UtilMethods.sha1(sentenceString);
 						JPSenseRelation senseRelation = null;
 						if(JPCache.SharedCache.getCachedValue(sha1)==null) {	
-							System.out.println(document.getDocumentTitle() + " " + sha1 + " " + sentenceString);
+//							System.out.println(document.getDocumentTitle() + " " + sha1 + " " + sentenceString);
 							
 							String[] paths = (String[]) SettingsManager.SharedInstance.getSettings().get(SettingsManager.PerlLibraryPathsKey);
 							
@@ -86,6 +86,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 							String jsonResponse = writer.toString();
 							senseRelation = new Gson().fromJson(
 									jsonResponse, JPSenseRelation.class);
+
 							JPCache.SharedCache.setCachedValue(senseRelation, sha1);
 							
 						} else {

@@ -61,7 +61,6 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 
 							ArrayList<JPWord> currentDocWords = document.getAllWords();
 							int currentDocumentWordCount = currentDocWords.size();
-//							System.out.println("CompareDoc: " + currentDocumentWordCount);
 
 							double sim = 0;
 							double max = Math.max(mainDocumentWordCount, document.getWords(false).size());
@@ -85,8 +84,9 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 										}
 									}
 								}
-								
-								sum += maxDegree;
+								if (maxDegree > 0.15) {
+									sum += maxDegree;
+								}
 							}
 							
 							sim = 1/max * sum;

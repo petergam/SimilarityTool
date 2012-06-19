@@ -54,6 +54,7 @@ public enum JPCache {
 			ois.close();
 
 		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
 			cacheHashmap = new ConcurrentHashMap<Object, Object>();
 		} catch (IOException e) {
 			System.out.println("Cache load IOexception");
