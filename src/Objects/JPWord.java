@@ -3,9 +3,11 @@ package Objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class JPWord.
  * Represents a word
@@ -21,22 +23,29 @@ public class JPWord implements Serializable {
 	/**
 	 * The Enum JPWordType.
 	 */
-	public enum JPWordType {
+	public enum JPWordPOS {
 		
 		/** The JP word type unknown. */
-		JPWordTypeUnknown,
+		JPWordPOSUnknown,
 		
 		/** The JP word type noun. */
-		JPWordTypeNoun,
+		JPWordPOSNoun,
 		
 		/** The JP word type verb. */
-		JPWordTypeVerb,
+		JPWordPOSVerb,
 		
 		/** The JP word type adjective. */
-		JPWordTypeAdjective,
+		JPWordPOSAdjective,
 		
 		/** The JP word type adverb. */
-		JPWordTypeAdverb
+		JPWorPOSAdverb
+	}
+	
+	public enum JPWordType {
+		JPWordTypeMain,
+		JPWordTypeSynonym,
+		JPWordTypeHyponym,
+		JPWordTypeHypernym
 	}
 	
 	/** The value. */
@@ -45,16 +54,11 @@ public class JPWord implements Serializable {
 	/** The sense tagged value. */
 	private String senseValue;
 	
-	/** The synonyms. */
-	private ArrayList<JPWord> synonyms;
-	
-	/** The hypernyms. */
-	private ArrayList<JPWord> hypernyms;
-	
-	/** The hyponyms. */
-	private ArrayList<JPWord> hyponyms;
+	private ArrayList<Object[]> neighbourWord;
 
 	/** The word type. */
+	private JPWordPOS wordPOS;
+	
 	private JPWordType wordType;
 	
 	/** The POS tag. */
@@ -66,12 +70,17 @@ public class JPWord implements Serializable {
 	/** Indicates if the word is a stop word. */
 	private boolean isStopWord = false;
 	
+	/** The score of the word. Default is 1.0 */
+	private double score = 1.0;
+
+	public IWordID wordNetID;
+	
 	/**
 	 * Instantiates a new jP word.
 	 */
 	public JPWord() {
 		senseIndex = SenseIndexUnkown;
-		wordType = JPWordType.JPWordTypeUnknown;
+		wordPOS = JPWordPOS.JPWordPOSUnknown;
 	}
 	
 	/**
@@ -91,68 +100,15 @@ public class JPWord implements Serializable {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	/**
-	 * Gets the synonyms.
-	 *
-	 * @return the synonyms
-	 */
-	public ArrayList<JPWord> getSynonyms() {
-		return synonyms;
-	}
-	
-	/**
-	 * Sets the synonyms.
-	 *
-	 * @param synonyms the new synonyms
-	 */
-	public void setSynonyms(ArrayList<JPWord> synonyms) {
-		this.synonyms = synonyms;
-	}
-	
-	/**
-	 * Gets the hypernyms.
-	 *
-	 * @return the hypernyms
-	 */
-	public ArrayList<JPWord> getHypernyms() {
-		return hypernyms;
-	}
-	
-	/**
-	 * Sets the hypernyms.
-	 *
-	 * @param hypernyms the new hypernyms
-	 */
-	public void setHypernyms(ArrayList<JPWord> hypernyms) {
-		this.hypernyms = hypernyms;
-	}
-	
-	/**
-	 * Gets the hyponyms.
-	 *
-	 * @return the hyponyms
-	 */
-	public ArrayList<JPWord> getHyponyms() {
-		return hyponyms;
-	}
-	
-	/**
-	 * Sets the hyponyms.
-	 *
-	 * @param hyponyms the new hyponyms
-	 */
-	public void setHyponyms(ArrayList<JPWord> hyponyms) {
-		this.hyponyms = hyponyms;
-	}
+
 	
 	/**
 	 * Gets the word type.
 	 *
 	 * @return the word type
 	 */
-	public JPWordType getWordType() {
-		return wordType;
+	public JPWordPOS getWordPOS() {
+		return wordPOS;
 	}
 	
 	/**
@@ -160,98 +116,27 @@ public class JPWord implements Serializable {
 	 *
 	 * @param wordType the new word type
 	 */
-	public void setWordType(JPWordType wordType) {
-		this.wordType = wordType;
+	public void setWordPOS(JPWordPOS wordPOS) {
+		this.wordPOS = wordPOS;
 	}
 	
-	/**
-	 * Gets the synset size.
-	 *
-	 * @return the synset size
-	 */
-	public int getSynsetSize() {
-		int size = 1;
-		for (JPWord synonymWord : synonyms) {
-			size += synonymWord.getSynsetSize();
+	public void setWordPOSFromWordNetPOS(POS pos) {
+		switch (pos) {
+		case ADJECTIVE:
+			wordPOS = JPWordPOS.JPWordPOSAdjective;
+			break;
+		case VERB:
+			wordPOS = JPWordPOS.JPWordPOSVerb;
+			break;
+		case ADVERB:
+			wordPOS = JPWordPOS.JPWorPOSAdverb;
+			break;
+		case NOUN:
+			wordPOS = JPWordPOS.JPWordPOSNoun;
+			break;
+		default:
+			break;
 		}
-		
-		for (JPWord hypernymWord : hypernyms) {
-			size += hypernymWord.getSynsetSize();
-		}
-		
-		return size;
-	}
-	
-	/**
-	 * Gets the all hypernyms.
-	 *
-	 * @return the all hypernyms
-	 */
-	public ArrayList<JPWord> getAllHypernyms() {
-		if (hypernyms != null) {
-			ArrayList<JPWord> words = (ArrayList<JPWord>) hypernyms.clone();
-			
-			for (JPWord word : hypernyms) {
-				if (isStopWord == false) {
-					ArrayList<JPWord> s = word.getAllHypernyms();
-					if (s!=null) {
-						words.addAll(s);
-					}
-				}
-			}
-
-			return words;
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Gets the all hyponyms.
-	 *
-	 * @return the all hyponyms
-	 */
-	public ArrayList<JPWord> getAllHyponyms() {
-		if (hyponyms != null) {
-			ArrayList<JPWord> words = (ArrayList<JPWord>) hyponyms.clone();
-			
-			for (JPWord word : hyponyms) {
-				if (isStopWord == false) {
-					ArrayList<JPWord> s = word.getAllHyponyms();
-					if (s!=null) {
-						words.addAll(s);
-					}
-				}
-
-			}
-
-			return words;
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Gets the all synonyms.
-	 *
-	 * @return the all synonyms
-	 */
-	public ArrayList<JPWord> getAllSynonyms() {
-		if (synonyms != null) {
-			ArrayList<JPWord> words = (ArrayList<JPWord>) synonyms.clone();
-			
-			for (JPWord word : synonyms) {
-				if (isStopWord == false) {
-					ArrayList<JPWord> s = word.getAllSynonyms();
-					if (s!=null) {
-						words.addAll(s);
-					}
-				}
-			}
-			return words;
-		}
-		
-		return null;
 	}
 
 	/**
@@ -278,18 +163,18 @@ public class JPWord implements Serializable {
 	 * @return the POS
 	 */
 	public POS getPOS() {
-		switch (wordType) {
-		case JPWordTypeAdjective:
+		switch (wordPOS) {
+		case JPWordPOSAdjective:
 			return POS.ADJECTIVE;
-		case JPWordTypeAdverb:
+		case JPWorPOSAdverb:
 			return POS.ADVERB;
-		case JPWordTypeNoun:
+		case JPWordPOSNoun:
 			return POS.NOUN;
-		case JPWordTypeVerb:
+		case JPWordPOSVerb:
 			return POS.VERB;
-		case JPWordTypeUnknown:
+		case JPWordPOSUnknown:
 		default:
-            throw new RuntimeException("Unknown POS for word type: " + wordType);
+            throw new RuntimeException("Unknown POS for word type: " + wordPOS);
 		}
 	}
 
@@ -316,17 +201,17 @@ public class JPWord implements Serializable {
 	 *
 	 * @param tag the new word type from tag
 	 */
-	public void setWordTypeFromTag(String tag) {
+	public void setWordPOSFromTag(String tag) {
 		if (tag.equals("NN") || tag.equals("NNP") || tag.equals("NNPS") || tag.equals("NNS")) {
-			wordType = JPWordType.JPWordTypeNoun;
+			wordPOS = JPWordPOS.JPWordPOSNoun;
 		}else if (tag.equals("VB") || tag.equals("VBD") || tag.equals("VBG") || tag.equals("VBN") || tag.equals("VBP") || tag.equals("VBZ")) {
-			wordType = JPWordType.JPWordTypeVerb;
+			wordPOS = JPWordPOS.JPWordPOSVerb;
 		}else if (tag.equals("JJ") || tag.equals("JJR") || tag.equals("JJS")) {
-			wordType = JPWordType.JPWordTypeAdjective;
+			wordPOS = JPWordPOS.JPWordPOSAdjective;
 		}else if (tag.equals("RB") || tag.equals("RBR") || tag.equals("RBS") || tag.equals("RP")) {
-			wordType = JPWordType.JPWordTypeVerb;
+			wordPOS = JPWordPOS.JPWorPOSAdverb;
 		} else {
-			wordType = JPWordType.JPWordTypeUnknown;
+			wordPOS = JPWordPOS.JPWordPOSUnknown;
 		}
 	}
 
@@ -360,9 +245,44 @@ public class JPWord implements Serializable {
 	/**
 	 * Sets if the word is a stop word.
 	 *
-	 * @param isStopWord, true if the word is a stop word
+	 * @param isStopWord the new stop word
 	 */
 	public void setStopWord(boolean isStopWord) {
 		this.isStopWord = isStopWord;
 	}
+
+	/**
+	 * Gets the score.
+	 *
+	 * @return the score
+	 */
+	public double getScore() {
+		return score;
+	}
+
+	/**
+	 * Sets the score.
+	 *
+	 * @param score the new score
+	 */
+	public void setScore(double score) {
+		this.score = score;
+	}
+
+	public JPWordType getWordType() {
+		return wordType;
+	}
+
+	public void setWordType(JPWordType wordType) {
+		this.wordType = wordType;
+	}
+
+	public ArrayList<Object[]> getNeighbourWord() {
+		return neighbourWord;
+	}
+
+	public void setNeighbourWord(ArrayList<Object[]> neighbourWordIDs) {
+		this.neighbourWord = neighbourWordIDs;
+	}
+
 }

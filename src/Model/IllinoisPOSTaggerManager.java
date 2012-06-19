@@ -44,7 +44,7 @@ public enum IllinoisPOSTaggerManager {
 		for (Token token : tokens) {
 			JPWord word = sentence.getWords().get(index);
 			String tag = tagger.discreteValue(token);
-			word.setWordTypeFromTag(tag);
+			word.setWordPOSFromTag(tag);
 			word.setTag(tag);
 
 			index ++;

@@ -66,7 +66,7 @@ public enum StanfordPOSTaggerManager {
 			
 			JPWord word = s.getWords().get(index);
 			word.setTag(w.tag());
-			word.setWordTypeFromTag(w.tag());
+			word.setWordPOSFromTag(w.tag());
 			word.setSenseIndex(JPWord.SenseIndexUnkown);
 			word.setSenseValue(null);
 			index++;

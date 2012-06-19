@@ -16,7 +16,7 @@ public class IllinoisPOSTaggerManagerTest extends DataProviderTest {
 
 	private ArrayList<Double> successPercent = new ArrayList<Double>();
 	
-	@Test(dataProvider = "generate-sentences")
+	@Test(dataProvider = "generate-documents")
 	public void tagSentence(JPDocument document, JPDocument expectedDocument) {
 		JPPOSTaggerIllinois posTagger = new JPPOSTaggerIllinois();
 		JPDocument posTaggedDocument = posTagger.tag(document);
@@ -34,7 +34,7 @@ public class IllinoisPOSTaggerManagerTest extends DataProviderTest {
 
 				Assert.assertEquals(word.getValue(), expectedWord.getValue());
 
-				overallFails = word.getWordType()==expectedWord.getWordType() ? overallFails : overallFails+1;
+				overallFails = word.getWordPOS()==expectedWord.getWordPOS() ? overallFails : overallFails+1;
 				
 			}
 		}

@@ -44,11 +44,10 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 				public void run() {
 					try {
 						String sentenceString = sentence.isPOSTagged() ? sentence.getPOSTaggedSentenceString() : sentence.getSentenceString();
+
 						String sha1 = UtilMethods.sha1(sentenceString);
 						JPSenseRelation senseRelation = null;
 						if(JPCache.SharedCache.getCachedValue(sha1)==null) {	
-//							System.out.println(document.getDocumentTitle() + " " + sha1 + " " + sentenceString);
-							
 							String[] paths = (String[]) SettingsManager.SharedInstance.getSettings().get(SettingsManager.PerlLibraryPathsKey);
 							
 							int parameters = sentence.isPOSTagged() ? 5 : 4;
@@ -101,7 +100,7 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 								JPSenseRelation.Relation relation = senseRelation
 										.getRelations().get(i);
 								word.setSenseIndex(relation.getSenseIndex());
-								word.setWordType(relation.getWordType());
+								word.setWordPOS(relation.getWordType());
 								word.setSenseValue(relation.getNewWord());
 							}
 

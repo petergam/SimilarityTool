@@ -16,6 +16,7 @@ import javax.swing.SwingWorker;
 import Algorithms.JPAbstractAlgorithm;
 import Include.JPInclude;
 import Loader.JPDocumentLoader;
+import Model.JPConfiguration.IncludeNeighbourWordsType;
 import Model.JPConfiguration.IncludeType;
 import Objects.JPDocument;
 import Objects.JPProgress;
@@ -86,9 +87,10 @@ public class JPWordTool {
 						JPStemmer stemmer = config.getStemmer();
 						JPTrimmer trimmer = config.getTrimmer();
 						IncludeType includeType = config.getIncludeType();
+						IncludeNeighbourWordsType includeNeighbourWordsType = config.getIncludeNeighbourWordsType();
 						ArrayList<JPInclude> includes = config.getIncludeTypes();
 						
-						JPDocument mainDocument = loadDocument(document,file, loader, posTagger, senseRelate, stemmer, trimmer, includes,includeType);
+						JPDocument mainDocument = loadDocument(document,file, loader, posTagger, senseRelate, stemmer, trimmer, includes,includeType, includeNeighbourWordsType);
 						
 				        SwingUtilities.invokeLater(new Runnable() {
 							@Override
@@ -134,10 +136,9 @@ public class JPWordTool {
 							JPSenseRelate senseRelate = config.getSenseRelate();
 							JPStemmer stemmer = config.getStemmer();
 							JPTrimmer trimmer = config.getTrimmer();
-							IncludeType includeType = config.getIncludeType();
-							ArrayList<JPInclude> includes = config.getIncludeTypes();
+
 							
-							document = loadDocument(document,file, loader, posTagger, senseRelate, stemmer, trimmer, includes,includeType);
+							document = loadDocument(document,file, loader, posTagger, senseRelate, stemmer, trimmer);
 
 					        SwingUtilities.invokeLater(new Runnable() {
 								@Override
@@ -240,15 +241,44 @@ public class JPWordTool {
 	 * @param includeType the include type
 	 * @return the loaded document
 	 */
-	private JPDocument loadDocument(JPDocument document, File file, JPDocumentLoader loader, JPPOSTagger posTagger, JPSenseRelate senseRelate, JPStemmer stemmer, JPTrimmer trimmer, ArrayList<JPInclude> includes, IncludeType includeType) {
+	private JPDocument loadDocument(JPDocument document, File file, JPDocumentLoader loader, JPPOSTagger posTagger, JPSenseRelate senseRelate, JPStemmer stemmer, JPTrimmer trimmer, ArrayList<JPInclude> includes, IncludeType includeType, IncludeNeighbourWordsType includeNeighbourWordsType) {
 		try {
 	        JPStringParser parser = new JPStringParser();
 	        document.setDocumentTitle(file.getName());
 
 			document = trimmer.trim(stemmer.stem(senseRelate.senseRelate(posTagger.tag(parser.parse(document,loader.load(file))))));
 			for (JPInclude include : includes) {
-				include.include(document, includeType);
+				include.include(document, includeType,includeNeighbourWordsType);
 			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return document;
+	}
+	
+	/**
+	 * Load document.
+	 *
+	 * @param document the document
+	 * @param file the file
+	 * @param loader the loader
+	 * @param posTagger the POS tagger
+	 * @param senseRelate the sense relate
+	 * @param stemmer the stemmer
+	 * @param trimmer the trimmer
+	 * @param includes the includes
+	 * @param includeType the include type
+	 * @return the loaded document
+	 */
+	private JPDocument loadDocument(JPDocument document, File file, JPDocumentLoader loader, JPPOSTagger posTagger, JPSenseRelate senseRelate, JPStemmer stemmer, JPTrimmer trimmer) {
+		try {
+	        JPStringParser parser = new JPStringParser();
+	        document.setDocumentTitle(file.getName());
+
+			document = trimmer.trim(stemmer.stem(senseRelate.senseRelate(posTagger.tag(parser.parse(document,loader.load(file))))));
+
 			
 		} catch (IOException e) {
 			e.printStackTrace();

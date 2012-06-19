@@ -71,6 +71,7 @@ public abstract class JPAbstractAlgorithm {
 	
 	/**
 	 * Normalize result.
+	 * Normalizes the result so it is between 0.0 and 1.0
 	 *
 	 * @param resultArray the results that should be normalized
 	 * @return the normalized result

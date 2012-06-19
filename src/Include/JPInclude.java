@@ -1,5 +1,6 @@
 package Include;
 
+import Model.JPConfiguration.IncludeNeighbourWordsType;
 import Model.JPConfiguration.IncludeType;
 import Objects.JPDocument;
 
@@ -15,6 +16,6 @@ public interface JPInclude {
      * @param includeType the include type
      * @return the new document
      */
-    public JPDocument include(JPDocument document, IncludeType includeType);
+    public JPDocument include(JPDocument document, IncludeType includeType, IncludeNeighbourWordsType includeNeigbbourWordsType);
 	
 }

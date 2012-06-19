@@ -79,23 +79,6 @@ public class JPDocument implements Serializable {
 			for (JPWord word : sentence.getWords()) {	
 				if (word.isStopWord() == false) {
 					words.add(word);
-
-					if (synset) {
-					ArrayList<JPWord> synonyms = word.getAllSynonyms();
-					if (synonyms!=null) {
-						words.addAll(synonyms);
-					}
-					
-					ArrayList<JPWord> hypernyms = word.getAllHypernyms();
-					if (hypernyms!=null) {
-						words.addAll(hypernyms);
-					}	
-					
-					ArrayList<JPWord> hyponyms = word.getAllHyponyms();
-					if (hyponyms!=null) {
-						words.addAll(hyponyms);
-					}
-					}
 				}
 			}
 		}

@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/commons-io-2.3.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/edu.mit.jsemcor_1.0.1.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/gson-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/guice-3.0.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/LBJ2Library.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/LBJPOS.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/reportng-1.1.3.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/testng-6.5.1.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/velocity-dep-1.4.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/wvtool.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Bachelor/Bachelor-project/Library/xmlrpc-client-3.1.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/xmlrpc-client-3.1.3.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/wvtool.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/velocity-dep-1.4.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/testng-6.5.1.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/stanford-postagger.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/reportng-1.1.3.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/LBJPOS.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/LBJ2Library.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/guice-3.0.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/gson-2.2.1.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/edu.mit.jwi_2.2.2_jdk.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/edu.mit.jsemcor_1.0.1.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/commons-lang3-3.1.jar"/>
-	<classpathentry kind="lib" path="/Users/Johan/Documents/workspace/SimilarityTool/Library/commons-io-2.3.jar"/>
-	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

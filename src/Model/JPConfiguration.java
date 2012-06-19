@@ -18,7 +18,7 @@ import POSTagger.JPPOSTaggerIllinois;
 import POSTagger.JPPOSTaggerStanford;
 import Parser.JPStringParser;
 import SenseRelate.JPAbstractSenseRelate;
-import SenseRelate.JPSenseRelateDummy;
+import SenseRelate.JPSenseRelateBaseline;
 import SenseRelate.JPSenseRelateWordNet;
 import Stemmer.JPStemmer;
 import Stemmer.JPStemmerDummy;
@@ -195,23 +195,24 @@ public class JPConfiguration {
 			}
 		}
 	}
-	
+
 	/**
 	 * The Enum IncludeType.
 	 */
 	public enum IncludeType {
-		
+
 		/** The Include type all. */
-		IncludeTypeAll, 
- /** The Include type pos tagged. */
- IncludeTypePOSTagged, 
- /** The Include type sense related. */
- IncludeTypeSenseRelated;
-		
+		IncludeTypeAll,
+		/** The Include type pos tagged. */
+		IncludeTypePOSTagged,
+		/** The Include type sense related. */
+		IncludeTypeSenseRelated;
+
 		/**
 		 * Gets the include type from int.
-		 *
-		 * @param index the index
+		 * 
+		 * @param index
+		 *            the index
 		 * @return the include type from int
 		 */
 		public static IncludeType getIncludeTypeFromInt(int index) {
@@ -224,11 +225,15 @@ public class JPConfiguration {
 				return IncludeTypeSenseRelated;
 			default:
 				return IncludeTypeAll;
-//				throw new RuntimeException("Unknown include type: " + index);
 			}
 		}
 	}
 	
+	public enum IncludeNeighbourWordsType {
+		IncludeNeighbourWordsTypeAll,
+		IncludeNeighbourWordsTypeSynonyms,
+		IncludeNeighbourWordsTypeHypoHyperNyms
+	}
 
 	/** The algorithm index. */
 	private AlgorithmIndex algorithmIndex;
@@ -247,6 +252,9 @@ public class JPConfiguration {
 	
 	/** The include type. */
 	private IncludeType includeType = IncludeType.IncludeTypeAll;
+	
+	private IncludeNeighbourWordsType includeNeighbourWordsType = IncludeNeighbourWordsType.IncludeNeighbourWordsTypeAll;
+
 	
 	/** The includes. */
 	private ArrayList<JPInclude> includes = new ArrayList<JPInclude>();
@@ -380,7 +388,7 @@ public class JPConfiguration {
 	public JPAbstractSenseRelate getSenseRelate() {
 		switch (senseRelateType) {
 		case SenseRelateTypeDummy:
-			return new JPSenseRelateDummy();
+			return new JPSenseRelateBaseline();
 		case SenseRelateTypeWordNet:
 			return new JPSenseRelateWordNet();
 		default:
@@ -546,5 +554,13 @@ public class JPConfiguration {
 	public boolean getNormalized() {
 		return normalized;
 	}
-	
+
+	public IncludeNeighbourWordsType getIncludeNeighbourWordsType() {
+		return includeNeighbourWordsType;
+	}
+
+	public void setIncludeNeighbourWordsType(IncludeNeighbourWordsType includeNeighbourWordsType) {
+		this.includeNeighbourWordsType = includeNeighbourWordsType;
+	}
+
 }

@@ -50,14 +50,17 @@ public class SemCorParser {
 					
 					for(IWordform wf : sentence.getWordList()){
 						JPWord word = new JPWord();
+
 						word.setValue(wf.getText());
 						if (wf.getSemanticTag()!=null) {
+							word.setValue(wf.getSemanticTag().getLemma());
 							word.setSenseIndex(wf.getSemanticTag().getSenseNumber().get(0));
-
+						} else {
+							word.setSenseIndex(JPWord.SenseIndexUnkown);
 						}
 						if (wf.getPOSTag() != null) {
 							word.setTag(wf.getPOSTag().getValue());
-							word.setWordTypeFromTag(word.getTag());
+							word.setWordPOSFromTag(word.getTag());
 						}
 						document.setNumberOfWords(document.getNumberOfWords()+1);
 						s.getWords().add(word);

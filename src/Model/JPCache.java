@@ -14,27 +14,34 @@ import org.apache.commons.io.FileUtils;
 
 import Utilities.GUILog;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class JPCache.
- * Cache a Objects in memory and on disk. Uses key/value
+ * The Class JPCache. Cache a Objects in memory and on disk. Uses key/value
  */
-public enum JPCache {
-	
+public class JPCache {
+
 	/** The Shared cache instance. */
-	SharedCache;
-	
+	public static JPCache SharedCache = new JPCache();
+
 	/** The cache hashmap. */
 	private ConcurrentHashMap<Object, Object> cacheHashmap;
-	
+
 	/** The cache name. */
 	private String cacheName;
-	
+
 	/** The Constant sDefaultCacheName. */
 	public static final String sDefaultCacheName = "DefaultCache";
-	
 
 	/** The is dirty. */
 	private boolean isDirty = false;
+
+	public JPCache() {
+
+	}
+
+	public JPCache(String cacheName) {
+		this.cacheName = cacheName;
+	}
 
 	/**
 	 * Load cache.
@@ -54,7 +61,6 @@ public enum JPCache {
 			ois.close();
 
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found.");
 			cacheHashmap = new ConcurrentHashMap<Object, Object>();
 		} catch (IOException e) {
 			System.out.println("Cache load IOexception");
@@ -81,7 +87,18 @@ public enum JPCache {
 	 * @return the cached value
 	 */
 	public Object getCachedValue(Object key) {
-		return cacheHashmap.get(key.toString());
+		return cacheHashmap.get(key);
+	}
+	
+	/**
+	 * Contains key.
+	 * Checks if the key is in the cache
+	 *
+	 * @param key the key
+	 * @return true, if successful
+	 */
+	public boolean containsKey(Object key) {
+		return cacheHashmap.containsKey(key);
 	}
 	
 	/**

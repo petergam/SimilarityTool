@@ -3,7 +3,7 @@ package Objects;
 import java.io.Serializable;
 import java.util.List;
 
-import Objects.JPWord.JPWordType;
+import Objects.JPWord.JPWordPOS;
 
 /**
  * The Class JPSenseRelation.
@@ -124,19 +124,19 @@ public class JPSenseRelation implements Serializable {
 		 *
 		 * @return the word type
 		 */
-		public JPWordType getWordType() {
+		public JPWordPOS getWordType() {
 			if (tag.equals("v")) {
-				return JPWordType.JPWordTypeVerb;
+				return JPWordPOS.JPWordPOSVerb;
 			} else if (tag.equals("n")) {
-				return JPWordType.JPWordTypeNoun;
+				return JPWordPOS.JPWordPOSNoun;
 			} else if (tag.equals("a")) {
-				return JPWordType.JPWordTypeAdjective;
+				return JPWordPOS.JPWordPOSAdjective;
 			} else if (tag.equals("r")) {
-				return JPWordType.JPWordTypeAdverb;
+				return JPWordPOS.JPWorPOSAdverb;
 			}
 			
 			
-			return JPWordType.JPWordTypeUnknown;
+			return JPWordPOS.JPWordPOSUnknown;
 		}
 		
 	}

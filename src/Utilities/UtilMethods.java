@@ -5,8 +5,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
-
-
 /**
  * The Class UtilMethods.
  * Utility methods
@@ -26,6 +24,12 @@ public class UtilMethods {
     }	
 	
 	
+	/**
+	 * Sha1.
+	 *
+	 * @param string the string to be hashed
+	 * @return the sha1 hashed string
+	 */
 	public static String sha1(String string)
 	{
 	    String sha1 = "";
@@ -47,6 +51,12 @@ public class UtilMethods {
 	    return sha1;
 	}
 
+	/**
+	 * Byte to hex.
+	 *
+	 * @param hash the hash
+	 * @return the string
+	 */
 	private static String byteToHex(final byte[] hash)
 	{
 	    Formatter formatter = new Formatter();
