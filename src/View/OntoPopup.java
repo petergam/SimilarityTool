@@ -31,9 +31,6 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	/** The hypernyms slider. */
 	private JSlider hypernymsSlider;
 	
-	/** The synonyms slider. */
-	private JSlider synonymsSlider;
-	
 	/** The chckbx hypernyms. */
 	private JCheckBox chckbxHypernyms;
 	
@@ -81,10 +78,9 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	public OntoPopup(HashMap<String, String> settings) {
 		super(settings);
 		setAlwaysOnTop(true);
-		this.setSize(new Dimension(354, 686));
+		this.setSize(new Dimension(354, 672));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Ontology Based Query");
-		System.out.println("Baam1");
 		getContentPane().setLayout(null);
 		
 		Box verticalBox = Box.createVerticalBox();
@@ -130,12 +126,12 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			}
 		});
 
-		btnClose.setBounds(223, 629, 129, 29);
+		btnClose.setBounds(223, 615, 129, 29);
 		getContentPane().add(btnClose);
 		
 		Box verticalBox_2 = Box.createVerticalBox();
 		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		verticalBox_2.setBounds(6, 123, 346, 494);
+		verticalBox_2.setBounds(6, 123, 346, 484);
 		getContentPane().add(verticalBox_2);
 
 		getContentPane().add(verticalBox_2);
@@ -248,7 +244,6 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 						chckbxSynonyms = new JCheckBox("Synonyms");
 						chckbxSynonyms.addChangeListener(new ChangeListener() {
 							public void stateChanged(ChangeEvent e) {
-								synonymsSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
 								synoValueSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
 							}
 						});
@@ -256,29 +251,6 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 						
 						Component horizontalGlue = Box.createHorizontalGlue();
 						horizontalBox_4.add(horizontalGlue);
-										
-										Box horizontalBox_1 = Box.createHorizontalBox();
-										verticalBox_6.add(horizontalBox_1);
-												
-												Component horizontalStrut = Box.createHorizontalStrut(25);
-												horizontalBox_1.add(horizontalStrut);
-												
-												JLabel label = new JLabel("Layers");
-												horizontalBox_1.add(label);
-												
-												Component horizontalStrut_1 = Box.createHorizontalStrut(175);
-												horizontalBox_1.add(horizontalStrut_1);
-										
-												synonymsSlider = new JSlider();
-												horizontalBox_1.add(synonymsSlider);
-												synonymsSlider.setMinimum(1);
-												synonymsSlider.setMajorTickSpacing(1);
-												synonymsSlider.setSnapToTicks(true);
-												synonymsSlider.setPaintTicks(true);
-												synonymsSlider.setPaintLabels(true);
-												synonymsSlider.setMaximum(2);
-												synonymsSlider.setValue(0);
-												synonymsSlider.setEnabled(false);
 										
 										Box horizontalBox_10 = Box.createHorizontalBox();
 										verticalBox_6.add(horizontalBox_10);
@@ -387,7 +359,6 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 				posTaggerIndex++;
 			}
 		}
-		System.out.println(posTaggerIndex);
 		super.settings.put("PosIndex", ""+posTaggerIndex);
 		
 		
@@ -425,13 +396,11 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 			super.settings.put("SynoInclude", "true");
-			super.settings.put("SynoLayers", ""+(synonymsSlider.getValue()-1));
 			super.settings.put("SynoScore", ""+(synoValueSlider.getValue()));
 		}
 		if (chckbxThreshold.isSelected() && chckbxThreshold.isEnabled()) {
 			super.settings.put("Threshold", ""+(thres.getValue()));
 		}
-		System.out.println(super.settings.toString());
 	}	
 	
 	@Override
@@ -458,11 +427,8 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			hyperValueSlider.setValue(Integer.parseInt(settings.get("HyperScore")));
 			hypoValueSlider.setValue(Integer.parseInt(settings.get("HypoScore")));
 		}
-		if (settings.get("SynoLayers") != null) {
+		if (settings.get("SynoInclude") != null) {
 			chckbxSynonyms.setSelected(true);
-			synonymsSlider.setEnabled(true);
-			synonymsSlider.setValue(Integer.parseInt(settings.get("SynoLayers"))+1);
-			hyperValueSlider.setValue(Integer.parseInt(settings.get("HyperScore")));
 			synoValueSlider.setValue(Integer.parseInt(settings.get("SynoScore")));
 		}
 		if (settings.get("SenseIndex") != null) {

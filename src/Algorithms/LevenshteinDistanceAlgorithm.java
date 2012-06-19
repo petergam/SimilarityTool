@@ -1,6 +1,7 @@
 package Algorithms;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Model.JPDocumentCallable;
 import Objects.JPDocument;
@@ -19,7 +20,7 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	@Override
 	//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
 	public void compute(final JPDocument mainDocument,
-			final JPDocument[] documents, final boolean normalizeResult, final Runnable callbackDelegate) {
+			final JPDocument[] documents, HashMap<String, String> algorithmSettings, final boolean normalizeResult, final Runnable callbackDelegate) {
 		
 		Runnable backgroundRunnable = new Runnable() {
 			@Override

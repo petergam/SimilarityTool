@@ -1,5 +1,6 @@
 package Algorithms;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -51,10 +52,11 @@ public abstract class JPAbstractAlgorithm {
 	 *
 	 * @param mainDocument the main document
 	 * @param documents the other documents
+	 * @param algorithmSettings 
 	 * @param normalizeResult whenever the result should be normalized
 	 * @param callbackDelegate the callback delegate
 	 */
-	public abstract void compute(JPDocument mainDocument, JPDocument[] documents, boolean normalizeResult, Runnable callbackDelegate);
+	public abstract void compute(JPDocument mainDocument, JPDocument[] documents, HashMap<String, String> algorithmSettings, boolean normalizeResult, Runnable callbackDelegate);
 	
 	/**
 	 * Compute.
@@ -63,8 +65,8 @@ public abstract class JPAbstractAlgorithm {
 	 * @param documents the other documents
 	 * @param callbackDelegate the callback delegate
 	 */
-	public void compute(JPDocument mainDocument, JPDocument[] documents, Runnable callbackDelegate) {
-		compute(mainDocument, documents, true, callbackDelegate);
+	public void compute(JPDocument mainDocument, JPDocument[] documents, HashMap<String, String> algorithmSettings,  Runnable callbackDelegate) {
+		compute(mainDocument, documents, algorithmSettings, true, callbackDelegate);
 	}
 	
 	/**

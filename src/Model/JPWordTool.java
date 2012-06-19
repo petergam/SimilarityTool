@@ -198,7 +198,7 @@ public class JPWordTool {
 						}
 					});
 					algorithm.setAlgorithmProgressDelegate(progress);
-					algorithm.compute(mainDocument, documents, config.getNormalized(), new Runnable() {
+					algorithm.compute(mainDocument, documents, config.algorithmSettings, config.getNormalized(), new Runnable() {
 						@Override
 						public void run() {
 					        SwingUtilities.invokeLater(new Runnable() {

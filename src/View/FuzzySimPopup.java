@@ -22,25 +22,17 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.JSpinner;
 
 public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	
 	/** The hypernyms slider. */
 	private JSlider hypernymsSlider;
 	
-	/** The hyponyms slider. */
-	private JSlider hyponymsSlider;
-	
-	/** The synonyms slider. */
-	private JSlider synonymsSlider;
-	
 	private JSlider thres;
 	
 	/** The chckbx hypernyms. */
 	private JCheckBox chckbxHypernyms;
-	
-	/** The chckbx hyponyms. */
-	private JCheckBox chckbxHyponyms;
 	
 	/** The chckbx synonyms. */
 	private JCheckBox chckbxSynonyms;
@@ -63,6 +55,9 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	/** The include button group. */
 	private final ButtonGroup includeButtonGroup = new ButtonGroup();
 	
+	/** The match button group. */
+	private final ButtonGroup matchButtonGroup = new ButtonGroup();
+	
 	JRadioButton rdbtnNewRadioButton_2;
 	
 	JRadioButton rdbtnPerlWordnet;
@@ -73,13 +68,16 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	
 	JRadioButton rdbtnNewRadioButton_5;
 	
+	JRadioButton rdbtnNewRadioButton;
+	
+	JRadioButton rdbtnNewRadioButton_1;
+	
 	public FuzzySimPopup(HashMap<String, String> settings) {
 		super(settings);
 		setAlwaysOnTop(true);
-		this.setSize(new Dimension(359, 578));
+		this.setSize(new Dimension(359, 550));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Fuzzy Similarity");
-		System.out.println("Baam1");
 		getContentPane().setLayout(null);
 		
 		Box verticalBox = Box.createVerticalBox();
@@ -125,12 +123,12 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 			}
 		});
 
-		btnClose.setBounds(223, 521, 129, 29);
+		btnClose.setBounds(223, 493, 129, 29);
 		getContentPane().add(btnClose);
 		
 		Box verticalBox_2 = Box.createVerticalBox();
 		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		verticalBox_2.setBounds(6, 207, 346, 302);
+		verticalBox_2.setBounds(6, 207, 346, 274);
 		getContentPane().add(verticalBox_2);
 
 		getContentPane().add(verticalBox_2);
@@ -144,14 +142,14 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		JLabel lblNewLabel = new JLabel("Layers");
 		horizontalBox_7.add(lblNewLabel);
 		
-		Component horizontalStrut_3 = Box.createHorizontalStrut(15);
+		Component horizontalStrut_3 = Box.createHorizontalStrut(55);
 		horizontalBox_7.add(horizontalStrut_3);
 
 		Box horizontalBox_2 = Box.createHorizontalBox();
 		horizontalBox_2.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_2);
 
-		chckbxHypernyms = new JCheckBox("Hypernyms");
+		chckbxHypernyms = new JCheckBox("Hyper/hyponyms");
 		chckbxHypernyms.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				hypernymsSlider.setEnabled(chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled());
@@ -159,10 +157,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		});
 		horizontalBox_2.add(chckbxHypernyms);
 
-		Component horizontalGlue_2 = Box.createHorizontalGlue();
-		horizontalBox_2.add(horizontalGlue_2);
-
-		Component horizontalStrut_2 = Box.createHorizontalStrut(22);
+		Component horizontalStrut_2 = Box.createHorizontalStrut(85);
 		horizontalBox_2.add(horizontalStrut_2);
 
 		hypernymsSlider = new JSlider();
@@ -173,7 +168,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		hypernymsSlider.setPaintTicks(true);
 		hypernymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		hypernymsSlider.setEnabled(false);
-		hypernymsSlider.setMaximum(3);
+		hypernymsSlider.setMaximum(2);
 		hypernymsSlider.setValue(0);
 
 		horizontalBox_2.add(hypernymsSlider);
@@ -186,54 +181,15 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		horizontalBox_3.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_3);
 
-		chckbxHyponyms = new JCheckBox("Hyponyms");
-		chckbxHyponyms.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				hyponymsSlider.setEnabled(chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled());
-			}
-		});
-		horizontalBox_3.add(chckbxHyponyms);
-
-		Component horizontalStrut_1 = Box.createHorizontalStrut(26);
-		horizontalBox_3.add(horizontalStrut_1);
-
-		hyponymsSlider = new JSlider();
-		hyponymsSlider.setMinimum(1);
-		hyponymsSlider.setMajorTickSpacing(1);
-		hyponymsSlider.setPaintTicks(true);
-		hyponymsSlider.setSnapToTicks(true);
-		hyponymsSlider.setPaintLabels(true);
-		hyponymsSlider.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		hyponymsSlider.setEnabled(false);
-		horizontalBox_3.add(hyponymsSlider);
-		hyponymsSlider.setValue(0);
-		hyponymsSlider.setMaximum(3);
-
 		Box horizontalBox_4 = Box.createHorizontalBox();
 		horizontalBox_4.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_4);
 
 		chckbxSynonyms = new JCheckBox("Synonyms");
-		chckbxSynonyms.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				synonymsSlider.setEnabled(chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled());
-			}
-		});
 		horizontalBox_4.add(chckbxSynonyms);
 
-		Component horizontalStrut = Box.createHorizontalStrut(29);
+		Component horizontalStrut = Box.createHorizontalStrut(240);
 		horizontalBox_4.add(horizontalStrut);
-
-		synonymsSlider = new JSlider();
-		synonymsSlider.setMinimum(1);
-		synonymsSlider.setMajorTickSpacing(1);
-		synonymsSlider.setSnapToTicks(true);
-		synonymsSlider.setPaintTicks(true);
-		synonymsSlider.setPaintLabels(true);
-		synonymsSlider.setMaximum(3);
-		synonymsSlider.setValue(0);
-		synonymsSlider.setEnabled(false);
-		horizontalBox_4.add(synonymsSlider);
 		
 		Box horizontalBox_8 = Box.createHorizontalBox();
 		verticalBox_2.add(horizontalBox_8);
@@ -250,7 +206,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		horizontalBox_6.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_6);
 		
-		posTaggedWordsRadioButton = new JRadioButton("Include POS tagged words");
+		posTaggedWordsRadioButton = new JRadioButton("Include POS tagged words only");
 		includeButtonGroup.add(posTaggedWordsRadioButton);
 		horizontalBox_6.add(posTaggedWordsRadioButton);
 		
@@ -262,12 +218,40 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		horizontalBox_5.setBorder(new EmptyBorder(0, 0, 0, 0));
 		verticalBox_2.add(horizontalBox_5);
 		
-		senseRelatedWordsRadioButton = new JRadioButton("Include sense related words");
+		senseRelatedWordsRadioButton = new JRadioButton("Include sense related words only");
 		includeButtonGroup.add(senseRelatedWordsRadioButton);
 		horizontalBox_5.add(senseRelatedWordsRadioButton);
 		
 		Component horizontalGlue_4 = Box.createHorizontalGlue();
 		horizontalBox_5.add(horizontalGlue_4);
+		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		verticalBox_2.add(verticalStrut);
+		
+		Box verticalBox_4 = Box.createVerticalBox();
+		verticalBox_2.add(verticalBox_4);
+		
+		Box horizontalBox = Box.createHorizontalBox();
+		verticalBox_4.add(horizontalBox);
+		
+		rdbtnNewRadioButton = new JRadioButton("Match any sense");
+		horizontalBox.add(rdbtnNewRadioButton);
+		rdbtnNewRadioButton.setSelected(true);
+		
+		Component horizontalGlue_1 = Box.createHorizontalGlue();
+		horizontalBox.add(horizontalGlue_1);
+		
+		Box horizontalBox_1 = Box.createHorizontalBox();
+		verticalBox_4.add(horizontalBox_1);
+		
+		rdbtnNewRadioButton_1 = new JRadioButton("Match exact sense");
+		
+		matchButtonGroup.add(rdbtnNewRadioButton);
+		matchButtonGroup.add(rdbtnNewRadioButton_1);
+		horizontalBox_1.add(rdbtnNewRadioButton_1);
+		
+		Component horizontalGlue = Box.createHorizontalGlue();
+		horizontalBox_1.add(horizontalGlue);
 		
 		Box verticalBox_3 = Box.createVerticalBox();
 		verticalBox_3.setBorder(new TitledBorder(null, "Threshold", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -308,7 +292,6 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				posTaggerIndex++;
 			}
 		}
-		System.out.println(posTaggerIndex);
 		super.settings.put("PosIndex", ""+posTaggerIndex);
 		
 		
@@ -334,22 +317,29 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				includeIndex++;
 			}
 		}
-		
 		super.settings.put("IncludeIndex", ""+ includeIndex);
+
+		
+		int matchIndex = 0;
+		for (Enumeration<AbstractButton> e = matchButtonGroup
+				.getElements(); e.hasMoreElements();) {
+			AbstractButton button = e.nextElement();
+			if (button.isSelected() && button.isEnabled()) {
+				break;
+			} else {
+				matchIndex++;
+			}
+		}
+		super.settings.put("MatchIndex", ""+ matchIndex);
 		
 		super.settings.put("Threshold", ""+(thres.getValue()));
 		
 		if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
 			super.settings.put("HyperInclude", "true");
-			super.settings.put("HyperLayers", ""+(hypernymsSlider.getValue()-1));
-		}
-		if (chckbxHyponyms.isSelected() && chckbxHyponyms.isEnabled()) {
-			super.settings.put("HypoInclude", "true");
-			super.settings.put("HypoLayers", ""+(hyponymsSlider.getValue()-1));
+			super.settings.put("HyperHypoLayers", ""+(hypernymsSlider.getValue()-1));
 		}
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 			super.settings.put("SynoInclude", "true");
-			super.settings.put("SynoLayers", ""+(synonymsSlider.getValue()-1));
 		}
 	}	
 	
@@ -370,21 +360,14 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				break;
 			}
 		}
-		if (settings.get("HypoLayers") != null) {
-			System.out.println("Is here");
-			chckbxHyponyms.setSelected(true);
-			hyponymsSlider.setEnabled(true);
-			hyponymsSlider.setValue(Integer.parseInt(settings.get("HypoLayers"))+1);
-		}
-		if (settings.get("HyperLayers") != null) {
+
+		if (settings.get("HyperHypoLayers") != null) {
 			chckbxHypernyms.setSelected(true);
 			hypernymsSlider.setEnabled(true);
-			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperLayers"))+1);
+			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperHypoLayers"))+1);
 		}
-		if (settings.get("SynoLayers") != null) {
+		if (settings.get("SynoInclude") != null) {
 			chckbxSynonyms.setSelected(true);
-			synonymsSlider.setEnabled(true);
-			synonymsSlider.setValue(Integer.parseInt(settings.get("SynoLayers"))+1);
 		}
 		if (settings.get("Threshold") != null) {
 			thres.setValue(Integer.parseInt(settings.get("Threshold")));
@@ -412,6 +395,19 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				break;
 			case 2:
 				posTaggerButtonGroup.setSelected(rdbtnNewRadioButton_5.getModel(), true);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		if (settings.get("MatchIndex") != null) {
+			switch (Integer.parseInt(settings.get("MatchIndex"))) {
+			case 0:
+				matchButtonGroup.setSelected(rdbtnNewRadioButton.getModel(), true);
+				break;
+			case 1:
+				matchButtonGroup.setSelected(rdbtnNewRadioButton_1.getModel(), true);
 				break;
 			default:
 				break;

@@ -1,6 +1,7 @@
 	package Algorithms;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Model.JPDocumentCallable;
 import Objects.JPDocument;
@@ -43,7 +44,7 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	 */
 	@Override
 	public void compute(final JPDocument mainDocument,
-			final JPDocument[] documents, boolean normalizeResult, final Runnable callbackDelegate) {
+			final JPDocument[] documents, final HashMap<String, String> algorithmSettings, boolean normalizeResult, final Runnable callbackDelegate) {
 
 		Runnable backgroundRunnable = new Runnable() {
 			
@@ -52,7 +53,16 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 				final ArrayList<JPWord> mainDocWords = mainDocument.getWords(false);
 
 				final int mainDocumentWordCount = mainDocWords.size();
-//				System.out.println("Maindoc words: " + mainDocumentWordCount);
+				final double threshold;
+				if (algorithmSettings.containsKey("Threshold")) {
+					threshold = Double.parseDouble(algorithmSettings.get("Threshold"));
+				}
+				else{
+					threshold = 0;
+				}
+				
+				
+				
 				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {
 					JPDocumentCallable runnable = new JPDocumentCallable() {
 						@Override
@@ -84,7 +94,7 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 										}
 									}
 								}
-								if (maxDegree > 0.15) {
+								if (maxDegree > threshold) {
 									sum += maxDegree;
 								}
 							}

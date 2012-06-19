@@ -441,6 +441,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnAdjust.setEnabled(false);
+
 				int algorithmIndex = 0;
 				for (Enumeration<AbstractButton> en = algorithmButtonGroup
 						.getElements(); en.hasMoreElements();) {
@@ -451,7 +452,6 @@ public class MainFrame extends JFrame {
 						algorithmIndex++;
 					}
 				}
-				System.out.println(algorithmIndex + " " + lastAlgoPopup);
 				if (algorithmIndex != lastAlgoPopup) {
 					adjustSettings = new HashMap<String, String>();
 				}
@@ -621,34 +621,25 @@ public class MainFrame extends JFrame {
 					
 				
 
-					if (adjustSettings.get("HyperInclude") != null
-							&& adjustSettings.get("HyperLayers") != null) {
+					if (adjustSettings.get("HyperHypoLayers") != null) {
 						JPIncludeHypernyms include = new JPIncludeHypernyms();
 						include.setLayers(Integer.parseInt(adjustSettings
-								.get("HyperLayers")));
+								.get("HyperHypoLayers")));
 						setup.getIncludeTypes().add(include);
 					}
 
-					if (adjustSettings.get("HypoInclude") != null
-							&& adjustSettings.get("HypoLayers") != null) {
-						JPIncludeHyponyms include = new JPIncludeHyponyms();
-						include.setLayers(Integer.parseInt(adjustSettings
-								.get("HypoLayers")));
-						setup.getIncludeTypes().add(include);
-					}
-					if (adjustSettings.get("SynoInclude") != null
-							&& adjustSettings.get("SynoLayers") != null) {
-						JPIncludeSynonyms include = new JPIncludeSynonyms();
-						include.setLayers(Integer.parseInt(adjustSettings
-								.get("SynoLayers")));
-						setup.getIncludeTypes().add(include);
+					if (adjustSettings.get("SynoInclude") != null) {
+						//Change this.
+//						JPIncludeSynonyms include = new JPIncludeSynonyms();
+//						include.setLayers(Integer.parseInt(adjustSettings
+//								.get("SynoLayers")));
+//						setup.getIncludeTypes().add(include);
 					}
 					
 					if (adjustSettings.get("Threshold") != null) {
-						setup.setThreshold(Integer.parseInt(adjustSettings.get("Threshold"))/100.0);
+						setup.algorithmSettings.put("Threshold", ""+(Integer.parseInt(adjustSettings.get("Threshold"))/100.0));
 					}
 				
-
 					int trimmerIndex = 0;
 					for (Enumeration<AbstractButton> e = filterButtonGroup
 							.getElements(); e.hasMoreElements();) {

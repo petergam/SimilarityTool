@@ -2,6 +2,7 @@ package Model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Algorithms.JPAbstractAlgorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
@@ -255,8 +256,8 @@ public class JPConfiguration {
 	
 	/** The document files. */
 	private File[] documentFiles;
-	
-	private double threshold;
+		
+	public HashMap<String,String> algorithmSettings = new HashMap<String, String>();
 	
 
 	/**
@@ -545,12 +546,5 @@ public class JPConfiguration {
 	public boolean getNormalized() {
 		return normalized;
 	}
-
-	public double getThreshold() {
-		return threshold;
-	}
-
-	public void setThreshold(double threshold) {
-		this.threshold = threshold;
-	}
+	
 }
