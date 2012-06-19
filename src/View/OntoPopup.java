@@ -380,7 +380,7 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	
 	@Override
 	public void setSettings(){
-		super.settings = new HashMap<String, String>();
+		super.settings.clear();
 		
 		int posTaggerIndex = 0;
 		for (Enumeration<AbstractButton> e = posTaggerButtonGroup
