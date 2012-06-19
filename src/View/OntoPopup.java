@@ -82,7 +82,7 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	
 	JRadioButton rdbtnNewRadioButton_1;
 	
-	public OntoPopup(HashMap<String, String> settings) {
+	public OntoPopup(HashMap<String, Object> settings) {
 		super(settings);
 		setAlwaysOnTop(true);
 		this.setSize(new Dimension(354, 753));
@@ -380,7 +380,6 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	
 	@Override
 	public void setSettings(){
-		super.settings.clear();
 		
 		int posTaggerIndex = 0;
 		for (Enumeration<AbstractButton> e = posTaggerButtonGroup
@@ -392,7 +391,7 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 				posTaggerIndex++;
 			}
 		}
-		super.settings.put("PosIndex", ""+posTaggerIndex);
+		super.settings.put("PosIndex", posTaggerIndex);
 		
 		
 		int senseRelateIndex = 0;
@@ -405,7 +404,7 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 				senseRelateIndex++;
 			}
 		}
-		super.settings.put("SenseIndex", ""+ senseRelateIndex);
+		super.settings.put("SenseIndex", senseRelateIndex);
 		
 		int includeIndex = 0;
 		for (Enumeration<AbstractButton> e = includeButtonGroup
@@ -418,24 +417,24 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			}
 		}
 		
-		super.settings.put("IncludeIndex", ""+ includeIndex);
+		super.settings.put("IncludeIndex", includeIndex);
 		
 		if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
-			super.settings.put("HyperHypoInclude", "true");
-			super.settings.put("HyperHypoLayers", ""+(hypernymsSlider.getValue()-1));
-			super.settings.put("HyperScore", ""+(hyperValueSlider.getValue()));
-			super.settings.put("HypoScore", ""+(hypoValueSlider.getValue()));
+			super.settings.put("HyperHypoInclude", true);
+			super.settings.put("HyperHypoLayers", hypernymsSlider.getValue()-1);
+			super.settings.put("HyperScore", hyperValueSlider.getValue());
+			super.settings.put("HypoScore", hypoValueSlider.getValue());
 		}
 		else if (!chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
-			super.settings.put("HyperHypoInclude", "false");
+			super.settings.put("HyperHypoInclude", false);
 		}
 
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
-			super.settings.put("SynoInclude", "true");
-			super.settings.put("SynoScore", ""+(synoValueSlider.getValue()));
+			super.settings.put("SynoInclude", true);
+			super.settings.put("SynoScore", synoValueSlider.getValue());
 		}
 		else if (!chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
-			super.settings.put("SynoInclude", "false");
+			super.settings.put("SynoInclude", false);
 		}
 		
 		int matchIndex = 0;
@@ -448,17 +447,21 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 				matchIndex++;
 			}
 		}
-		super.settings.put("MatchIndex", ""+ matchIndex);
+		super.settings.put("MatchIndex", matchIndex);
 		
 		if (chckbxThreshold.isSelected() && chckbxThreshold.isEnabled()) {
-			super.settings.put("Threshold", ""+(thres.getValue()));
+			super.settings.put("ThresholdInclude", true);
+			super.settings.put("Threshold", thres.getValue());
+		}
+		else if (!chckbxThreshold.isSelected() && chckbxThreshold.isEnabled()) {
+			super.settings.put("ThresholdInclude", false);
 		}
 	}	
 	
 	@Override
-	public void loadSettings(HashMap<String, String> settings){
-		if (settings.get("IncludeIndex") != null) {
-			switch (Integer.parseInt(settings.get("IncludeIndex"))) {
+	public void loadSettings(HashMap<String, Object> settings){
+
+			switch ((Integer)settings.get("IncludeIndex")) {
 			case 0:
 				includeButtonGroup.setSelected(allWordsRadioButton.getModel(), true);
 				break;
@@ -471,33 +474,32 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			default:
 				break;
 			}
-		}
-		if (settings.get("HyperHypoLayers") != null) {
-			if (settings.get("HyperHypoInclude").equals("true")) {
+
+
+			if ((Boolean) settings.get("HyperHypoInclude")) {
 			chckbxHypernyms.setSelected(true);
 			hypernymsSlider.setEnabled(true);
-			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperHypoLayers"))+1);
-			hyperValueSlider.setValue(Integer.parseInt(settings.get("HyperScore")));
-			hypoValueSlider.setValue(Integer.parseInt(settings.get("HypoScore")));
+			hypernymsSlider.setValue((Integer)settings.get("HyperHypoLayers")+1);
+			hyperValueSlider.setValue((Integer)settings.get("HyperScore"));
+			hypoValueSlider.setValue((Integer)settings.get("HypoScore"));
 			}
-			else if (settings.get("HyperHypoInclude").equals("false")) {
+			else if (! (Boolean)settings.get("HyperHypoInclude")) {
 				chckbxHypernyms.setSelected(false);
 				hypernymsSlider.setEnabled(false);
 			}
-		}
 		
-		if (settings.get("SynoInclude") != null) {
-			if (settings.get("SynoInclude").equals("true")) {
+
+			if ((Boolean) settings.get("SynoInclude")) {
 				chckbxSynonyms.setSelected(true);
-				synoValueSlider.setValue(Integer.parseInt(settings.get("SynoScore")));
+				synoValueSlider.setValue((Integer)settings.get("SynoScore"));
 			}
-			else if (settings.get("SynoInclude").equals("false")) {
+			else if (! (Boolean) settings.get("SynoInclude")) {
 				chckbxSynonyms.setSelected(false);
 			}
-		}
+
 		
-		if (settings.get("SenseIndex") != null) {
-			switch (Integer.parseInt(settings.get("SenseIndex"))) {
+
+			switch ((Integer)settings.get("SenseIndex")) {
 			case 0:
 				senseRelateButtonGroup.setSelected(rdbtnNewRadioButton_2.getModel(), true);
 				break;
@@ -507,9 +509,9 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			default:
 				break;
 			}
-		}
-		if (settings.get("PosIndex") != null) {
-			switch (Integer.parseInt(settings.get("PosIndex"))) {
+		
+
+			switch ((Integer)settings.get("PosIndex")) {
 			case 0:
 				posTaggerButtonGroup.setSelected(rdbtnNone_1.getModel(), true);
 				break;
@@ -522,10 +524,10 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			default:
 				break;
 			}
-		}
+
 		
-		if (settings.get("MatchIndex") != null) {
-			switch (Integer.parseInt(settings.get("MatchIndex"))) {
+
+			switch ((Integer)settings.get("MatchIndex")) {
 			case 0:
 				matchButtonGroup.setSelected(rdbtnNewRadioButton.getModel(), true);
 				break;
@@ -535,12 +537,18 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 			default:
 				break;
 			}
-		}
+
 		
-		if (settings.get("Threshold") != null) {
+		if ((Boolean) settings.get("ThresholdInclude")) {
 			chckbxThreshold.setSelected(true);
 			thres.setEnabled(true);
-			thres.setValue(Integer.parseInt(settings.get("Threshold")));
+			thres.setValue((Integer)settings.get("Threshold"));
+		}
+		else if ( !(Boolean) settings.get("ThresholdInclude")) {
+			chckbxThreshold.setSelected(false);
+			thres.setEnabled(false);
+			thres.setValue((Integer)settings.get("Threshold"));
+
 		}
 	}
 }

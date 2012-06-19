@@ -12,12 +12,12 @@ public abstract class AbstractAlgorithmPopupFrame extends JDialog  {
 	private static final long serialVersionUID = 2658566720277470146L;
 	AbstractAlgorithmPopupFrame pf;
 	JButton close;
-	HashMap<String, String> settings;
+	HashMap<String, Object> settings;
 	
 	
-	public AbstractAlgorithmPopupFrame(HashMap<String, String> settings) {
+	public AbstractAlgorithmPopupFrame(HashMap<String, Object> adjustSettings) {
 		pf = this;
-		this.settings = settings;
+		this.settings = adjustSettings;
 		setResizable(false);
 		this.setLocation(500, 120);
 		this.addWindowListener(new WindowAdapter() 
@@ -32,11 +32,11 @@ public abstract class AbstractAlgorithmPopupFrame extends JDialog  {
 	}
 	
 	public void setSettings(){
-		settings = new HashMap<String, String>();
+		settings = new HashMap<String, Object>();
 
 	}
 	
-	public void loadSettings(HashMap<String, String> settings){
+	public void loadSettings(HashMap<String, Object> settings){
 		
 	}
 }
