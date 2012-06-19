@@ -55,9 +55,6 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	/** The include button group. */
 	private final ButtonGroup includeButtonGroup = new ButtonGroup();
 	
-	/** The match button group. */
-	private final ButtonGroup matchButtonGroup = new ButtonGroup();
-	
 	JRadioButton rdbtnNewRadioButton_2;
 	
 	JRadioButton rdbtnPerlWordnet;
@@ -68,14 +65,10 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	
 	JRadioButton rdbtnNewRadioButton_5;
 	
-	JRadioButton rdbtnNewRadioButton;
-	
-	JRadioButton rdbtnNewRadioButton_1;
-	
 	public FuzzySimPopup(HashMap<String, String> settings) {
 		super(settings);
 		setAlwaysOnTop(true);
-		this.setSize(new Dimension(359, 550));
+		this.setSize(new Dimension(359, 494));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Fuzzy Similarity");
 		getContentPane().setLayout(null);
@@ -123,12 +116,12 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 			}
 		});
 
-		btnClose.setBounds(223, 493, 129, 29);
+		btnClose.setBounds(223, 434, 129, 29);
 		getContentPane().add(btnClose);
 		
 		Box verticalBox_2 = Box.createVerticalBox();
 		verticalBox_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Concept inclusion", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		verticalBox_2.setBounds(6, 207, 346, 274);
+		verticalBox_2.setBounds(6, 207, 346, 215);
 		getContentPane().add(verticalBox_2);
 
 		getContentPane().add(verticalBox_2);
@@ -191,6 +184,9 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		Component horizontalStrut = Box.createHorizontalStrut(240);
 		horizontalBox_4.add(horizontalStrut);
 		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		verticalBox_2.add(verticalStrut);
+		
 		Box horizontalBox_8 = Box.createHorizontalBox();
 		verticalBox_2.add(horizontalBox_8);
 		
@@ -225,34 +221,6 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		Component horizontalGlue_4 = Box.createHorizontalGlue();
 		horizontalBox_5.add(horizontalGlue_4);
 		
-		Component verticalStrut = Box.createVerticalStrut(20);
-		verticalBox_2.add(verticalStrut);
-		
-		Box verticalBox_4 = Box.createVerticalBox();
-		verticalBox_2.add(verticalBox_4);
-		
-		Box horizontalBox = Box.createHorizontalBox();
-		verticalBox_4.add(horizontalBox);
-		
-		rdbtnNewRadioButton = new JRadioButton("Match any sense");
-		horizontalBox.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setSelected(true);
-		
-		Component horizontalGlue_1 = Box.createHorizontalGlue();
-		horizontalBox.add(horizontalGlue_1);
-		
-		Box horizontalBox_1 = Box.createHorizontalBox();
-		verticalBox_4.add(horizontalBox_1);
-		
-		rdbtnNewRadioButton_1 = new JRadioButton("Match exact sense");
-		
-		matchButtonGroup.add(rdbtnNewRadioButton);
-		matchButtonGroup.add(rdbtnNewRadioButton_1);
-		horizontalBox_1.add(rdbtnNewRadioButton_1);
-		
-		Component horizontalGlue = Box.createHorizontalGlue();
-		horizontalBox_1.add(horizontalGlue);
-		
 		Box verticalBox_3 = Box.createVerticalBox();
 		verticalBox_3.setBorder(new TitledBorder(null, "Threshold", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		verticalBox_3.setBounds(6, 121, 346, 74);
@@ -281,7 +249,9 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	}
 	
 	@Override
-	public void setSettings() {		
+
+	public void setSettings(){
+		
 		int posTaggerIndex = 0;
 		for (Enumeration<AbstractButton> e = posTaggerButtonGroup
 				.getElements(); e.hasMoreElements();) {
@@ -318,25 +288,15 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 			}
 		}
 		super.settings.put("IncludeIndex", ""+ includeIndex);
-
-		
-		int matchIndex = 0;
-		for (Enumeration<AbstractButton> e = matchButtonGroup
-				.getElements(); e.hasMoreElements();) {
-			AbstractButton button = e.nextElement();
-			if (button.isSelected() && button.isEnabled()) {
-				break;
-			} else {
-				matchIndex++;
-			}
-		}
-		super.settings.put("MatchIndex", ""+ matchIndex);
 		
 		super.settings.put("Threshold", ""+(thres.getValue()));
 		
 		if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
-			super.settings.put("HyperInclude", "true");
+			super.settings.put("HyperHypoInclude", "true");
 			super.settings.put("HyperHypoLayers", ""+(hypernymsSlider.getValue()-1));
+		}
+		else if (!chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
+			super.settings.put("HyperHypoInclude", "false");
 		}
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 			super.settings.put("SynoInclude", "true");
@@ -361,13 +321,24 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 			}
 		}
 
-		if (settings.get("HyperHypoLayers") != null) {
+		if (settings.get("HyperHypoInclude") != null) {
+			if (settings.get("HyperHypoInclude").equals("true")) {
 			chckbxHypernyms.setSelected(true);
 			hypernymsSlider.setEnabled(true);
 			hypernymsSlider.setValue(Integer.parseInt(settings.get("HyperHypoLayers"))+1);
+			}
+			else if (settings.get("HyperHypoInclude").equals("false")) {
+				chckbxHypernyms.setSelected(false);
+				hypernymsSlider.setEnabled(false);
+			}
 		}
 		if (settings.get("SynoInclude") != null) {
-			chckbxSynonyms.setSelected(true);
+			if (settings.get("SynoInclude").equals("true")) {
+				chckbxSynonyms.setSelected(true);
+			}
+			else if (settings.get("SynoInclude").equals("false")) {
+				chckbxSynonyms.setSelected(false);
+			}
 		}
 		if (settings.get("Threshold") != null) {
 			thres.setValue(Integer.parseInt(settings.get("Threshold")));
@@ -395,19 +366,6 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 				break;
 			case 2:
 				posTaggerButtonGroup.setSelected(rdbtnNewRadioButton_5.getModel(), true);
-				break;
-			default:
-				break;
-			}
-		}
-		
-		if (settings.get("MatchIndex") != null) {
-			switch (Integer.parseInt(settings.get("MatchIndex"))) {
-			case 0:
-				matchButtonGroup.setSelected(rdbtnNewRadioButton.getModel(), true);
-				break;
-			case 1:
-				matchButtonGroup.setSelected(rdbtnNewRadioButton_1.getModel(), true);
 				break;
 			default:
 				break;

@@ -630,10 +630,19 @@ public class MainFrame extends JFrame {
 						setup.getIncludeTypes().add(include);
 					}
 
+
 					
 					if (adjustSettings.get("Threshold") != null) {
 						setup.algorithmSettings.put("Threshold", ""+(Integer.parseInt(adjustSettings.get("Threshold"))/100.0));
 					}
+					
+					if (adjustSettings
+							.get("MatchIndex") != null) {
+					int senseRelateIndex = Integer.parseInt(adjustSettings
+							.get("MatchIndex"));
+					
+					//Send the match index here
+				}
 				
 					int trimmerIndex = 0;
 					for (Enumeration<AbstractButton> e = filterButtonGroup
