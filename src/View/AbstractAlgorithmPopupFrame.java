@@ -32,7 +32,6 @@ public abstract class AbstractAlgorithmPopupFrame extends JDialog  {
 	}
 	
 	public void setSettings(){
-		
 	}
 	
 	public void loadSettings(HashMap<String, String> settings){

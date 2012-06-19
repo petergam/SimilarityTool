@@ -48,8 +48,12 @@ public class NeighbourWordsFactory {
 			
 			while(queue.isEmpty() == false) {
 				IWordID currentWordID = queue.poll();
+				
+				if (currentWordID==null) {
+					continue;
+				}
+				
 				Double currentScore = (Double) layersHashMap.get(currentWordID)[0];
-
 				
 				List<IWord> synonyms = null;
 				if (synonymCache.containsKey(currentWordID)) {
@@ -65,7 +69,7 @@ public class NeighbourWordsFactory {
 				
 				for (IWord iWord : synonyms) {
 					Double score = currentScore*synonymScore;
-					if (iWord.getID() != iWordID && (!scores.containsKey(iWord) || (scores.containsKey(iWord) && (Double)scores.get(iWord)[1] < score))) {
+					if (iWord.getID() != iWordID && (!scores.containsKey(iWord) || (scores.containsKey(iWord) && (Double)scores.get(iWord)[2] < score))) {
 						scores.put(iWord, new Object[]{iWord.getLemma(),iWord.getID(),score});
 					}
 					int currentLayer = (Integer) layersHashMap.get(currentWordID)[1];
@@ -88,6 +92,10 @@ public class NeighbourWordsFactory {
 			
 			while (queue.isEmpty() == false) {
 				IWordID currentWordID = queue.poll();
+				
+				if (currentWordID==null) {
+					continue;
+				}
 				Double currentScore = (Double) layersHashMap.get(currentWordID)[0];
 
 				
@@ -115,7 +123,7 @@ public class NeighbourWordsFactory {
 				
 				for (IWord iWord : hypernyms) {
 					Double score = currentScore*hypernymScore;
-					if (iWord.getID() != iWordID && (!scores.containsKey(iWord) || (scores.containsKey(iWord) && (Double)scores.get(iWord)[1] < score))) {
+					if (iWord.getID() != iWordID && (!scores.containsKey(iWord) || (scores.containsKey(iWord) && (Double)scores.get(iWord)[2] < score))) {
 						scores.put(iWord, new Object[]{iWord.getLemma(),iWord.getID(),score});
 					}
 					int currentLayer = (Integer) layersHashMap.get(currentWordID)[1];
@@ -127,7 +135,7 @@ public class NeighbourWordsFactory {
 				
 				for (IWord iWord : hyponyms) {
 					Double score = currentScore*hyponumScore;
-					if (iWord.getID() != iWordID && (!scores.containsKey(iWord) || (scores.containsKey(iWord) && (Double)scores.get(iWord)[1] < score))) {
+					if (iWord.getID() != iWordID && (!scores.containsKey(iWord) || (scores.containsKey(iWord) && (Double)scores.get(iWord)[2] < score))) {
 						scores.put(iWord, new Object[]{iWord.getLemma(),iWord.getID(),score});
 					}
 					int currentLayer = (Integer) layersHashMap.get(currentWordID)[1];

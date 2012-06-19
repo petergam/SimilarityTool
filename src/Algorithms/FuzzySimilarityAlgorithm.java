@@ -93,6 +93,20 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 											break;
 										}
 									}
+									
+									if (maxDegree != 1.0 && mainDocWords.get(i).getNeighbourWord() !=null) {
+										for (Object[] neighbourWord : mainDocWords.get(i).getNeighbourWord()) {
+											msF = membershipFunction(word1, (String)neighbourWord[0]);
+											if (msF > maxDegree) {
+												maxDegree = msF;
+												if (maxDegree == 1.0) {
+													break;
+												}
+											}
+										}
+									}
+									
+									
 								}
 								if (maxDegree > threshold) {
 									sum += maxDegree;
@@ -132,7 +146,7 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	@Override
 	public double normalizeResult(JPDocument mainDoc, JPDocument compareDoc, double score) {
 		
-		return 0.0;
+		return score;
 	}
 	
 }

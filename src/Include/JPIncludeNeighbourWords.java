@@ -6,6 +6,7 @@ import Model.NeighbourWordsFactory;
 import Objects.JPDocument;
 import Objects.JPSentence;
 import Objects.JPWord;
+import Objects.JPWord.JPWordPOS;
 
 public class JPIncludeNeighbourWords extends JPAbstractInclude {
 
@@ -14,7 +15,7 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		int layers = getLayers();
 		NeighbourWordsFactory factory = new NeighbourWordsFactory();
 		
-		
+		System.out.println(layers);
 		boolean includeSynonyms = false;
 		boolean includeHypernymsHyponyms = false;
 		
@@ -31,7 +32,13 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		
 		for (JPSentence sentence : document.getSentenceArray()) {
 			for (JPWord word : sentence.getWords()) {
-				factory.findNeighbours(word, layers, includeSynonyms, includeHypernymsHyponyms);
+				if (includeType==IncludeType.IncludeTypePOSTagged && word.getWordPOS()==JPWordPOS.JPWordPOSUnknown) {
+					continue;
+				} else if (includeType== IncludeType.IncludeTypeSenseRelated && word.getSenseIndex() == JPWord.SenseIndexUnkown) {
+					continue;
+				} else {
+					factory.findNeighbours(word, layers, includeSynonyms, includeHypernymsHyponyms);
+				}				
 			}
 		}
 		

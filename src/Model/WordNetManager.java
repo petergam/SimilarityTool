@@ -114,7 +114,7 @@ public enum WordNetManager {
     }
     
     
-    public IWordID getWordID(JPWord word) {
+    public synchronized IWordID getWordID(JPWord word) {
 		POS[] p;
 		if (word.getWordPOS()!=JPWord.JPWordPOS.JPWordPOSUnknown) {
 			POS pos = word.getPOS();
@@ -158,7 +158,7 @@ public enum WordNetManager {
 	 * @param layers the layers
 	 * @return the synonyms
 	 */
-	public List<IWord> getSynonyms(IWordID wordID) {
+	public synchronized List<IWord> getSynonyms(IWordID wordID) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
 	
@@ -177,7 +177,7 @@ public enum WordNetManager {
 	 * @param layers the layers
 	 * @return the hypernyms
 	 */
-	public List<IWord> getHypernyms(IWordID wordID) {
+	public synchronized List<IWord> getHypernyms(IWordID wordID) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
 
@@ -199,7 +199,7 @@ public enum WordNetManager {
 	 * @param layers the layers
 	 * @return the hyponyms
 	 */
-	public List<IWord> getHyponyms(IWordID wordID) {
+	public synchronized List<IWord> getHyponyms(IWordID wordID) {
 		IWord iword = getDict().getWord(wordID);
 		ISynset synset = iword.getSynset();
 

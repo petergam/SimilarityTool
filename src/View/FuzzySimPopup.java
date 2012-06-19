@@ -281,7 +281,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	}
 	
 	@Override
-	public void setSettings(){
+	public void setSettings() {		
 		int posTaggerIndex = 0;
 		for (Enumeration<AbstractButton> e = posTaggerButtonGroup
 				.getElements(); e.hasMoreElements();) {
