@@ -610,14 +610,14 @@ public class MainFrame extends JFrame {
 					
 				
 
-					if (adjustSettings.get("HyperHypoInclude") != null || adjustSettings.get("SynoInclude") != null) {
+					if ((Boolean)adjustSettings.get("HyperHypoInclude") || (Boolean)adjustSettings.get("SynoInclude")) {
 						JPIncludeNeighbourWords include = new JPIncludeNeighbourWords();
 
-						if(adjustSettings.get("HyperHypoInclude") != null && adjustSettings.get("SynoInclude") != null) {
+						if((Boolean)adjustSettings.get("HyperHypoInclude") && (Boolean)adjustSettings.get("SynoInclude")) {
 							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeAll);
 							include.setLayers((Integer)adjustSettings
 									.get("HyperHypoLayers"));
-						} else if (adjustSettings.get("HyperHypoInclude") != null) {
+						} else if ((Boolean)adjustSettings.get("HyperHypoInclude")) {
 							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeHypoHyperNyms);
 							include.setLayers((Integer)adjustSettings
 									.get("HyperHypoLayers"));

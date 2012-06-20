@@ -15,7 +15,6 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		int layers = getLayers();
 		NeighbourWordsFactory factory = new NeighbourWordsFactory();
 		
-		System.out.println(layers);
 		boolean includeSynonyms = false;
 		boolean includeHypernymsHyponyms = false;
 		

@@ -20,6 +20,31 @@ public class NeighbourWordsFactory {
 	private JPCache hyponymCache = new JPCache();
 
 	private Double synonymScore = 0.9;
+	
+	public Double getSynonymScore() {
+		return synonymScore;
+	}
+
+	public void setSynonymScore(Double synonymScore) {
+		this.synonymScore = synonymScore;
+	}
+
+	public Double getHypernymScore() {
+		return hypernymScore;
+	}
+
+	public void setHypernymScore(Double hypernymScore) {
+		this.hypernymScore = hypernymScore;
+	}
+
+	public Double getHyponumScore() {
+		return hyponumScore;
+	}
+
+	public void setHyponumScore(Double hyponumScore) {
+		this.hyponumScore = hyponumScore;
+	}
+
 	private Double hypernymScore = 0.4;
 	private Double hyponumScore = 0.8;
 	
@@ -156,6 +181,7 @@ public class NeighbourWordsFactory {
 	        	return (Double)o1[2]>(Double)o2[2] ? 0 : 1;
 	        }
 	    });
+	    	    
 	    
 	    word.setNeighbourWord(scoreArray);		
 
