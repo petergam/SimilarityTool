@@ -181,8 +181,7 @@ public class NeighbourWordsFactory {
 	        	return (Double)o1[2]>(Double)o2[2] ? 0 : 1;
 	        }
 	    });
-	    	    
-	    
+	    	    	    
 	    word.setNeighbourWord(scoreArray);		
 
 	}

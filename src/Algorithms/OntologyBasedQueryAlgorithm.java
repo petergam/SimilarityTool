@@ -29,7 +29,7 @@ public class OntologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 				final int mainDocumentWordCount = mainDocWords.size();
 
 				final double threshold;
-				if (algorithmSettings.containsKey("Threshold")) {
+				if ((Boolean)algorithmSettings.get("ThresholdInclude")) {
 					threshold = Double.parseDouble((String) algorithmSettings.get("Threshold"));
 				}
 				else{

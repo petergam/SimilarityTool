@@ -15,6 +15,7 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		int layers = getLayers();
 		NeighbourWordsFactory factory = new NeighbourWordsFactory();
 		
+		
 		factory.setHypernymScore(getScores().get("HyperScore"));
 		factory.setHyponumScore(getScores().get("HypoScore"));
 		factory.setSynonymScore(getScores().get("SynoScore"));

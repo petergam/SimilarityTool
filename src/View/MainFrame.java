@@ -632,10 +632,15 @@ public class MainFrame extends JFrame {
 						setup.getIncludeTypes().add(include);
 					}
 
-					if (adjustSettings.get("Threshold") != null) {
+					setup.algorithmSettings.put("ThresholdInclude", adjustSettings.get("ThresholdInclude"));
+
+					
+					if ((Boolean)adjustSettings.get("ThresholdInclude")) {
 						setup.algorithmSettings.put("Threshold", ""
 								+ ((Integer) adjustSettings.get("Threshold"))
 								/ 100.0);
+
+						
 					}
 
 					if (adjustSettings.get("MatchIndex") != null) {
