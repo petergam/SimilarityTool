@@ -25,9 +25,6 @@ public class JPDocument implements Serializable {
 	/** The score of algorithm calculations. */
 	private double score = 0.0;
 	
-	/** The normalized score of algorithm calculations. */
-	private double normalizedScore = 0.0;
-	
 	/** The progress type. */
 	private JPDocumentProgressType progressType = JPDocumentProgressType.JPDocumentProgressTypeNotLoaded;;
 
@@ -66,14 +63,8 @@ public class JPDocument implements Serializable {
 	 *
 	 * @return all the words
 	 */
-	public ArrayList<JPWord> getAllWords(){ 
-						
-		return getWords(true);
-	}
-	
-	public ArrayList<JPWord> getWords(boolean synset) {
+	public ArrayList<JPWord> getWords() {
 		ArrayList<JPWord> words = new ArrayList<JPWord>();
-		
 		
 		for (JPSentence sentence : sentenceArray) {
 			for (JPWord word : sentence.getWords()) {	
@@ -210,24 +201,6 @@ public class JPDocument implements Serializable {
 	 */
 	public void setSenseTagged(boolean isSenseTagged) {
 		this.isSenseTagged = isSenseTagged;
-	}
-
-	/**
-	 * Gets the normalized score.
-	 *
-	 * @return the normalized score
-	 */
-	public double getNormalizedScore() {
-		return normalizedScore;
-	}
-
-	/**
-	 * Sets the normalized score.
-	 *
-	 * @param normalizedScore the new normalized score.
-	 */
-	public void setNormalizedScore(double normalizedScore) {
-		this.normalizedScore = normalizedScore;
 	}
 
 }

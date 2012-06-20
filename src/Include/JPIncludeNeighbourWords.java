@@ -15,6 +15,10 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		int layers = getLayers();
 		NeighbourWordsFactory factory = new NeighbourWordsFactory();
 		
+		factory.setHypernymScore(getScores().get("HyperScore"));
+		factory.setHyponumScore(getScores().get("HypoScore"));
+		factory.setSynonymScore(getScores().get("SynoScore"));
+
 		boolean includeSynonyms = false;
 		boolean includeHypernymsHyponyms = false;
 		
@@ -31,6 +35,9 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		
 		for (JPSentence sentence : document.getSentenceArray()) {
 			for (JPWord word : sentence.getWords()) {
+				if (word.isStopWord()) {
+					continue;
+				}
 				if (includeType==IncludeType.IncludeTypePOSTagged && word.getWordPOS()==JPWordPOS.JPWordPOSUnknown) {
 					continue;
 				} else if (includeType== IncludeType.IncludeTypeSenseRelated && word.getSenseIndex() == JPWord.SenseIndexUnkown) {

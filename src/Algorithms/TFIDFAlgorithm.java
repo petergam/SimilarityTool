@@ -20,7 +20,7 @@ public class TFIDFAlgorithm extends JPAbstractAlgorithm {
 	/* (non-Javadoc)
 	 * @see Algorithms.JPAbstractAlgorithm#compute(Objects.JPDocument, Objects.JPDocument[], boolean, java.lang.Runnable)
 	 */
-	public void compute(final JPDocument mainDocument, final JPDocument[] documents, HashMap<String, String> algorithmSettings,
+	public void compute(final JPDocument mainDocument, final JPDocument[] documents, HashMap<String, Object> algorithmSettings,
 			boolean normalizeResult, final Runnable callbackDelegate) {
 
 		Runnable backgroundRunnable = new Runnable() {

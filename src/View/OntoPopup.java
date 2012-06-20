@@ -23,8 +23,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
 
 public class OntoPopup extends AbstractAlgorithmPopupFrame {
 

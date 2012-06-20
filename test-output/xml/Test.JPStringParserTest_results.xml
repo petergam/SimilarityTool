@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Default test"
+           tests="4"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="0.317">
+  <properties />
+  
+  
+            <testcase name="parse" time="0.045" classname="Test.JPStringParserTest" />
+                <testcase name="parse" time="0.089" classname="Test.JPStringParserTest" />
+                <testcase name="parse" time="0.183" classname="Test.JPStringParserTest" />
+                <testcase name="parse" time="0.000" classname="Test.JPStringParserTest" />
+      
+</testsuite>

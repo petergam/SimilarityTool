@@ -20,13 +20,13 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	@Override
 	//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
 	public void compute(final JPDocument mainDocument,
-			final JPDocument[] documents, HashMap<String, String> algorithmSettings, final boolean normalizeResult, final Runnable callbackDelegate) {
+			final JPDocument[] documents, HashMap<String, Object> algorithmSettings, final boolean normalizeResult, final Runnable callbackDelegate) {
 		
 		Runnable backgroundRunnable = new Runnable() {
 			@Override
 			public void run() {
 				
-				final ArrayList<JPWord> allWords = mainDocument.getAllWords();
+				final ArrayList<JPWord> allWords = mainDocument.getWords();
 				final int mainDocumentSize = allWords.size();
 				
 				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {
@@ -36,7 +36,7 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 							progressDelegate.willStartAlgorithmForDocument(document);
 
 							
-							ArrayList<JPWord> currentDocAllWords = document.getAllWords();
+							ArrayList<JPWord> currentDocAllWords = document.getWords();
 
 							int currentDocumentSize = currentDocAllWords.size();
 
@@ -100,7 +100,7 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	 */
 	@Override
 	public double normalizeResult(JPDocument mainDoc, JPDocument compareDoc, double score) {
-		return (1-(score/Math.max(compareDoc.getAllWords().size(),mainDoc.getAllWords().size())));
+		return (1-(score/Math.max(compareDoc.getNumberOfWords(),mainDoc.getNumberOfWords())));
 	}
 
 }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import Algorithms.JPAbstractAlgorithm;
 import Algorithms.FuzzySimilarityAlgorithm;
 import Algorithms.LevenshteinDistanceAlgorithm;
-import Algorithms.OnthologyBasedQueryAlgorithm;
+import Algorithms.OntologyBasedQueryAlgorithm;
 import Algorithms.TFIDFAlgorithm;
 import Include.JPInclude;
 import Loader.JPDocumentLoader;
@@ -48,7 +48,7 @@ public class JPConfiguration {
  /** The Algorithm index tfidf. */
  AlgorithmIndexTFIDF, 
  /** The Algorithm index onthology based query. */
- AlgorithmIndexOnthologyBasedQuery;
+ AlgorithmIndexOntologyBasedQuery;
 
 		/**
 		 * Gets the algorithm index from int.
@@ -65,7 +65,7 @@ public class JPConfiguration {
 			case 2:
 				return AlgorithmIndexTFIDF;
 			case 3:
-				return AlgorithmIndexOnthologyBasedQuery;
+				return AlgorithmIndexOntologyBasedQuery;
 			default:
 				throw new RuntimeException("Unknown algorithm index: " + index);
 			}
@@ -265,7 +265,7 @@ public class JPConfiguration {
 	/** The document files. */
 	private File[] documentFiles;
 		
-	public HashMap<String,String> algorithmSettings = new HashMap<String, String>();
+	public HashMap<String,Object> algorithmSettings = new HashMap<String, Object>();
 	
 
 	/**
@@ -353,8 +353,8 @@ public class JPConfiguration {
 			return new LevenshteinDistanceAlgorithm();
 		case AlgorithmIndexTFIDF:
 			return new TFIDFAlgorithm();
-		case AlgorithmIndexOnthologyBasedQuery:
-			return new OnthologyBasedQueryAlgorithm();
+		case AlgorithmIndexOntologyBasedQuery:
+			return new OntologyBasedQueryAlgorithm();
 		default:
             throw new RuntimeException("Unknown algorithm index: " + this.algorithmIndex);
 		}

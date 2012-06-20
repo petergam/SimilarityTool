@@ -33,22 +33,6 @@ public class JPStringParser {
 				word.setValue(currentWord.toString());
 				currentSentence.getWords().add(word);
 
-				HashMap<String, ArrayList<JPWordIndex>> wordHashMap = document.getWordHashMap();
-				if (wordHashMap.containsKey(currentWord.toString())) {
-					JPWordIndex wordIndex = new JPWordIndex();
-					wordIndex.setWordIndex(currentSentence.getWords().size()-1);
-					wordIndex.setSentenceIndex(document.getSentenceArray().size());
-					
-					ArrayList<JPWordIndex> indexes = wordHashMap.get(currentWord.toString());
-					indexes.add(wordIndex);
-				} else {
-					ArrayList<JPWordIndex> indexes = new ArrayList<JPWordIndex>();
-					JPWordIndex wordIndex = new JPWordIndex();
-					wordIndex.setWordIndex(currentSentence.getWords().size()-1);
-					wordIndex.setSentenceIndex(document.getSentenceArray().size());
-					indexes.add(wordIndex);
-					wordHashMap.put(currentWord.toString(), indexes);
-				}
 				document.setNumberOfWords(document.getNumberOfWords()+1);
 				
 				currentWord = new StringBuilder();
@@ -60,23 +44,9 @@ public class JPStringParser {
 					word.setValue(currentWord.toString());
 					currentSentence.getWords().add(word);
 					currentWord = new StringBuilder();
-					
-					HashMap<String, ArrayList<JPWordIndex>> wordHashMap = document.getWordHashMap();
-					if (wordHashMap.containsKey(currentWord.toString())) {
-						JPWordIndex wordIndex = new JPWordIndex();
-						wordIndex.setWordIndex(currentSentence.getWords().size()-1);
-						wordIndex.setSentenceIndex(document.getSentenceArray().size());
-						
-						ArrayList<JPWordIndex> indexes = wordHashMap.get(currentWord.toString());
-						indexes.add(wordIndex);
-					} else {
-						ArrayList<JPWordIndex> indexes = new ArrayList<JPWordIndex>();
-						JPWordIndex wordIndex = new JPWordIndex();
-						wordIndex.setWordIndex(currentSentence.getWords().size()-1);
-						wordIndex.setSentenceIndex(document.getSentenceArray().size());
-						indexes.add(wordIndex);
-						wordHashMap.put(currentWord.toString(), indexes);
-					}
+
+					document.setNumberOfWords(document.getNumberOfWords()+1);
+
 				}
 
 				if (currentSentence.getWords().size()>0) {
@@ -90,13 +60,34 @@ public class JPStringParser {
 			document.getSentenceArray().add(currentSentence);
 		}
 		
+		int sIndex = 0;
 		for (JPSentence sentence : document.getSentenceArray()) {
+			int wIndex = 0;
 			for (JPWord word : sentence.getWords()) {
 				IWordID id = WordNetManager.SharedInstance.getWordID(word);
 				word.wordNetID = id;
+				
+				HashMap<String, ArrayList<JPWordIndex>> wordHashMap = document.getWordHashMap();
+				if (wordHashMap.containsKey(word.getValue())) {
+					JPWordIndex wordIndex = new JPWordIndex();
+					wordIndex.setWordIndex(wIndex);
+					wordIndex.setSentenceIndex(sIndex);
+					
+					ArrayList<JPWordIndex> indexes = wordHashMap.get(word.getValue());
+					indexes.add(wordIndex);
+				} else {
+					ArrayList<JPWordIndex> indexes = new ArrayList<JPWordIndex>();
+					JPWordIndex wordIndex = new JPWordIndex();
+					wordIndex.setWordIndex(wIndex);
+					wordIndex.setSentenceIndex(sIndex);
+					indexes.add(wordIndex);
+					wordHashMap.put(word.getValue(), indexes);
+				}
+				wIndex++;
 			}
+			sIndex++;
 		}
-		
+				
 		return document;
 	}
 }

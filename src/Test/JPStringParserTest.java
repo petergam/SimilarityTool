@@ -20,7 +20,7 @@ public class JPStringParserTest extends DataProviderTest {
 	  
 	  Assert.assertEquals(document.getNumberOfWords(), expectedWordCount);
 	  
-	  for (JPWord word : document.getAllWords()) {
+	  for (JPWord word : document.getWords()) {
 		  Assert.assertNotEquals(word.getValue(), "");
 	  }
 	  

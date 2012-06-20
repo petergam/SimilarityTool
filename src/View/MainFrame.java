@@ -344,7 +344,7 @@ public class MainFrame extends JFrame {
 		verticalBox_6.add(rdbtnI);
 
 		JRadioButton rdbtnNewRadioButton_onthology = new JRadioButton(
-				"Onthology Based Query");
+				"Ontology Based Query");
 		algorithmButtonGroup.add(rdbtnNewRadioButton_onthology);
 		verticalBox_6.add(rdbtnNewRadioButton_onthology);
 
@@ -592,7 +592,15 @@ public class MainFrame extends JFrame {
 
 					if ((Boolean)adjustSettings.get("HyperHypoInclude") || (Boolean)adjustSettings.get("SynoInclude")) {
 						JPIncludeNeighbourWords include = new JPIncludeNeighbourWords();
+						
+						
+						HashMap<String, Double> scores = new HashMap<String, Double>();
+						scores.put("SynoScore", (Integer) adjustSettings.get("SynoScore")/100.0);
+						scores.put("HyperScore", (Integer) adjustSettings.get("HyperScore")/100.0);
+						scores.put("HypoScore", (Integer) adjustSettings.get("HypoScore")/100.0);
 
+						include.setScores(scores);
+						
 						if((Boolean)adjustSettings.get("HyperHypoInclude") && (Boolean)adjustSettings.get("SynoInclude")) {
 							setup.setIncludeNeighbourWordsType(IncludeNeighbourWordsType.IncludeNeighbourWordsTypeAll);
 							include.setLayers((Integer)adjustSettings
@@ -608,20 +616,18 @@ public class MainFrame extends JFrame {
 						setup.getIncludeTypes().add(include);
 					}
 
-
-					
 					if (adjustSettings.get("Threshold") != null) {
-						setup.algorithmSettings.put("Threshold", ""+((Integer)adjustSettings.get("Threshold"))/100.0);
+						setup.algorithmSettings.put("Threshold", ""
+								+ ((Integer) adjustSettings.get("Threshold"))
+								/ 100.0);
 					}
-					
-					if (adjustSettings
-							.get("MatchIndex") != null) {
-					int senseRelateIndex = (Integer)adjustSettings
-							.get("MatchIndex");
-					
-					//Send the match index here
-				}
-				
+
+					if (adjustSettings.get("MatchIndex") != null) {
+						Integer senseRelateIndex = (Integer) adjustSettings
+								.get("MatchIndex");
+						setup.algorithmSettings.put("MatchIndex", senseRelateIndex);
+					}
+
 					int trimmerIndex = 0;
 					for (Enumeration<AbstractButton> e = filterButtonGroup
 							.getElements(); e.hasMoreElements();) {

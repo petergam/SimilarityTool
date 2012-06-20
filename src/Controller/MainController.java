@@ -185,7 +185,7 @@ private MainFrame mainFrame;
 			scoreMatrix=null;
 		}	
 	}
-		
+	
 	}
 
 	/* (non-Javadoc)

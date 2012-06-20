@@ -26,6 +26,8 @@ public class JPTrimmerStopWords extends JPAbstractTrimmer {
 			for (JPWord word : sentence.getWords()) {
 				if (stopWords.containsKey(word.getValue().toLowerCase())) {
 					word.setStopWord(true);
+					
+					document.setNumberOfWords(document.getNumberOfWords()-1);
 				}
 				
 			}	
