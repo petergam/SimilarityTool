@@ -556,6 +556,7 @@ public class MainFrame extends JFrame {
 				clearModel();
 
 				if (self.delegate != null) {
+					
 					JPConfiguration setup = new JPConfiguration();
 
 					int algorithmIndex = 0;
@@ -568,6 +569,25 @@ public class MainFrame extends JFrame {
 							algorithmIndex++;
 						}
 					}
+					
+					if (lastAlgoPopup != algorithmIndex) {
+						adjustSettings = new HashMap<String, Object>();
+						adjustSettings.put("PosIndex", 0);
+						adjustSettings.put("SenseIndex", 0);
+						adjustSettings.put("IncludeIndex", 0);
+						adjustSettings.put("MatchIndex", 0);
+						
+						adjustSettings.put("HyperHypoInclude", false);
+						adjustSettings.put("SynoInclude", false);
+						adjustSettings.put("ThresholdInclude", false);
+
+						adjustSettings.put("HyperScore", 40);
+						adjustSettings.put("HypoScore", 90);
+						adjustSettings.put("SynoScore", 90);
+						adjustSettings.put("Threshold", 50);
+					}
+					
+	
 
 					setup.setAlgorithmIndex(AlgorithmIndex
 							.getAlgorithmIndexFromInt(algorithmIndex));
