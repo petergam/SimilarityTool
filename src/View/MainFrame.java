@@ -586,8 +586,6 @@ public class MainFrame extends JFrame {
 						adjustSettings.put("SynoScore", 90);
 						adjustSettings.put("Threshold", 50);
 					}
-					
-	
 
 					setup.setAlgorithmIndex(AlgorithmIndex
 							.getAlgorithmIndexFromInt(algorithmIndex));
@@ -607,8 +605,6 @@ public class MainFrame extends JFrame {
 						setup.setSenseRelateType(SenseRelateType
 								.getSenseRelateTypeFromInt(senseRelateIndex));
 					}
-					
-				
 
 					if ((Boolean)adjustSettings.get("HyperHypoInclude") || (Boolean)adjustSettings.get("SynoInclude")) {
 						JPIncludeNeighbourWords include = new JPIncludeNeighbourWords();
