@@ -15,10 +15,19 @@ public class JPIncludeNeighbourWords extends JPAbstractInclude {
 		int layers = getLayers();
 		NeighbourWordsFactory factory = new NeighbourWordsFactory();
 		
+
+		if (getScores().get("HyperScore") !=null) {
+			factory.setHypernymScore(getScores().get("HyperScore"));
+		}
+
+		if (getScores().get("HypoScore") !=null) {
+			factory.setHyponumScore(getScores().get("HypoScore"));
+		}
+
+		if (getScores().get("SynoScore") !=null) {
+			factory.setSynonymScore(getScores().get("SynoScore"));
+		}		
 		
-		factory.setHypernymScore(getScores().get("HyperScore"));
-		factory.setHyponumScore(getScores().get("HypoScore"));
-		factory.setSynonymScore(getScores().get("SynoScore"));
 
 		boolean includeSynonyms = false;
 		boolean includeHypernymsHyponyms = false;
