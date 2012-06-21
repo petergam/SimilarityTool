@@ -290,6 +290,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		}
 		super.settings.put("IncludeIndex", includeIndex);
 		
+		super.settings.put("ThresholdInclude", true);
 		super.settings.put("Threshold", thres.getValue());
 		
 		if (chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
@@ -299,6 +300,7 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		else if (!chckbxHypernyms.isSelected() && chckbxHypernyms.isEnabled()) {
 			super.settings.put("HyperHypoInclude", false);
 		}
+		
 		if (chckbxSynonyms.isSelected() && chckbxSynonyms.isEnabled()) {
 			super.settings.put("SynoInclude", true);
 		}

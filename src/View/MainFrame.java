@@ -611,10 +611,26 @@ public class MainFrame extends JFrame {
 						
 						
 						HashMap<String, Double> scores = new HashMap<String, Double>();
-						scores.put("SynoScore", (Integer) adjustSettings.get("SynoScore")/100.0);
-						scores.put("HyperScore", (Integer) adjustSettings.get("HyperScore")/100.0);
-						scores.put("HypoScore", (Integer) adjustSettings.get("HypoScore")/100.0);
+						if (adjustSettings.containsKey("SynoScore")) {
+							scores.put("SynoScore", (Integer) adjustSettings.get("SynoScore")/100.0);
+						}
+						else{
+							scores.put("SynoScore",0.0);
+						}
+						if (adjustSettings.containsKey("HyperScore")) {
+							scores.put("HyperScore", (Integer) adjustSettings.get("HyperScore")/100.0);
+						}
+						else {
+							scores.put("HyperScore",0.0);
+						}
+						if (adjustSettings.containsKey("HypoScore")) {
+							scores.put("HypoScore", (Integer) adjustSettings.get("HypoScore")/100.0);
+						}
+						else{
+							scores.put("SynoScore",0.0);
 
+						}
+	
 						include.setScores(scores);
 						
 						if((Boolean)adjustSettings.get("HyperHypoInclude") && (Boolean)adjustSettings.get("SynoInclude")) {

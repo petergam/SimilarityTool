@@ -58,7 +58,7 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 					threshold = Double.parseDouble((String) algorithmSettings.get("Threshold"));
 				}
 				else{
-					threshold = 0;
+					threshold = 0.5;
 				}
 				
 				
