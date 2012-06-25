@@ -8,11 +8,22 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import java.awt.Component;
-import javax.swing.Box;
 
+/**
+ * The Class TfidfPopup.
+ */
 public class TfidfPopup extends AbstractAlgorithmPopupFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3028111824584374338L;
+
+	/**
+	 * Instantiates a new tfidf popup.
+	 *
+	 * @param settings the settings
+	 */
 	public TfidfPopup(HashMap<String, Object> settings) {
 		super(settings);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

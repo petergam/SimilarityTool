@@ -157,9 +157,7 @@ private MainFrame mainFrame;
 		long totalTime = endTime - startTime;
 
 
-		GUILog.nLog("Running time: " + totalTime);
-
-//		System.out.println("Running time: " + totalTime);
+		GUILog.nLog("Running time: " + totalTime + " ms");
 		
 		//If we want similairities between all pairs of docs.
 		if (i != -2) {

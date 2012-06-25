@@ -3,8 +3,6 @@ package Loader;
 import java.io.File;
 import java.io.IOException;
 
-import Objects.JPDocument;
-
 /**
  * The Interface JPDocumentLoader.
  */

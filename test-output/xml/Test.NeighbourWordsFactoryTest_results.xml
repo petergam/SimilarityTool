@@ -4,10 +4,10 @@
            failures="0"
            errors="0"
            skipped="0"
-           time="0.085">
+           time="0.105">
   <properties />
   
   
-            <testcase name="findNeighbours" time="0.085" classname="Test.NeighbourWordsFactoryTest" />
+            <testcase name="findNeighbours" time="0.105" classname="Test.NeighbourWordsFactoryTest" />
       
 </testsuite>

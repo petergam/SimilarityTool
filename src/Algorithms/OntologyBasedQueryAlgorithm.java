@@ -56,7 +56,7 @@ public class OntologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 										for (JPWordIndex index : docWordIndexes) {
 											JPWord anotherWord = document.getSentenceArray().get(index.getSentenceIndex()).getWords().get(index.getWordIndex());
 											if(algorithmSettings.get("MatchIndex").equals(1)) {
-												if ((anotherWord.wordNetID == null && currentWord.wordNetID == null) ||anotherWord.wordNetID.equals(currentWord.wordNetID)) {
+												if ((anotherWord.wordNetID != null && currentWord.wordNetID != null) && anotherWord.wordNetID.equals(currentWord.wordNetID)) {
 													score = 1.0;
 													break;
 												}
@@ -70,7 +70,6 @@ public class OntologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
-									// TODO: handle exception
 								}
 
 								if (score == 0.0) {
@@ -104,7 +103,6 @@ public class OntologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 										}
 									} catch (Exception e) {
 										e.printStackTrace();
-										// TODO: handle exception
 									}
 
 								}
@@ -122,7 +120,6 @@ public class OntologyBasedQueryAlgorithm extends JPAbstractAlgorithm {
 							progressDelegate.didFinishAlgorithmForDocument(document);
 
 							return null;
-
 						}						
 					};
 					

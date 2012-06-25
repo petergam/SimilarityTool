@@ -2,8 +2,6 @@ package Model;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -46,10 +44,9 @@ public enum SettingsManager {
 	        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 
-			String path = "/settings.xml";
-			InputStream is = this.getClass().getResourceAsStream(path); 
+			String path = "settings.xml";
 			
-			Document doc = docBuilder.parse (is);
+			Document doc = docBuilder.parse(new File(path));
 	        doc.getDocumentElement ().normalize();
 
 	        NodeList listOfLibraries = doc.getElementsByTagName("library_folder");

@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import Objects.JPWord;
-import Objects.JPWord.JPWordPOS;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -21,8 +19,6 @@ import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
 import edu.mit.jwi.morph.WordnetStemmer;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Enum WordNetManager.
  * Uses JWI to perform basic WordNet operations

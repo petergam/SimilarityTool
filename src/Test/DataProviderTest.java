@@ -11,13 +11,21 @@ import Objects.JPWord;
 public class DataProviderTest {
 
 	private Object[][][] sentences = new Object[][][] {
-			{ { "this", "DT", 0, 0, "thi" }, { "is", "VBZ", 1, 1, "is" },
-					{ "a", "DT", 1, 0, "a" }, { "sentence", "NN", 1, 1, "sentenc" } },
-			{ { "hello", "UH", 1, 0, "hello" }, { "my", "PRP$", 0, 0, "my" },
-					{ "name", "NN", 1, 1, "name" }, { "is", "VBZ", 1, 1, "is" },
-					{ "Peter", "NNP", 1, 1, "Peter" } } };
+			{ { "this", "DT", 0, 0, "thi", "th" }, { "is", "VBZ", 1, 1, "is", "is" },
+					{ "a", "DT", 1, 0, "a", "a" },
+					{ "sentence", "NN", 1, 1, "sentenc", "sent" } },
+			{ { "hello", "UH", 1, 0, "hello", "hel" }, { "my", "PRP$", 0, 0, "my", "my" },
+					{ "name", "NN", 1, 1, "name", "nam" },
+					{ "is", "VBZ", 1, 1, "is", "is" },
+					{ "Peter", "NNP", 1, 1, "Peter", "peter" } },
+			{ { "", "", 0, 0, "", "" } } };
+	
+	
+	private Object[][] neighborWords = new Object[][] {
+			{ "Word", new String[]{"word","closed-class_word","meronym","polysemant","hypernym","subordinate_word","antonym","hapax_legomenon","quantifier","subordinate","synonym","hybrid","manner_name","written_word","open-class_word","polysyllable","nomenclature","classifier","deictic","part_name","head","cognate_word","partitive","reduplication","polysemantic_word","closed-class_word","anagram","primitive","coinage","key_word","dirty_word","four-letter_word","diminutive","loanblend","trisyllable","contraction","form","substantive","opposite_word","guideword","polysemous_word","logical_quantifier","metonym","language","superordinate_word","catchword","deictic_word","term","four-letter_Anglo-Saxon_word","proparoxytone","terminology","neologism","loan","quantifier","retronym","anaphor","paroxytone","heteronym","neology","cognate","guide_word","descriptor","nonce_word","back-formation","charade","palindrome","content_word","head_word","superordinate","dissyllable","oxytone","syncategoreme","whole_name","monosyllabic_word","monosyllable","spoken_word","headword","loan-blend","derivative","word_form","troponym","polysyllabic_word","syncategorem","holonym","loanword","disyllable","hyponym","homonym","equivalent_word","opposite","signifier","function_word","vocable","language_unit","linguistic_unit"} }
+	};
 
-	private Object[][] files = new Object[][] {
+	private Object[][] files = new Object[][] {			
 			{
 					new File("Texts/HP1.txt"),
 					583,
@@ -31,11 +39,9 @@ public class DataProviderTest {
 					747,
 					"Harry Potter and the Deathly Hallows (Harry Potter 7) is more than just the seventh and final installment in J.K. Rowling\'s epic wizardry series. It is the keystone, the culmination of the 4000 or so previous pages. Rowling brings to Deathly Hallows a fully-realized world, complete with history, mythology, and a vast web of characters intertwined thoroughly with that history, that mythology, and with each other.\nIt is a darker landscape since Voldemort\'s return to power and Dumbledore\'s subsequent demise at the wand of Severus Snape; many of Voldemort\'s followers have been released from Azkaban as have the Dementors, who now serve the Dark Lord\'s purposes as well. The Ministry of Magic, now controlled by Death Eaters, has instituted a campaign against muggle-borns that smacks of Nazi Germany, and Harry Potter is dubbed \"Undesirable Number One,\" with a 2,000 galleon prize offered for his capture.\nPrior to all this, at the close of Book 6, Harry Potter and the Half-Blood Prince, Harry was left with a task. Before being struck down by Snape, Dumbledore had schooled Harry in the matter of horcruxes, physical objects to which a severed bit of a wizard\'s soul is attached, making that wizard immortal. According to Dumbledore, Lord Voldemort, who desires nothing so much as immortality, had split his soul into seven pieces, six of which were currently residing in horcruxes hidden throughout the world. Two of these were already destroyed - Tom Riddle\'s diary was impaled with a poisonous basilisk fang in Harry Potter and the Chamber of Secrets (Book 2), and a ring passed down frrom Marvolo Gaunt, Voldemort\'s maternal grandfather is destroyed by Dumbledore in Half-Blood Prince. Dumbledore set Harry upon a quest to destroy the remaining four of Voldemort\'s horcruxes, a feat which would then enable Harry to destroy Voldemort himself. And ultimately, Harry must destroy or be destroyed by Voldemort.\nDeathly Hallows opens upon the Order of the Phoenix\'s plan to move Harry from 4 Privet Drive to a safe house before the magical protection surrounding his aunt and uncle\'s home expires on Harry\'s seventeenth birthday. The plan to move Harry involves, as many plans in Book 7 do, the use of polyjuice potion, which allows the drinker to look like another person. Harry, along with six who volunteer to disguise themselves as Harry, are individually escorted into the night sky upon brooms, thestrals, and, in one instance, a flying motorcycle. The ensemble is ambushed instantly by a host of Death Eaters and He-who-must-not-be-named himself, who surprises everyone by having acquired the power of flight. Like a pale-skinned and dark-hearted Superman, Voldemort gives chase through the skies:\n\"And then Harry saw him. Voldemort was flying like smoke on the wind, without broomstick or thestral to hold him, his snakelike face gleaming out of the blackness, his white fingers raising his wand again --\" (p.60)\nHarry has also grown older, wiser since we last saw him. No longer the petulant and angst-ridden teen whose days were punctuated with dark moods and fights with those closest to him, he has matured beyond his years and accepts the impossible tasks before him decisively. The same holds true for Ron and Hermione and as the novel progresses, we see the relationships between the trio mature and triumph in the face of great difficulty.\nThe writing is fantastic as usual. Rowling strikes a perfect balance in attacking her dark subject matter in a manner fitting for both the adult and younger reader. Never once did I feel spoken down to, nor did I come across anything too mature for my ten-year-old daughter, who was reading the novel concurrently.\nI recoil at the thought of further divulging plot details of this book that held my attention througout its 750 pages of twists, turns, revelations, and surprises. A lot happens. Somebody gets his ear blown off; somebody gives birth; someone betrays somebody else. House-elves find themselves involved, as do goblins, and even a dragon. Characters you\'d completely forgotten about show up unexpectedly to play a role in knotting ends that have long been left loose. As already mentioned, there is much polyjuice potion drunk, and a good number of patronuses are thrown along the way (Mr. Weasley\'s is a weasel).\nHarry Potter and the Deathly Hallows exceeds expectations and is, by a long shot, the best yet of the series, which has been entirely transfixing, far more so than fans of the movies might suppose. Those readers who have kept the faith throughout will no doubt continue on if they haven\'t already. Those who are looking for added encouragement to pick up these magical books and forge ahead, find it here. Harry Potter is a rare treasure and a cultural phenomenon in the midst of which we can feel fortunate to find ourselves." },
 			{ new File("Texts/EmptyFile.txt"), 0, "" } };
-
 	
 	@DataProvider(name = "generate-documents")
-	public Object[][] semcorDocumentDataProvider() {		
-		
+	public Object[][] semcorDocumentDataProvider() {	
 		SemCorParser semCorParser = new SemCorParser();
 		JPDocument[] expectedDocuments = semCorParser.parse(new File("semcor3.0/"));
 		
@@ -106,6 +112,29 @@ public class DataProviderTest {
 		return files;
 	}
 
+	@DataProvider(name = "generate-documents")
+	public Object[][] documentsDataProvider() {
+		JPDocument document = new JPDocument();
+
+		for (int i = 0; i < sentences.length; i++) {
+			Object[][] sentence = sentences[i];
+			JPSentence s = new JPSentence();
+
+
+			for (int j = 0; j < sentence.length; j++) {
+				Object[] word = sentence[j];
+				JPWord w = new JPWord();
+				w.setValue((String) word[0]);
+				s.getWords().add(w);
+			}
+
+
+			document.getSentenceArray().add(s);
+		}
+
+		return new Object[][] { { document } };
+	}
+	
 	@DataProvider(name = "generate-documentSense")
 	public Object[][] documentSenseDataProvider() {
 		JPDocument document = new JPDocument();
@@ -162,8 +191,8 @@ public class DataProviderTest {
 		return new Object[][] { { document, senses } };
 	}
 	
-	@DataProvider(name = "generate-documentStemming")
-	public Object[][] documentStemmingDataProvider() {
+	@DataProvider(name = "generate-documentStemmingPorter")
+	public Object[][] documentStemmingPorterDataProvider() {
 		JPDocument document = new JPDocument();
 		Object[][] stemmings = new Object[sentences.length][];
 
@@ -191,6 +220,35 @@ public class DataProviderTest {
 		return new Object[][] { { document, stemmings } };
 	}
 	
+	@DataProvider(name = "generate-documentStemmingLovins")
+	public Object[][] documentStemmingLovinsDataProvider() {
+		JPDocument document = new JPDocument();
+		Object[][] stemmings = new Object[sentences.length][];
+
+		for (int i = 0; i < sentences.length; i++) {
+			Object[][] sentence = sentences[i];
+			JPSentence s = new JPSentence();
+			s.setPOSTagged(true);
+
+			Object[] stemming = new Object[sentence.length];
+
+			for (int j = 0; j < sentence.length; j++) {
+				Object[] word = sentence[j];
+				JPWord w = new JPWord();
+				w.setValue((String) word[0]);
+				w.setTag((String) word[1]);
+				s.getWords().add(w);
+				stemming[j] = word[5];
+			}
+
+			stemmings[i] = stemming;
+
+			document.getSentenceArray().add(s);
+		}
+
+		return new Object[][] { { document, stemmings } };
+	}
+	
 	@DataProvider(name = "generate-simpleDocumenTagged")
 	public Object[][] documentDataProvider() {
 		JPDocument document = new JPDocument();
@@ -199,8 +257,6 @@ public class DataProviderTest {
 			Object[][] sentence = sentences[i];
 			JPSentence s = new JPSentence();
 			s.setPOSTagged(true);
-
-			Object[] sense = new Object[sentence.length];
 
 			for (int j = 0; j < sentence.length; j++) {
 				Object[] word = sentence[j];
@@ -218,4 +274,9 @@ public class DataProviderTest {
 		return new Object[][] { { document} };
 	}
 
+	
+	@DataProvider(name = "generate-neighbor")
+	public Object[][] neighborDataProvider() {
+		return neighborWords;
+	}
 }

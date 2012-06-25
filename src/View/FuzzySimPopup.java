@@ -22,13 +22,21 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.JSpinner;
 
+/**
+ * The Class FuzzySimPopup.
+ */
 public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5908504296475627561L;
+
 	/** The hypernyms slider. */
 	private JSlider hypernymsSlider;
 	
+	/** The thres. */
 	private JSlider thres;
 	
 	/** The chckbx hypernyms. */
@@ -55,16 +63,26 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 	/** The include button group. */
 	private final ButtonGroup includeButtonGroup = new ButtonGroup();
 	
+	/** The rdbtn new radio button_2. */
 	JRadioButton rdbtnNewRadioButton_2;
 	
+	/** The rdbtn perl wordnet. */
 	JRadioButton rdbtnPerlWordnet;
 	
+	/** The rdbtn none_1. */
 	JRadioButton rdbtnNone_1;
 	
+	/** The rdbtn stanford pos tagger. */
 	JRadioButton rdbtnStanfordPosTagger;
 	
+	/** The rdbtn new radio button_5. */
 	JRadioButton rdbtnNewRadioButton_5;
 	
+	/**
+	 * Instantiates a new fuzzy sim popup.
+	 *
+	 * @param adjustSettings the adjust settings
+	 */
 	public FuzzySimPopup(HashMap<String, Object> adjustSettings) {
 		super(adjustSettings);
 		setAlwaysOnTop(true);
@@ -248,6 +266,9 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see View.AbstractAlgorithmPopupFrame#setSettings()
+	 */
 	@Override
 
 	public void setSettings(){
@@ -309,6 +330,9 @@ public class FuzzySimPopup extends AbstractAlgorithmPopupFrame{
 		}
 	}	
 	
+	/* (non-Javadoc)
+	 * @see View.AbstractAlgorithmPopupFrame#loadSettings(java.util.HashMap)
+	 */
 	@Override
 	public void loadSettings(HashMap<String, Object> adjustSettings){
 		if (adjustSettings.get("IncludeIndex") != null) {

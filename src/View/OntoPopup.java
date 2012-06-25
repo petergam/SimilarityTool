@@ -24,7 +24,15 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * The Class OntoPopup.
+ */
 public class OntoPopup extends AbstractAlgorithmPopupFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -793851924349778137L;
 
 	/** The hypernyms slider. */
 	private JSlider hypernymsSlider;
@@ -35,6 +43,7 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	/** The chckbx synonyms. */
 	private JCheckBox chckbxSynonyms;
 	
+	/** The chckbx threshold. */
 	private JCheckBox chckbxThreshold;
 
 	/** The all words radio button. */
@@ -58,28 +67,44 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 	/** The match button group. */
 	private final ButtonGroup matchButtonGroup = new ButtonGroup();
 	
+	/** The rdbtn new radio button_2. */
 	JRadioButton rdbtnNewRadioButton_2;
 	
+	/** The rdbtn perl wordnet. */
 	JRadioButton rdbtnPerlWordnet;
 	
+	/** The rdbtn none_1. */
 	JRadioButton rdbtnNone_1;
 	
+	/** The rdbtn stanford pos tagger. */
 	JRadioButton rdbtnStanfordPosTagger;
 	
+	/** The rdbtn new radio button_5. */
 	JRadioButton rdbtnNewRadioButton_5;
 	
+	/** The syno value slider. */
 	JSlider synoValueSlider;
 	
+	/** The hypo value slider. */
 	JSlider hypoValueSlider;
 	
+	/** The hyper value slider. */
 	JSlider hyperValueSlider;
 	
+	/** The thres. */
 	JSlider thres;
 	
+	/** The rdbtn new radio button. */
 	JRadioButton rdbtnNewRadioButton;
 	
+	/** The rdbtn new radio button_1. */
 	JRadioButton rdbtnNewRadioButton_1;
 	
+	/**
+	 * Instantiates a new onto popup.
+	 *
+	 * @param settings the settings
+	 */
 	public OntoPopup(HashMap<String, Object> settings) {
 		super(settings);
 		setAlwaysOnTop(true);
@@ -376,6 +401,9 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see View.AbstractAlgorithmPopupFrame#setSettings()
+	 */
 	@Override
 	public void setSettings(){
 		
@@ -456,6 +484,9 @@ public class OntoPopup extends AbstractAlgorithmPopupFrame {
 		}
 	}	
 	
+	/* (non-Javadoc)
+	 * @see View.AbstractAlgorithmPopupFrame#loadSettings(java.util.HashMap)
+	 */
 	@Override
 	public void loadSettings(HashMap<String, Object> settings){
 

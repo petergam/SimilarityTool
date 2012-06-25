@@ -62,16 +62,16 @@ public class JPSenseRelateWordNet extends JPAbstractSenseRelate{
 							}
 
 
-							String path = new File(SettingsManager.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
+//							String path = new File(SettingsManager.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
 
 							
 							if (sentence.isPOSTagged()) {
-								commands[commands.length-4] = path + "/SenseRelate.pl";
+								commands[commands.length-4] = "SenseRelate.pl";
 								commands[commands.length-3] = "-j";
 								commands[commands.length-2] = "-t";
 								commands[commands.length-1] = sentenceString;
 							} else {
-								commands[commands.length-3] = path + "/SenseRelate.pl";
+								commands[commands.length-3] = "SenseRelate.pl";
 								commands[commands.length-2] = "-j";
 								commands[commands.length-1] = sentenceString;
 							}

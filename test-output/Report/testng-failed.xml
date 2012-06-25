@@ -9,7 +9,7 @@
     <classes>
       <class name="Test.NeighbourWordsFactoryTest">
         <methods>
-          <include name="findNeighbours"/>
+          <include name="findNeighbours" invocation-numbers="0"/>
         </methods>
       </class> <!-- Test.NeighbourWordsFactoryTest -->
     </classes>

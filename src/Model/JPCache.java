@@ -7,14 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.FileUtils;
 
 import Utilities.GUILog;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JPCache. Cache a Objects in memory and on disk. Uses key/value
  */
@@ -52,9 +50,9 @@ public class JPCache {
 		this.cacheName = cacheName;
 		
 		try {
-			URL url = this.getClass().getResource("/Cache/");
+//			URL url = this.getClass().getResource("/Cache/");
 
-			FileInputStream fis = new FileInputStream(url.getPath() + cacheName
+			FileInputStream fis = new FileInputStream(cacheName
 					+ ".jp");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			cacheHashmap = (ConcurrentHashMap<Object, Object>) ois.readObject();
@@ -109,8 +107,8 @@ public class JPCache {
 		if (isDirty) {
 			isDirty = false;
 			try {
-				URL url = this.getClass().getResource("/Cache/");
-				FileOutputStream fos = new FileOutputStream(url.getPath()+ cacheName + ".jp");
+//				URL url = this.getClass().getResource("/Cache/");
+				FileOutputStream fos = new FileOutputStream(cacheName + ".jp");
 				ObjectOutputStream oos = new ObjectOutputStream(fos); 
 				oos.writeObject(cacheHashmap); 
 				oos.flush(); 
@@ -131,12 +129,13 @@ public class JPCache {
 	public synchronized void clear() {
 		GUILog.nLog("Clearing cache");
 		cacheHashmap.clear();
-		try {
-			URL url = this.getClass().getResource("/Cache/");
-			FileUtils.cleanDirectory(new File(url.getPath()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			URL url = this.getClass().getResource("/Cache/");
+			FileUtils.deleteQuietly(new File(cacheName+".jp"));
+//			FileUtils.cleanDirectory(new File(url.getPath()));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

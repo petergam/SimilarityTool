@@ -9,8 +9,22 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+// TODO: Auo-generated Javadoc
+/**
+ * The Class LevenshteinPopup.
+ */
 public class LevenshteinPopup extends AbstractAlgorithmPopupFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2367831512417358302L;
+
+	/**
+	 * Instantiates a new levenshtein popup.
+	 *
+	 * @param settings the settings
+	 */
 	public LevenshteinPopup(HashMap<String, Object> settings) {
 		super(settings);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

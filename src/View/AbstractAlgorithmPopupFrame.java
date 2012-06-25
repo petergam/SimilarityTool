@@ -7,14 +7,29 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
+/**
+ * The Class AbstractAlgorithmPopupFrame.
+ */
 public abstract class AbstractAlgorithmPopupFrame extends JDialog  {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 2658566720277470146L;
+	
+	/** The popup frame. */
 	AbstractAlgorithmPopupFrame pf;
+	
+	/** The close button. */
 	JButton close;
+	
+	/** The settings. */
 	HashMap<String, Object> settings;
 	
 	
+	/**
+	 * Instantiates a new abstract algorithm popup frame.
+	 *
+	 * @param adjustSettings the adjust settings
+	 */
 	public AbstractAlgorithmPopupFrame(HashMap<String, Object> adjustSettings) {
 		pf = this;
 		this.settings = adjustSettings;
@@ -31,11 +46,19 @@ public abstract class AbstractAlgorithmPopupFrame extends JDialog  {
 
 	}
 	
+	/**
+	 * Sets the settings.
+	 */
 	public void setSettings(){
 		settings = new HashMap<String, Object>();
 
 	}
 	
+	/**
+	 * Load settings.
+	 *
+	 * @param settings the settings
+	 */
 	public void loadSettings(HashMap<String, Object> settings){
 		
 	}

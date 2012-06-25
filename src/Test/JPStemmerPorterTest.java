@@ -10,7 +10,7 @@ import Stemmer.JPStemmerPorter;
 
 public class JPStemmerPorterTest extends DataProviderTest {
 
-	@Test(dataProvider = "generate-documentStemming")
+	@Test(dataProvider = "generate-documentStemmingPorter")
 	public void stem(JPDocument document, Object[][] expectedStemming) {
 		JPStemmerPorter stemmer = new JPStemmerPorter();
 		JPDocument stemmedDocument = stemmer.stem(document);
@@ -28,6 +28,5 @@ public class JPStemmerPorterTest extends DataProviderTest {
 			  }
 			  sentenceIndex++;
 		  }
-		
 	}
 }

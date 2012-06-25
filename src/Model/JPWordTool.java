@@ -278,8 +278,6 @@ public class JPWordTool {
 	        document.setDocumentTitle(file.getName());
 
 			document = trimmer.trim(stemmer.stem(senseRelate.senseRelate(posTagger.tag(parser.parse(document,loader.load(file))))));
-
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,4 +1,4 @@
-	package Algorithms;
+package Algorithms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,19 +24,17 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 	private static double membershipFunction(String word1, String word2){		
 		double max = Math.max(word1.length(), word2.length());
 
-		double sum = 0.0;
+		double count = 0.0;
 		for (int i = 0; i < word1.length(); i++) {
 			for (int j = 0; j < (word1.length()-i); j++) {
 					String subSeq = word1.substring(j, i+j+1);
 					if (word2.contains(subSeq)) {
-						sum++;
+						count++;
 					}
 			}
 		}
 		
-		double relDeg = 1.0 * (2 / (max*max+max)) * sum;
-		
-		return relDeg;
+		return 1.0 * (2 / (max*max+max)) * count;		
 	}
 
 	/* (non-Javadoc)
@@ -60,8 +58,6 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 				else{
 					threshold = 0.5;
 				}
-				
-				
 				
 				for (int documentIndex = 0; documentIndex < documents.length; documentIndex++) {
 					JPDocumentCallable runnable = new JPDocumentCallable() {
@@ -96,7 +92,6 @@ public class FuzzySimilarityAlgorithm extends JPAbstractAlgorithm {
 									
 									if (maxDegree != 1.0 && mainDocWords.get(i).getNeighbourWord() !=null) {
 										for (Object[] neighbourWord : mainDocWords.get(i).getNeighbourWord()) {
-//											System.out.println(neighbourWord[0]);
 											msF = membershipFunction((String)neighbourWord[0], word2);
 											if (msF > maxDegree) {
 												maxDegree = msF;

@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -83,6 +84,12 @@ public class MainFrame extends JFrame {
 		public void stopButtonPressed();
 
 		// Remove later
+		/**
+		 * Compute all button pressed.
+		 *
+		 * @param setup the setup
+		 * @param i the i
+		 */
 		public void computeAllButtonPressed(JPConfiguration setup, int i);
 	}
 
@@ -98,13 +105,16 @@ public class MainFrame extends JFrame {
 	/** The panel. */
 	private JTextPane panel;
 
+	/** The adjust frame. */
 	private AbstractAlgorithmPopupFrame adjustFrame;
 
+	/** The adjust settings. */
 	private HashMap<String, Object> adjustSettings = new HashMap<String, Object>();
 
 	/** The progress bar. */
 	private JProgressBar progressBar;
 
+	/** The chckbx normalize stopwords. */
 	private JCheckBox chckbxNormalizeStopwords;
 
 	/** The all words radio button. */
@@ -140,6 +150,7 @@ public class MainFrame extends JFrame {
 	/** The table. */
 	public JTable table;
 	
+	/** The btn adjust. */
 	JButton btnAdjust;
 
 	/** The model. */
@@ -151,6 +162,7 @@ public class MainFrame extends JFrame {
 	/** The selected algo index. */
 	private int selectedAlgoIndex = 0;
 
+	/** The last algo popup. */
 	int lastAlgoPopup = -1;
 
 	/**
@@ -181,7 +193,7 @@ public class MainFrame extends JFrame {
 		verticalBox.setBorder(new TitledBorder(null, "Stemming",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		verticalBox.setToolTipText("");
-		verticalBox.setBounds(570, 179, 194, 120);
+		verticalBox.setBounds(570, 167, 194, 120);
 		getContentPane().add(verticalBox);
 
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("None");
@@ -206,7 +218,7 @@ public class MainFrame extends JFrame {
 				EtchedBorder.LOWERED, null, null), "Filter",
 				TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
-		verticalBox_1.setBounds(570, 314, 194, 76);
+		verticalBox_1.setBounds(570, 299, 194, 76);
 		getContentPane().add(verticalBox_1);
 
 		JRadioButton rdbtnNone = new JRadioButton("None");
@@ -222,7 +234,7 @@ public class MainFrame extends JFrame {
 		Box verticalBox_3 = Box.createVerticalBox();
 		verticalBox_3.setBorder(new TitledBorder(null, "Main document",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_3.setBounds(6, 6, 385, 76);
+		verticalBox_3.setBounds(6, 6, 550, 76);
 		getContentPane().add(verticalBox_3);
 
 		textPane = new JTextPane();
@@ -241,7 +253,7 @@ public class MainFrame extends JFrame {
 		model.addColumn("Article");
 		model.addColumn("Status");
 		model.addColumn("Score");
-		model.addColumn("Sim");
+//		model.addColumn("Sim");
 
 		table = new JTable(model);
 		table.setShowVerticalLines(false);
@@ -368,30 +380,16 @@ public class MainFrame extends JFrame {
 		Box verticalBox_7 = Box.createVerticalBox();
 		verticalBox_7.setBorder(new TitledBorder(null, "Additional features",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		verticalBox_7.setBounds(570, 402, 194, 76);
+		verticalBox_7.setBounds(570, 387, 194, 56);
 
 		getContentPane().add(verticalBox_7);
 
 		chckbxNormalizeStopwords = new JCheckBox("Normalize result");
 		verticalBox_7.add(chckbxNormalizeStopwords);
-
-		adjustSettings = new HashMap<String, Object>();
-		adjustSettings.put("PosIndex", 0);
-		adjustSettings.put("SenseIndex", 0);
-		adjustSettings.put("IncludeIndex", 0);
-		adjustSettings.put("MatchIndex", 0);
-		
-		adjustSettings.put("HyperHypoInclude", false);
-		adjustSettings.put("SynoInclude", false);
-		adjustSettings.put("ThresholdInclude", false);
-
-		adjustSettings.put("HyperScore", 40);
-		adjustSettings.put("HypoScore", 90);
-		adjustSettings.put("SynoScore", 90);
-		adjustSettings.put("Threshold", 50);
 		
 		btnAdjust = new JButton("Adjust");
-		btnAdjust.setBounds(669, 138, 95, 29);
+		btnAdjust.setBounds(675, 126, 85, 29);
+		getContentPane().add(btnAdjust);
 		btnAdjust.addActionListener(new ActionListener() {
 
 			@Override
@@ -476,11 +474,20 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		getContentPane().add(btnAdjust);
+		adjustSettings = new HashMap<String, Object>();
+		adjustSettings.put("PosIndex", 0);
+		adjustSettings.put("SenseIndex", 0);
+		adjustSettings.put("IncludeIndex", 0);
+		adjustSettings.put("MatchIndex", 0);
+		
+		adjustSettings.put("HyperHypoInclude", false);
+		adjustSettings.put("SynoInclude", false);
+		adjustSettings.put("ThresholdInclude", false);
 
-		// verticalBox_7.add(table);
-
-		// algorithmButtonGroup.
+		adjustSettings.put("HyperScore", 40);
+		adjustSettings.put("HypoScore", 90);
+		adjustSettings.put("SynoScore", 90);
+		adjustSettings.put("Threshold", 50);
 
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -501,7 +508,7 @@ public class MainFrame extends JFrame {
 
 					for (int i = 0; i < files.length; i++) {
 						model.addRow(new Object[] { files[i].getName(), "",
-								"-", "-" });
+								"" });
 
 					}
 					table.repaint();
@@ -709,9 +716,9 @@ public class MainFrame extends JFrame {
 					setup.setMainDocumentFile(sfc.getSelectedFile());
 
 					// Johan code for comparison on all docs.
-					self.delegate.computeAllButtonPressed(setup, 0);
+//					self.delegate.computeAllButtonPressed(setup, 0);
 
-//					 self.delegate.computeButtonPressed(setup);
+					 self.delegate.computeButtonPressed(setup);
 				} else {
 					System.out.println("Delegate not set");
 				}
@@ -733,7 +740,7 @@ public class MainFrame extends JFrame {
 		 */
 		public boolean accept(File file) {
 			String filename = file.getName();
-			return filename.endsWith(".txt");
+			return filename.endsWith(".txt") || file.isDirectory();
 		}
 
 		/*
@@ -810,7 +817,7 @@ public class MainFrame extends JFrame {
 					break;
 				case JPDocumentProgressTypeComputed:
 					v.set(1, "Computed");
-					v.set(2, "" + document.getScore());
+					v.set(2, "" + new DecimalFormat("#.####").format(document.getScore()));
 					break;
 				default:
 					break;
@@ -850,8 +857,8 @@ public class MainFrame extends JFrame {
 		for (int i = 0; i < vector.size(); i++) {
 			Vector<Object> v = (Vector<Object>) vector.get(i);
 			v.set(1, "");
-			v.set(2, "-");
-			v.set(3, "-");
+			v.set(2, "");
+//			v.set(3, "-");
 
 			vector.set(i, v);
 		}

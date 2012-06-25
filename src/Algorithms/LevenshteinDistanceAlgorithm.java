@@ -18,7 +18,6 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 	 * @see Algorithms.JPAbstractAlgorithm#compute(Objects.JPDocument, Objects.JPDocument[], boolean, java.lang.Runnable)
 	 */
 	@Override
-	//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
 	public void compute(final JPDocument mainDocument,
 			final JPDocument[] documents, HashMap<String, Object> algorithmSettings, final boolean normalizeResult, final Runnable callbackDelegate) {
 		
@@ -56,8 +55,6 @@ public class LevenshteinDistanceAlgorithm extends JPAbstractAlgorithm {
 
 								for (int j = 1; j <= currentDocumentSize; j++) {
 					                theadUpdate();
-
-									
 									distance[i][j] = UtilMethods.minimum(
 											distance[i - 1][j] + 1,   //deletion
 											distance[i][j - 1] + 1,   //insertion
